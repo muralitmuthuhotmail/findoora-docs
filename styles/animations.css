@@ -1,0 +1,70 @@
+/* Smooth transition animations */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.3s ease-out;
+}
+
+/* Enhanced loader animation */
+@keyframes pulse-ring {
+  0% {
+    transform: scale(0.8);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.2);
+    opacity: 0;
+  }
+}
+
+.animate-pulse-ring {
+  animation: pulse-ring 1.5s ease-in-out infinite;
+}
+
+@keyframes aurora {
+  from {
+    background-position:
+      50% 50%,
+      50% 50%;
+  }
+  to {
+    background-position:
+      350% 50%,
+      350% 50%;
+  }
+}
+
+@keyframes horizontal-gradient-loader {
+  0% {
+    background-position: -100% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.animate-horizontal-loader {
+  width: 100%;
+  height: 4px; /* or whatever height you want */
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(0, 0, 0, 0.6),
+    transparent
+  );
+  background-size: 200% 100%;
+  animation: horizontal-gradient-loader 2s infinite linear;
+}
+
+.animate-aurora {
+  animation: aurora 60s linear infinite;
+}

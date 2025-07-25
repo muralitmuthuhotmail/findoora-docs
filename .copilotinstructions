@@ -1,0 +1,363 @@
+# Web App Copilot Instructions
+
+## Focus: Next.js 15+ Application with App Router
+
+### App Router Structure
+
+- `app/`: Contains routes, layouts, and server components
+- `components/`: Contains client components organized by purpose
+- `pages/`: Contains page-level components that compose the UI
+- `hooks/`: Contains custom React hooks
+
+### Component Organization
+
+```
+components/
+├── blocks/          # Reusable sections (hero, auth, etc.)
+├── layout/          # Layout components (navbar, footer, etc.)
+├── pages/           # Page-specific components
+└── ui/              # App-specific UI overrides (if needed)
+```
+
+### Import Organization (Always follow this order)
+
+```typescript
+// 1. React/Next.js imports
+import React from "react";
+import type { NextPage, Metadata } from "next";
+
+// 2. External libraries
+import { motion } from "framer-motion";
+import { Search, Menu } from "lucide-react";
+import { FaGithub } from "react-icons/fa";
+
+// 3. Internal workspace packages
+import { Button, Card } from "@/components/ui/button";
+import SwitchMode from "@/components/ui/ui/mode-switch";
+import Logo from "@/components/ui/logo";
+
+// 4. Internal app imports (use aliases)
+import { CustomMDX } from "@/components/blocks/mdx";
+import { AppBar } from "@/components/layout/app-bar";
+import { getBlogPosts } from "@/lib/content";
+import type { ContentPost } from "@/types/content.types";
+
+// 5. Relative imports (only for same directory)
+import { UserActions } from "./user-actions";
+```
+
+### Import Alias Guidelines
+
+- **Always prefer alias imports** for internal app modules
+- Use `@/` for all app-level imports (components, lib, types, etc.)
+- Use `@workspace/` for shared packages
+- Reserve relative imports only for same directory files
+- Examples:
+
+```typescript
+// ✅ Good - Use aliases
+import { BlogPage } from "@/components/pages/blog/blog-page";
+import { formatDate } from "@/lib/utils/date";
+import { getContentPosts } from "@/lib/content";
+import type { ContentPost } from "@/types/content.types";
+
+// ❌ Avoid - Relative imports for distant files
+import { BlogPage } from "../../pages/blog/blog-page";
+import { formatDate } from "../../../lib/utils/date";
+
+// ✅ Exception - Same directory is acceptable
+import { BlogHeader } from "./blog-header";
+import { BlogContent } from "./blog-content";
+```
+
+### Development Guidelines
+
+#### App Router Pages (`app/`)
+
+- Focus on SSR and metadata
+- Keep minimal logic - delegate to page components
+- Include proper metadata and SEO optimizations
+- Use server components by default, client components only when needed
+- **Always use alias imports for internal modules**
+
+```typescript
+// ✅ Good - App Router page with aliases
+import { BlogPage } from "@/components/pages/blog/blog-page";
+import { generatePageMetadata } from "@/lib/metadata";
+
+export const metadata = generatePageMetadata("Blog", "Description", "/blog");
+
+export default function Page() {
+  return <BlogPage />;
+}
+```
+
+#### Page Components (`pages/`)
+
+- Compose UI using components from `@/components/`
+- Can use hooks for state management
+- Move complex hooks to `@/hooks/` directory if reused
+- Handle data fetching and business logic
+- **Use alias imports for all cross-directory references**
+
+```typescript
+// ✅ Good - Page component with aliases
+import { CustomMDX } from "@/components/blocks/mdx";
+import { TableOfContents } from "@/components/blocks/table-of-contents";
+import { SocialShare } from "@/components/features/social-share";
+import { StructuredData } from "@/components/seo/structured-data";
+import { formatDate } from "@/lib/utils/date";
+import type { ContentPost } from "@/types/content.types";
+```
+
+#### Regular Components (`components/`)
+
+- Should be primarily prop-driven
+- Use hooks only for internal component logic
+- Organize into nested folders by purpose
+- Import UI components from `@workspace/ui`
+- **Use alias imports for internal app imports**
+
+```typescript
+// ✅ Good - Component with proper aliases
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import { SearchButton } from "@/components/layout/search-button";
+import { ThemeToggle } from "@/components/layout/theme-toggle";
+import type { NavigationItem } from "@/types/navigation.types";
+```
+
+#### Custom Hooks (`hooks/`)
+
+- Place reusable or complex hooks here
+- Structure with subdirectories by feature area
+- Include proper TypeScript types
+- Test hooks in isolation
+- **Import utilities and types with aliases**
+
+```typescript
+// ✅ Good - Hook with aliases
+import { useState, useCallback } from "react";
+import { useRouter } from "next/navigation";
+import { validateSearch } from "@/lib/utils/validation";
+import type { SearchResult } from "@/types/search.types";
+```
+
+### Next.js Best Practices
+
+- Use `next/image` for all images
+- Implement proper loading states
+- Use dynamic imports for code splitting
+- Optimize bundle size with proper imports using aliases
+- Handle errors gracefully with error boundaries
+
+### State Management
+
+- Use React hooks for local state
+- Consider Context API for shared state
+- Use server state properly with App Router
+- Implement proper loading and error states
+
+### Routing
+
+- Use App Router conventions
+- Implement proper navigation with `next/navigation`
+- Handle route parameters and search params correctly
+- Use layouts for shared UI elements
+
+### Performance
+
+- Use React.memo() judiciously
+- Implement proper caching strategies
+- Optimize images and assets
+- Use Suspense boundaries for loading states
+- **Use tree-shaking friendly imports with aliases**
+
+```typescript
+// ✅ Good - Tree-shaking friendly
+import { Button } from "@/components/ui/button";
+import { formatDate } from "@/lib/utils/date";
+
+// ❌ Avoid - Barrel imports
+import * as UI from "@workspace/ui";
+import * as Utils from "@/lib/utils";
+```
+
+### Authentication & Security
+
+- Implement proper authentication flows
+- Handle tokens securely
+- Validate data on both client and server
+- Use environment variables properly
+
+### Example Page Component Structure
+
+```typescript
+import type { Metadata } from 'next'
+import { HeroSection } from '@/components/pages/hero'
+import { FeaturesList } from '@/components/blocks/features'
+import { getContentPosts } from '@/lib/content'
+
+export const metadata: Metadata = {
+  title: 'Page Title',
+  description: 'Page description'
+}
+
+export default function HomePage() {
+  return (
+    <main>
+      <HeroSection />
+      <FeaturesList />
+    </main>
+  )
+}
+```
+
+# Docs App - Copilot Instructions
+
+## Content System Architecture
+
+### Generic Content Approach
+
+- Use `ContentPost` and `ContentMetadata` types from `@/types/content.types`
+- Implement content functions in `@/lib/content` with category support
+- Support multiple content types through the `category` field
+- Maintain backward compatibility with blog-specific functions
+- **Use alias imports for all content-related modules**
+
+### Content Management
+
+- All content stored as MDX files in `/posts/` directory
+- Support frontmatter fields: `title`, `publishedAt`, `summary`, `image`, `category`, `menuTitle`
+- Use `getContentPosts(category?: string)` for filtered content retrieval
+- Use `getContentPost(slug: string)` for individual content items
+- **Import content utilities with aliases: `import { getContentPosts } from "@/lib/content"`**
+
+### Component Patterns
+
+- Create generic components that work with `ContentPost` type
+- Support different content types without hardcoding blog-specific logic
+- Use proper TypeScript interfaces for all props
+- Maintain SEO optimization across all content types
+- **Use alias imports for component dependencies**
+
+```typescript
+// ✅ Good - Component with alias imports
+import { CustomMDX } from "@/components/blocks/mdx";
+import { StructuredData } from "@/components/seo/structured-data";
+import { formatDate } from "@/lib/utils/date";
+import type { ContentPost } from "@/types/content.types";
+
+interface BlogPostPageProps {
+  post: ContentPost;
+  baseUrl: string;
+}
+
+export function BlogPostPage({ post, baseUrl }: BlogPostPageProps) {
+  // Component implementation
+}
+```
+
+### Route Structure
+
+- Keep `/blog` routes for backward compatibility
+- Use generic content functions in route handlers
+- Support dynamic content types through category filtering
+- Maintain proper metadata generation for SEO
+- **Use alias imports in route files**
+
+### Development Guidelines
+
+- Don't overengineer solutions
+- Make changes only if necessary
+- Prefer simple, clear implementations
+- Always maintain backward compatibility
+- Test existing functionality after changes
+- **Convert relative imports to aliases during refactoring**
+
+### File Naming
+
+- Use generic names: `content.ts`, `ContentPost`, `ContentMetadata`
+- Maintain backward compatibility files with clear deprecation comments
+- Remove duplicate code after migration completion
+- Keep file structure clean and organized
+
+## Import Best Practices for Docs App
+
+### Refactoring Guidelines
+
+- Convert relative imports to aliases during any code changes
+- Use `@/` prefix for all internal app imports
+- Group imports logically following the established order
+- Use type-only imports with `import type` when appropriate
+- Example refactoring:
+
+```typescript
+// Before (relative imports)
+import { NavigationSidebar } from "../navigation-sidebar";
+import { getBlogPosts } from "../../lib/content";
+import { BlogPostMeta } from "../../types/content.types";
+
+// After (alias imports)
+import { NavigationSidebar } from "@/components/layout/navigation-sidebar";
+import { getBlogPosts } from "@/lib/content";
+import type { BlogPostMeta } from "@/types/content.types";
+```
+
+### Content System Imports
+
+```typescript
+// ✅ Good - Content system with aliases
+import { getContentPosts, getContentPost } from "@/lib/content";
+import { generateContentPostMetadata } from "@/lib/metadata";
+import type { ContentPost, ContentMetadata } from "@/types/content.types";
+
+// Component imports
+import { BlogPostPage } from "@/components/pages/blog/blog-post-page";
+import { CustomMDX } from "@/components/blocks/mdx";
+```
+
+### Layout Component Imports
+
+```typescript
+// ✅ Good - Layout components with aliases
+import { AppBar } from "@/components/layout/app-bar";
+import { NavigationSidebar } from "@/components/layout/navigation-sidebar";
+import { MobileNavigation } from "@/components/layout/mobile-navigation";
+import { SearchButton } from "@/components/layout/search-button";
+import { ThemeToggle } from "@/components/layout/theme-toggle";
+```
+
+## Error Handling
+
+- Always include proper error handling in content functions
+- Log warnings for missing content or invalid slugs
+- Return null or empty arrays gracefully
+- Provide helpful console messages for debugging
+- **Use alias imports in error handling utilities**
+
+```typescript
+import { logError } from "@/lib/utils/logger";
+import type { ErrorInfo } from "@/types/error.types";
+```
+
+## What to AVOID in Docs App
+
+- **Relative imports for any cross-directory references**
+- Blog-specific hardcoding in generic components
+- Complex component hierarchies without proper separation
+- Missing TypeScript types for content and metadata
+- Overengineering simple content operations
+
+## What to PRIORITIZE in Docs App
+
+- **Alias imports for all internal modules**
+- Generic, reusable content system architecture
+- Proper TypeScript typing for all content operations
+- SEO optimization across all content types
+- Server-side rendering with proper data fetching
+- Clean separation between server and client components
+- Backward compatibility during refactoring
+- Performance optimization with proper import strategies
+
+Remember: Always use alias imports (`@/`) for internal app modules to improve maintainability, readability, and refactoring capabilities. This is especially important in the docs app where content flows through multiple component layers.

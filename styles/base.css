@@ -1,0 +1,36 @@
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    font-feature-settings: "kern" 1;
+    font-kerning: normal;
+  }
+
+  .backdrop-blur {
+    backdrop-filter: blur(50px);
+    -webkit-backdrop-filter: blur(50px);
+  }
+  .bg-placeholder {
+    background: -webkit-linear-gradient(
+      to bottom,
+      transparent,
+      var(--color-secondary)
+    );
+    background: linear-gradient(to bottom, transparent, var(--color-secondary));
+  }
+  .text-color-success {
+    color: var(--color-success);
+  }
+  .bg-color-success {
+    background-color: var(--color-success);
+  }
+  .outline-color-success {
+    outline-color: var(--color-success);
+  }
+}

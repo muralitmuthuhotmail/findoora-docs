@@ -1,0 +1,285 @@
+@import "./globals.css";
+@import "./github.css";
+@import "./github-dark.css";
+
+/* Responsive Typography */
+.md-wrapper h1,
+.md-wrapper h2,
+.md-wrapper h3,
+.md-wrapper h4,
+.md-wrapper h5,
+.md-wrapper h6 {
+  @apply font-sans font-bold leading-tight tracking-tight mt-8 mb-4;
+}
+
+.md-wrapper h1 {
+  @apply text-3xl;
+}
+
+.md-wrapper h2 {
+  @apply text-2xl;
+}
+
+.md-wrapper h3 {
+  @apply text-xl;
+}
+
+.md-wrapper h4 {
+  @apply text-lg;
+}
+
+.md-wrapper h5 {
+  @apply text-base;
+}
+
+.md-wrapper h6 {
+  @apply text-sm;
+}
+
+.md-wrapper p {
+  @apply text-base;
+}
+
+.md-wrapper pre p {
+  @apply text-sm;
+}
+
+/* Lists */
+.md-wrapper ul {
+  @apply list-disc ml-6 sm:ml-8 pl-4 sm:pl-6 my-4;
+}
+
+.md-wrapper ol {
+  @apply list-decimal ml-6 sm:ml-8 pl-4 sm:pl-6 my-4;
+}
+
+.md-wrapper li {
+  @apply mb-2;
+}
+
+/* Inline Elements */
+.md-wrapper a {
+  @apply text-primary underline transition-colors hover:text-primary/80;
+}
+
+.md-wrapper strong,
+.md-wrapper b {
+  @apply font-semibold;
+}
+
+.md-wrapper em,
+.md-wrapper i {
+  @apply italic;
+}
+
+.md-wrapper code {
+  @apply bg-muted px-1.5 py-0.5 rounded text-sm font-mono;
+}
+
+.md-wrapper kbd {
+  @apply bg-muted px-2 py-1 rounded text-sm font-mono border border-border;
+}
+
+.md-wrapper mark {
+  @apply bg-yellow-200 dark:bg-yellow-800 px-1 rounded;
+}
+
+.md-wrapper del,
+.md-wrapper s {
+  @apply line-through text-muted-foreground;
+}
+
+.md-wrapper ins,
+.md-wrapper u {
+  @apply underline;
+}
+
+/* Images & Media */
+.md-wrapper img {
+  @apply max-w-full h-auto rounded-lg my-4;
+}
+
+.md-wrapper video,
+.md-wrapper audio {
+  @apply w-full rounded-lg mb-4;
+}
+
+/* Tables (shadcn style) */
+.md-wrapper table {
+  @apply w-full outline-1 rounded-sm overflow-hidden text-sm bg-card;
+}
+
+.md-wrapper th {
+  @apply bg-muted font-semibold text-left p-3 border-b border-border border-r;
+}
+
+.md-wrapper th:last-child {
+  @apply p-3 border-b border-border border-r-0;
+}
+
+.md-wrapper td {
+  @apply p-3 border-b border-border border-r;
+}
+
+.md-wrapper td:last-child {
+  @apply p-3 border-b border-border border-r-0;
+}
+
+.md-wrapper tr:nth-child(even) {
+  @apply bg-muted/50;
+}
+
+.md-wrapper tr:last-child td {
+  @apply border-b-0;
+}
+
+/* Blockquotes */
+.md-wrapper blockquote {
+  @apply border-l-4 border-border pl-4 italic text-muted-foreground my-6;
+}
+
+/* Preformatted and Code Blocks */
+.md-wrapper pre {
+  @apply my-4 border border-border rounded-sm p-4 sm:p-6 text-sm font-mono overflow-x-auto mb-4 bg-card;
+}
+
+.md-wrapper pre code {
+  @apply bg-card p-0 text-inherit m-0 text-sm font-mono;
+}
+
+/* Override hljs background to match our theme */
+.md-wrapper .hljs {
+  @apply bg-transparent;
+}
+
+/* Horizontal Rule */
+.md-wrapper hr {
+  @apply border-0 border-t border-border my-8;
+}
+
+/* Forms */
+.md-wrapper input,
+.md-wrapper textarea,
+.md-wrapper select {
+  @apply border border-border rounded px-3 py-2 bg-background text-foreground;
+}
+
+.md-wrapper label {
+  @apply block font-medium mb-1;
+}
+
+.md-wrapper fieldset {
+  @apply border border-border rounded p-4 mb-4;
+}
+
+.md-wrapper legend {
+  @apply font-semibold px-2;
+}
+
+/* Details / Summary */
+.md-wrapper details {
+  @apply border border-border p-4 rounded-xl mb-4 bg-accent hover:bg-card/20 transition-colors;
+}
+
+.md-wrapper summary {
+  @apply font-bold cursor-pointer py-2 relative hover:text-primary;
+}
+
+/* Footnotes */
+.md-wrapper sup {
+  @apply text-xs align-super;
+}
+
+.md-wrapper sub {
+  @apply text-xs align-sub;
+}
+
+.md-wrapper small {
+  @apply text-sm text-muted-foreground;
+}
+
+/* Address & Time */
+.md-wrapper address {
+  @apply not-italic text-muted-foreground mb-4;
+}
+
+.md-wrapper time {
+  @apply text-muted-foreground;
+}
+
+/* Layout & Spacing */
+.md-wrapper section,
+.md-wrapper article,
+.md-wrapper aside {
+  @apply mb-6;
+}
+
+.md-wrapper header {
+  @apply mb-4;
+}
+
+.md-wrapper main {
+  @apply mb-6;
+}
+
+.md-wrapper footer {
+  @apply mt-6 pt-4 border-t border-border text-sm text-muted-foreground;
+}
+
+.md-wrapper nav {
+  @apply mb-4;
+}
+
+/* Utility Classes */
+.md-wrapper .text-muted {
+  @apply text-muted-foreground;
+}
+
+.md-wrapper .text-subtle {
+  @apply text-muted-foreground/70;
+}
+
+.md-wrapper .text-error {
+  @apply text-destructive;
+}
+
+.md-wrapper .text-success {
+  @apply text-green-600 dark:text-green-400;
+}
+
+.md-wrapper .text-warning {
+  @apply text-yellow-600 dark:text-yellow-400;
+}
+
+.md-wrapper .highlight {
+  @apply bg-yellow-100 dark:bg-yellow-900/30 px-1 rounded;
+}
+
+/* Callouts */
+.md-wrapper .callout {
+  @apply p-4 rounded-md border-l-2 shadow-sm mb-4 border-border;
+}
+
+.md-wrapper .callout p {
+  @apply text-base leading-relaxed !p-0 !mb-0;
+}
+
+.md-wrapper .callout-tip {
+  @apply border-green-500 bg-green-50 dark:bg-green-900/10 text-green-800 dark:text-green-200;
+}
+
+.md-wrapper .callout-warning {
+  @apply border-yellow-500 bg-yellow-50 dark:bg-yellow-900/10 text-yellow-800 dark:text-yellow-200;
+}
+
+.md-wrapper .callout-info {
+  @apply border-blue-500 bg-blue-50 dark:bg-blue-900/10 text-blue-800 dark:text-blue-200;
+}
+
+.md-wrapper .callout-error {
+  @apply border-red-500 bg-red-50 dark:bg-red-900/10 text-red-800 dark:text-red-200;
+}
+
+.md-wrapper .callout-note {
+  @apply border-gray-500 bg-gray-50 dark:bg-gray-900/10 text-gray-800 dark:text-gray-200;
+}

@@ -1,0 +1,50 @@
+:root {
+  --background: rgb(245, 245, 245);
+  --foreground: rgb(59, 59, 59);
+  --card: rgb(255, 255, 255);
+  --card-foreground: rgb(59, 59, 59);
+  --popover: rgb(255, 255, 255);
+  --popover-foreground: rgb(59, 59, 59);
+  --primary: rgb(18, 18, 18);
+  --primary-foreground: rgb(251, 251, 251);
+  --secondary: rgb(246, 246, 248);
+  --secondary-foreground: rgb(59, 59, 59);
+  --muted: rgb(246, 246, 248);
+  --muted-foreground: rgb(108, 108, 109);
+  --accent: rgb(246, 246, 248);
+  --accent-foreground: rgb(59, 59, 59);
+  --destructive: rgb(220, 38, 38);
+  --success: rgb(34, 197, 94);
+  --success-foreground: rgb(251, 251, 251);
+  --border: rgb(220, 221, 228);
+  --input: rgb(232, 233, 238);
+  --ring: rgb(179, 179, 182);
+  --chart-1: rgb(255, 119, 0);
+  --chart-2: rgb(34, 197, 94);
+  --chart-3: rgb(59, 130, 246);
+  --chart-4: rgb(245, 158, 11);
+  --chart-5: rgb(168, 85, 247);
+  --radius: 0.75rem; /* Preferred border radius */
+  --sidebar: rgb(251, 251, 251);
+  --sidebar-foreground: rgb(59, 59, 59);
+  --sidebar-primary: rgb(53, 53, 54);
+  --sidebar-primary-foreground: rgb(251, 251, 251);
+  --sidebar-accent: rgb(246, 246, 248);
+  --sidebar-accent-foreground: rgb(53, 53, 54);
+  --sidebar-border: rgb(232, 233, 238);
+  --sidebar-ring: rgb(179, 179, 182);
+  /* Modern shadow system */
+  --shadow-2xs: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-xs: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  --shadow-sm: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --shadow-md:
+    0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+  --shadow-xl: 0 35px 60px -12px rgba(0, 0, 0, 0.25);
+  --shadow-2xl: 0 50px 100px -20px rgba(0, 0, 0, 0.25);
+  --positive: var(--color-green-700); /* green-600 */
+  --positive-foreground: rgb(251, 251, 251);
+  --negative: rgb(220, 38, 38); /* red-600 */
+  --negative-foreground: rgb(251, 251, 251);
+}

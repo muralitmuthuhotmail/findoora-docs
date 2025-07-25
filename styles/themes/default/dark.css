@@ -1,0 +1,39 @@
+/* Updated to use Apple's dark theme colors */
+.dark {
+  --background: rgb(28, 28, 30); /* systemBackgroundDark */
+  --foreground: rgb(229, 229, 234); /* label color */
+  --card: rgb(44, 44, 46); /* secondarySystemBackgroundDark */
+  --card-foreground: rgb(229, 229, 234);
+  --popover: rgb(44, 44, 46); /* popover background */
+  --popover-foreground: rgb(229, 229, 234);
+  --primary: rgb(10, 132, 255); /* systemBlueDark */
+  --primary-foreground: rgb(255, 255, 255);
+  --secondary: rgb(99, 99, 102); /* secondaryLabelDark */
+  --secondary-foreground: rgb(229, 229, 234);
+  --muted: rgb(38, 38, 38); /* shadcn muted background */
+  --muted-foreground: rgb(161, 161, 170); /* shadcn muted foreground */
+  --accent: rgba(61, 61, 61, 0.416); /* systemGreenDark */
+  --accent-foreground: rgb(255, 255, 255);
+  --destructive: rgb(255, 69, 58); /* systemRedDark */
+  --destructive-foreground: rgb(255, 255, 255);
+  --border: rgb(72, 72, 74); /* separatorDark */
+  --input: rgb(44, 44, 46); /* input background */
+  --ring: rgb(10, 132, 255); /* systemBlueDark */
+  --chart-1: rgb(48, 209, 88); /* systemGreenDark */
+  --chart-2: rgb(255, 214, 10); /* systemYellowDark */
+  --chart-3: rgb(255, 159, 10); /* systemOrangeDark */
+  --chart-4: rgb(191, 90, 242); /* systemPurpleDark */
+  --chart-5: rgb(255, 55, 95); /* systemPinkDark */
+  --sidebar: rgb(44, 44, 46); /* sidebar background */
+  --sidebar-foreground: rgb(229, 229, 234);
+  --sidebar-primary: rgb(10, 132, 255); /* systemBlueDark */
+  --sidebar-primary-foreground: rgb(255, 255, 255);
+  --sidebar-accent: rgb(133, 191, 249); /* systemGreenDark */
+  --sidebar-accent-foreground: rgb(28, 28, 30);
+  --sidebar-border: rgb(72, 72, 74); /* separatorDark */
+  --sidebar-ring: rgb(10, 132, 255); /* systemBlueDark */
+  --positive: rgb(48, 209, 88); /* systemGreenDark */
+  --positive-foreground: rgb(28, 28, 30);
+  --negative: rgb(255, 69, 58); /* systemRedDark */
+  --negative-foreground: rgb(255, 255, 255);
+}

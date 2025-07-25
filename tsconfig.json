@@ -1,0 +1,24 @@
+{
+  "extends": "./nextjs.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./*"]
+    },
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "types": ["node", "react", "react-dom", "mdx"]
+  },
+  "include": [
+    "next-env.d.ts",
+    "next.config.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "**/*.css",
+    ".next/types/**/*.ts"
+  ],
+  "exclude": ["node_modules"]
+}
