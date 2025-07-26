@@ -1,0 +1,505 @@
+---
+menuTitle: "Configuration"
+title: "Configuration Guide"
+publishedAt: "2025-07-26"
+summary: "Complete guide to configuring Findoora Docs including site settings, environment variables, theming, and customization options."
+category: "documents"
+author: "Findoora Team"
+tags: ["configuration", "settings", "customization", "environment"]
+thumbnail: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&h=600&fit=crop"
+supportsGfm: true
+---
+
+Customize Findoora Docs to match your brand, requirements, and workflow.
+
+## Site Configuration
+
+The main site configuration is located in `lib/config.ts`. Update these values to customize your documentation site:
+
+```typescript
+// lib/config.ts
+export const SITE_NAME = "Your Docs Site";
+export const SITE_SUB_TITLE = "Documentation";
+export const SITE_DESCRIPTION = "Your comprehensive documentation hub";
+export const GITHUB_URL = "https://github.com/your-username/your-repo";
+export const SITE_AUTHOR = "@your-handle";
+export const SITE_KEYWORDS = ["documentation", "guides", "tutorials"];
+
+// Navigation
+export const ENABLE_GITHUB_LINK = true;
+export const ENABLE_THEME_TOGGLE = true;
+export const ENABLE_SEARCH = true;
+
+// Content
+export const POSTS_PER_PAGE = 10;
+export const ENABLE_COMMENTS = false;
+export const ENABLE_SOCIAL_SHARE = true;
+
+// SEO
+export const ENABLE_ANALYTICS = true;
+export const ENABLE_SEO_OPTIMIZATION = true;
+```
+
+## Environment Variables
+
+### Development Environment
+
+`.env.local`
+```env
+# Base URLs
+NEXT_PUBLIC_BASE_URL=http://localhost:3000
+NEXT_PUBLIC_BASE_API_URL=http://localhost:3000
+
+# Analytics (Optional)
+NEXT_PUBLIC_GA_ID=G-XXXXXXXXXX
+
+# Google Services (Optional)
+GOOGLE_SITE_VERIFICATION=your-verification-code
+
+# Performance
+NEXT_TELEMETRY_DISABLED=1
+
+# Development
+NODE_ENV=development
+```
+
+### Production Environment
+
+```env
+# Base URLs (Update with your domain)
+NEXT_PUBLIC_BASE_URL=https://your-domain.com
+NEXT_PUBLIC_BASE_API_URL=https://your-domain.com
+
+# Analytics
+NEXT_PUBLIC_GA_ID=your-google-analytics-id
+
+# SEO
+GOOGLE_SITE_VERIFICATION=your-verification-code
+
+# Performance
+NODE_ENV=production
+NEXT_TELEMETRY_DISABLED=1
+
+# Security (Optional)
+NEXTAUTH_SECRET=your-secret-key
+NEXTAUTH_URL=https://your-domain.com
+```
+
+### Docker Environment Variables
+
+In your `docker-compose.yml`:
+
+```yaml
+version: '3.8'
+services:
+  docs:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - NEXT_PUBLIC_BASE_URL=https://your-domain.com
+      - NEXT_PUBLIC_GA_ID=your-ga-id
+      - NEXT_TELEMETRY_DISABLED=1
+    restart: unless-stopped
+```
+
+## Theming & Styling
+
+### Custom Theme Configuration
+
+The platform uses Tailwind CSS with CSS custom properties for theming. Customize colors in `styles/theme.css`:
+
+```css
+/* styles/theme.css */
+:root {
+  /* Light theme */
+  --background: 0 0% 100%;
+  --foreground: 222.2 84% 4.9%;
+  --primary: 222.2 47.4% 11.2%;
+  --primary-foreground: 210 40% 98%;
+  --secondary: 210 40% 96%;
+  --secondary-foreground: 222.2 47.4% 11.2%;
+  --muted: 210 40% 96%;
+  --muted-foreground: 215.4 16.3% 46.9%;
+  --accent: 210 40% 96%;
+  --accent-foreground: 222.2 47.4% 11.2%;
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 210 40% 98%;
+  --border: 214.3 31.8% 91.4%;
+  --input: 214.3 31.8% 91.4%;
+  --ring: 222.2 47.4% 11.2%;
+  --radius: 0.5rem;
+}
+
+[data-theme="dark"] {
+  /* Dark theme */
+  --background: 222.2 84% 4.9%;
+  --foreground: 210 40% 98%;
+  --primary: 210 40% 98%;
+  --primary-foreground: 222.2 84% 4.9%;
+  --secondary: 217.2 32.6% 17.5%;
+  --secondary-foreground: 210 40% 98%;
+  /* ... additional dark theme colors */
+}
+```
+
+### Brand Colors
+
+Update your brand colors:
+
+```css
+:root {
+  /* Brand colors */
+  --brand-primary: 200 100% 50%;    /* Your primary color */
+  --brand-secondary: 160 100% 45%;  /* Your secondary color */
+  --brand-accent: 280 100% 60%;     /* Your accent color */
+}
+```
+
+### Typography
+
+Customize fonts in `tailwind.config.js`:
+
+```javascript
+module.exports = {
+  theme: {
+    extend: {
+      fontFamily: {
+        sans: ['Inter', 'system-ui', 'sans-serif'],
+        mono: ['JetBrains Mono', 'Consolas', 'monospace'],
+        heading: ['Cal Sans', 'Inter', 'system-ui', 'sans-serif'],
+      },
+    },
+  },
+};
+```
+
+## Navigation Configuration
+
+### Sidebar Navigation
+
+Configure navigation behavior in `components/layout/navigation-sidebar.tsx`:
+
+```typescript
+// Navigation settings
+const NAVIGATION_CONFIG = {
+  enableBreadcrumbs: true,
+  enableTableOfContents: true,
+  enableCategoryFiltering: true,
+  enableSearchHighlight: true,
+  maxDepth: 3, // Maximum heading depth for TOC
+  collapsibleSections: true,
+};
+```
+
+### Mobile Navigation
+
+Customize mobile navigation in `components/layout/mobile-navigation.tsx`:
+
+```typescript
+const MOBILE_CONFIG = {
+  enableSwipeGestures: true,
+  enableSearchShortcuts: true,
+  enableQuickNavigation: true,
+  showCategoryIcons: true,
+};
+```
+
+## Search Configuration
+
+### Search Settings
+
+Configure search behavior in `lib/utils/search.ts`:
+
+```typescript
+export const SEARCH_CONFIG = {
+  // Search behavior
+  enableLiveSearch: true,
+  enableSearchSuggestions: true,
+  enableCategoryFiltering: true,
+  enableTagFiltering: true,
+  
+  // Performance
+  debounceMs: 300,
+  maxResults: 50,
+  minQueryLength: 2,
+  
+  // Weighting (higher = more important)
+  titleWeight: 5,
+  summaryWeight: 3,
+  contentWeight: 1,
+  tagWeight: 2,
+};
+```
+
+### Search Indexing
+
+Customize what content gets indexed:
+
+```typescript
+// Include/exclude content from search
+export const SEARCH_INDEXING = {
+  includeCategories: ['docs', 'blog', 'tutorial'],
+  excludeCategories: ['private', 'draft'],
+  includeTags: true,
+  includeMetadata: true,
+  includeCodeBlocks: false,
+};
+```
+
+## Analytics Configuration
+
+### Google Analytics 4
+
+Add your GA4 tracking ID:
+
+```env
+NEXT_PUBLIC_GA_ID=G-XXXXXXXXXX
+```
+
+### Custom Analytics Events
+
+Configure custom events in `components/performance/web-vitals.tsx`:
+
+```typescript
+// Track custom events
+export const ANALYTICS_EVENTS = {
+  trackPageViews: true,
+  trackSearchQueries: true,
+  trackContentInteractions: true,
+  trackNavigationClicks: true,
+  trackThemeChanges: true,
+  trackErrorBoundary: true,
+};
+```
+
+## Content Configuration
+
+### Content Types
+
+Define your content categories in `lib/content.ts`:
+
+```typescript
+export const CONTENT_CATEGORIES = {
+  docs: {
+    label: 'Documentation',
+    description: 'Technical guides and references',
+    icon: 'BookOpen',
+    color: 'blue',
+  },
+  blog: {
+    label: 'Blog',
+    description: 'Articles and insights',
+    icon: 'PenTool',
+    color: 'green',
+  },
+  tutorial: {
+    label: 'Tutorials',
+    description: 'Step-by-step learning',
+    icon: 'GraduationCap',
+    color: 'purple',
+  },
+  // Add more categories as needed
+};
+```
+
+### MDX Configuration
+
+Customize MDX processing in `next.config.ts`:
+
+```typescript
+// MDX configuration
+const mdxConfig = {
+  extension: /\?$/,
+  options: {
+    remarkPlugins: [
+      remarkGfm,
+      remarkMath,
+      remarkToc,
+    ],
+    rehypePlugins: [
+      rehypeSlug,
+      rehypeAutolinkHeadings,
+      rehypeHighlight,
+      rehypeKatex,
+    ],
+    providerImportSource: "@mdx-js/react",
+  },
+};
+```
+
+## Feature Toggles
+
+Control which features are enabled:
+
+```typescript
+// lib/config.ts
+export const FEATURES = {
+  // Core features
+  enableSearch: true,
+  enableThemeToggle: true,
+  enableSocialShare: true,
+  enableBackToTop: true,
+  enableTableOfContents: true,
+  
+  // Advanced features
+  enableComments: false,
+  enableUserAuth: false,
+  enableBookmarks: false,
+  enablePrintMode: true,
+  enableOfflineMode: false,
+  
+  // Integrations
+  enableAnalytics: true,
+  enableMermaidDiagrams: true,
+  enableMathEquations: true,
+  enableCodePlayground: false,
+};
+```
+
+## Security Configuration
+
+### Content Security Policy
+
+Configure CSP in `next.config.ts`:
+
+```typescript
+const securityHeaders = [
+  {
+    key: 'Content-Security-Policy',
+    value: `
+      default-src 'self';
+      script-src 'self' 'unsafe-eval' 'unsafe-inline' *.googletagmanager.com;
+      style-src 'self' 'unsafe-inline';
+      img-src 'self' data: blob: *.unsplash.com;
+      font-src 'self';
+      object-src 'none';
+      base-uri 'self';
+      form-action 'self';
+      frame-ancestors 'none';
+      upgrade-insecure-requests;
+    `.replace(/\s{2,}/g, ' ').trim()
+  }
+];
+```
+
+### CORS Configuration
+
+For API routes, configure CORS:
+
+```typescript
+// lib/cors.ts
+export const CORS_CONFIG = {
+  origin: process.env.NODE_ENV === 'production' 
+    ? ['https://your-domain.com']
+    : ['http://localhost:3000'],
+  methods: ['GET', 'POST'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+};
+```
+
+## Progressive Web App
+
+### PWA Configuration
+
+Configure PWA settings in `next.config.ts`:
+
+```typescript
+const withPWA = require('next-pwa')({
+  dest: 'public',
+  register: true,
+  skipWaiting: true,
+  runtimeCaching: [
+    {
+      urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/i,
+      handler: 'CacheFirst',
+      options: {
+        cacheName: 'google-fonts',
+        expiration: {
+          maxEntries: 4,
+          maxAgeSeconds: 365 * 24 * 60 * 60, // 365 days
+        },
+      },
+    },
+  ],
+});
+```
+
+## Backup & Restore
+
+### Configuration Backup
+
+Create a backup script for your configuration:
+
+```bash
+#!/bin/bash
+# backup-config.sh
+
+# Create backup directory
+mkdir -p backups/$(date +%Y%m%d)
+
+# Backup configuration files
+cp lib/config.ts backups/$(date +%Y%m%d)/
+cp .env.local backups/$(date +%Y%m%d)/
+cp next.config.ts backups/$(date +%Y%m%d)/
+cp tailwind.config.js backups/$(date +%Y%m%d)/
+cp package.json backups/$(date +%Y%m%d)/
+
+echo "Configuration backed up to backups/$(date +%Y%m%d)/"
+```
+
+## Configuration Validation
+
+### Validation Script
+
+Create a script to validate your configuration:
+
+```typescript
+// scripts/validate-config.ts
+import { SITE_NAME, GITHUB_URL } from '@/lib/config';
+
+function validateConfig() {
+  const errors = [];
+  
+  if (!SITE_NAME || SITE_NAME === 'Your Docs Site') {
+    errors.push('SITE_NAME not configured');
+  }
+  
+  if (!process.env.NEXT_PUBLIC_BASE_URL) {
+    errors.push('NEXT_PUBLIC_BASE_URL not set');
+  }
+  
+  if (errors.length > 0) {
+    console.error('Configuration errors:', errors);
+    process.exit(1);
+  }
+  
+  console.log('✅ Configuration is valid');
+}
+
+validateConfig();
+```
+
+## Next Steps
+
+After configuring your site:
+
+1. **[Content Management](./content-management)** - Start adding your content
+2. **[Development](./development)** - Customize components and styling
+3. **[Deployment](./deployment)** - Deploy your configured site
+
+## Configuration Help
+
+Common configuration issues:
+
+- **Environment variables not loading**: Check file naming (`.env.local` for development)
+- **Styles not applying**: Verify Tailwind configuration and CSS imports
+- **Features not working**: Check feature toggles in `lib/config.ts`
+- **Build failures**: Run `pnpm typecheck` to identify TypeScript issues
+
+Need more help? Check the [Troubleshooting Guide](./troubleshooting) or [open an issue](https://github.com/muralitmuthuhotmail/findoora-docs/issues).
+
+---
+
+Ready to add content? Continue to the [Content Management Guide](./content-management).

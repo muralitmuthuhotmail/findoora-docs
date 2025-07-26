@@ -1,0 +1,326 @@
+---
+menuTitle: "Installation"
+title: "Installation Guide"
+publishedAt: "2025-07-26"
+summary: "Complete installation guide for Findoora Docs with Docker, local development, and cloud deployment options."
+category: "documents"
+author: "Findoora Team"
+tags: ["installation", "setup", "docker", "deployment"]
+thumbnail: "https://images.unsplash.com/photo-1518432031352-d6fc5c10da5a?w=800&h=600&fit=crop"
+supportsGfm: true
+---
+
+Get Findoora Docs up and running in minutes with your preferred installation method.
+
+## Prerequisites
+
+Before you begin, ensure you have:
+
+- **Node.js 18+** (for local development)
+- **pnpm 10.7.0+** (for local development)
+- **Docker & Docker Compose** (for containerized deployment)
+- **Git** (for cloning the repository)
+
+## Option 1: Docker (Recommended)
+
+The fastest way to get started is with Docker. This method ensures consistency across all environments.
+
+### Quick Start with Docker Compose
+
+```bash
+# Clone the repository
+git clone https://github.com/muralitmuthuhotmail/findoora-docs.git
+cd findoora-docs
+
+# Start the application
+docker-compose up -d
+
+# Visit http://localhost:3000
+```
+
+### Manual Docker Build
+
+```bash
+# Build the Docker image
+docker build -t findoora-docs .
+
+# Run the container
+docker run -d \
+  --name findoora-docs \
+  -p 3000:3000 \
+  -e NODE_ENV=production \
+  findoora-docs
+
+# Visit http://localhost:3000
+```
+
+### Docker Commands Reference
+
+```bash
+# View logs
+docker-compose logs -f
+
+# Stop the application
+docker-compose down
+
+# Restart services
+docker-compose restart
+
+# View running containers
+docker ps
+
+# Remove everything (including volumes)
+docker-compose down -v
+```
+
+## Option 2: Local Development
+
+Perfect for development and customization.
+
+### Step-by-Step Setup
+
+```bash
+# Clone the repository
+git clone https://github.com/muralitmuthuhotmail/findoora-docs.git
+cd findoora-docs
+
+# Install dependencies
+pnpm install
+
+# Start development server
+pnpm dev
+
+# Visit http://localhost:3000
+```
+
+### Development Scripts
+
+```bash
+# Development
+pnpm dev              # Start development server with Turbopack
+pnpm dev:debug        # Start with debugging enabled
+
+# Building
+pnpm build            # Production build
+pnpm start            # Start production server
+pnpm preview          # Preview production build locally
+
+# Code Quality
+pnpm lint             # Run ESLint
+pnpm lint:fix         # Fix ESLint issues
+pnpm typecheck        # Run TypeScript type checking
+pnpm format           # Format code with Prettier
+
+# Analysis
+pnpm analyze          # Analyze bundle size
+pnpm build:analyze    # Build and analyze bundle
+```
+
+## Option 3: Deploy to Cloud
+
+### Vercel (One-Click Deploy)
+
+[Deploy with Vercel](https://vercel.com/new/clone?repository-url=https://github.com/muralitmuthuhotmail/findoora-docs)
+
+### Manual Vercel Deployment
+
+```bash
+# Install Vercel CLI
+npm i -g vercel
+
+# Deploy to production
+vercel --prod
+
+# Set environment variables (if needed)
+vercel env add NEXT_PUBLIC_BASE_URL
+```
+
+### Netlify
+
+```bash
+# Build command
+pnpm build
+
+# Publish directory
+.next
+
+# Environment variables
+NEXT_PUBLIC_BASE_URL=https://your-site.netlify.app
+```
+
+### Railway
+
+```bash
+# Connect your GitHub repository
+# Set build command: pnpm build
+# Set start command: pnpm start
+# Add environment variables as needed
+```
+
+## Environment Variables
+
+Create a `.env.local` file in the root directory:
+
+```env
+# Base URL for the application
+NEXT_PUBLIC_BASE_URL=http://localhost:3000
+
+# API Base URL (usually same as base URL)
+NEXT_PUBLIC_BASE_API_URL=http://localhost:3000
+
+# Optional: Google Analytics
+NEXT_PUBLIC_GA_ID=G-XXXXXXXXXX
+
+# Optional: Google Site Verification
+GOOGLE_SITE_VERIFICATION=your-verification-code
+
+# Optional: Disable telemetry
+NEXT_TELEMETRY_DISABLED=1
+```
+
+### Production Environment Variables
+
+For production deployments, set these environment variables:
+
+```env
+# Production settings
+NODE_ENV=production
+NEXT_PUBLIC_BASE_URL=https://your-domain.com
+NEXT_PUBLIC_BASE_API_URL=https://your-domain.com
+
+# Analytics (optional)
+NEXT_PUBLIC_GA_ID=your-google-analytics-id
+
+# Performance (optional)
+NEXT_TELEMETRY_DISABLED=1
+```
+
+## Health Check
+
+After installation, verify everything is working:
+
+```bash
+# Check if the application is running
+curl http://localhost:3000/api/health
+
+# Expected response:
+# {"status": "ok", "timestamp": "2025-07-26T..."}
+```
+
+## Updating
+
+### Docker Update
+
+```bash
+# Pull latest changes
+git pull origin main
+
+# Rebuild and restart
+docker-compose down
+docker-compose up -d --build
+```
+
+### Local Development Update
+
+```bash
+# Pull latest changes
+git pull origin main
+
+# Update dependencies
+pnpm install
+
+# Restart development server
+pnpm dev
+```
+
+## Troubleshooting Installation
+
+### Common Issues
+
+**Port already in use:**
+```bash
+# Find what's using port 3000
+lsof -i :3000
+
+# Kill the process (replace PID)
+kill -9 <PID>
+
+# Or use a different port
+PORT=3001 pnpm dev
+```
+
+**Docker build fails:**
+```bash
+# Clean Docker cache
+docker system prune -a
+
+# Rebuild without cache
+docker build --no-cache -t findoora-docs .
+```
+
+**Permission errors (Linux/macOS):**
+```bash
+# Fix file permissions
+sudo chown -R $USER:$USER .
+
+# Or run with correct permissions
+sudo docker-compose up -d
+```
+
+**Node.js version issues:**
+```bash
+# Check Node.js version
+node --version
+
+# Install/update Node.js using nvm
+nvm install 18
+nvm use 18
+```
+
+**pnpm not found:**
+```bash
+# Install pnpm globally
+npm install -g pnpm
+
+# Or use npm instead
+npm install
+npm run dev
+```
+
+## Verification Checklist
+
+After installation, verify these features work:
+
+- [ ] Homepage loads at `http://localhost:3000`
+- [ ] Navigation sidebar works
+- [ ] Search functionality works
+- [ ] Dark/light theme toggle works
+- [ ] Content pages load properly
+- [ ] Mobile responsive design works
+- [ ] Health check endpoint responds: `/api/health`
+
+## Next Steps
+
+Once installed successfully:
+
+1. **[Configuration](./configuration)** - Customize your site settings
+2. **[Content Management](./content-management)** - Add your first content
+3. **[Development](./development)** - Start customizing and developing
+4. **[Deployment](./deployment)** - Deploy to production
+
+## Need Help?
+
+If you encounter issues during installation:
+
+1. Check the [Troubleshooting Guide](./troubleshooting)
+2. Search [existing issues](https://github.com/muralitmuthuhotmail/findoora-docs/issues)
+3. Create a [new issue](https://github.com/muralitmuthuhotmail/findoora-docs/issues/new) with:
+   - Your operating system
+   - Node.js version (`node --version`)
+   - Installation method attempted
+   - Complete error message
+   - Steps to reproduce
+
+---
+
+Ready to customize your documentation site? Continue to the [Configuration Guide](./configuration).

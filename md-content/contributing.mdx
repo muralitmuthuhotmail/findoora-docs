@@ -1,0 +1,663 @@
+---
+menuTitle: "Contributing"
+title: "Contributing Guide"
+publishedAt: "2025-07-26"
+summary: "Learn how to contribute to Findoora Docs including development setup, coding standards, and contribution workflow."
+category: "documents"
+author: "Findoora Team"
+tags: ["contributing", "development", "open-source", "community"]
+thumbnail: "https://images.unsplash.com/photo-1556075798-4825dfaaf498?w=800&h=600&fit=crop"
+supportsGfm: true
+hasDataTables: true
+---
+
+We welcome contributions from the community! Whether you're fixing bugs, adding features, or improving documentation, your help makes Findoora Docs better for everyone.
+
+## Ways to Contribute
+
+### Bug Reports
+Found an issue? Help us fix it!
+- Use our [issue template](https://github.com/muralitmuthuhotmail/findoora-docs/issues/new?template=bug_report.md)
+- Include detailed reproduction steps
+- Provide environment information
+- Add screenshots if applicable
+
+### Feature Requests
+Have an idea for improvement?
+- Use our [feature request template](https://github.com/muralitmuthuhotmail/findoora-docs/issues/new?template=feature_request.md)
+- Describe the problem you're solving
+- Explain your proposed solution
+- Include use cases and examples
+
+### Documentation
+Help improve our documentation:
+- Fix typos and grammatical errors
+- Add missing information
+- Create new guides and tutorials
+- Improve existing examples
+
+### Design & UX
+Enhance user experience:
+- UI/UX improvements
+- Accessibility enhancements
+- Mobile responsiveness
+- Theme and styling improvements
+
+### Code Contributions
+Contribute to the codebase:
+- Bug fixes
+- New features
+- Performance optimizations
+- Test coverage improvements
+
+## Getting Started
+
+### Prerequisites
+
+Ensure you have the following installed:
+- **Node.js 18+** ([Download](https://nodejs.org/))
+- **pnpm 8+** (`npm install -g pnpm`)
+- **Git** ([Download](https://git-scm.com/))
+
+### Development Setup
+
+1. **Fork the repository** on GitHub
+2. **Clone your fork**:
+```bash
+git clone https://github.com/your-username/findoora-docs.git
+cd findoora-docs
+```
+
+3. **Add upstream remote**:
+```bash
+git remote add upstream https://github.com/muralitmuthuhotmail/findoora-docs.git
+```
+
+4. **Install dependencies**:
+```bash
+pnpm install
+```
+
+5. **Start development server**:
+```bash
+pnpm dev
+```
+
+6. **Open your browser** and visit `http://localhost:3000`
+
+### Development Workflow
+
+1. **Create a feature branch**:
+```bash
+git checkout -b feature/your-feature-name
+# or
+git checkout -b fix/issue-description
+```
+
+2. **Make your changes** following our coding standards
+
+3. **Test your changes**:
+```bash
+# Run type checking
+pnpm typecheck
+
+# Run linting
+pnpm lint
+
+# Run tests
+pnpm test
+
+# Build the project
+pnpm build
+```
+
+4. **Commit your changes**:
+```bash
+git add .
+git commit -m "feat: add new search functionality"
+```
+
+5. **Push to your fork**:
+```bash
+git push origin feature/your-feature-name
+```
+
+6. **Create a Pull Request** on GitHub
+
+## Coding Standards
+
+### TypeScript Guidelines
+
+- **Use strict TypeScript**: Enable all strict mode options
+- **Explicit types**: Prefer explicit typing over `any`
+- **Interface over type**: Use interfaces for object shapes
+- **Consistent naming**: Use PascalCase for components, camelCase for functions
+
+```typescript
+// ✅ Good
+interface UserProfile {
+  id: string;
+  name: string;
+  email: string;
+}
+
+function getUserProfile(id: string): Promise<UserProfile> {
+  // Implementation
+}
+
+// ❌ Avoid
+const getUserProfile = (id: any): any => {
+  // Implementation
+}
+```
+
+### React Component Guidelines
+
+- **Functional components**: Use function components with hooks
+- **Component composition**: Prefer composition over inheritance
+- **Props interface**: Always define props interface
+- **Default exports**: Use default exports for components
+
+```typescript
+// ✅ Good
+interface ButtonProps {
+  variant?: 'primary' | 'secondary';
+  size?: 'sm' | 'md' | 'lg';
+  children: React.ReactNode;
+  onClick?: () => void;
+}
+
+export default function Button({ 
+  variant = 'primary', 
+  size = 'md', 
+  children, 
+  onClick 
+}: ButtonProps) {
+  return (
+    <button 
+      className={cn(buttonVariants({ variant, size }))} 
+      onClick={onClick}
+    >
+      {children}
+    </button>
+  );
+}
+
+// ❌ Avoid
+export default function Button(props: any) {
+  return <button {...props} />;
+}
+```
+
+### CSS and Styling
+
+- **Tailwind CSS**: Use Tailwind utility classes
+- **Component variants**: Use `cva` for component variants
+- **CSS variables**: Use CSS custom properties for theming
+- **Responsive design**: Mobile-first approach
+
+```typescript
+// ✅ Good
+import { cva } from 'class-variance-authority';
+
+const buttonVariants = cva(
+  'inline-flex items-center justify-center rounded-md font-medium transition-colors',
+  {
+    variants: {
+      variant: {
+        primary: 'bg-primary text-primary-foreground hover:bg-primary/90',
+        secondary: 'bg-secondary text-secondary-foreground hover:bg-secondary/80',
+      },
+      size: {
+        sm: 'h-9 px-3 text-sm',
+        md: 'h-10 px-4 py-2',
+        lg: 'h-11 px-6 text-lg',
+      },
+    },
+  }
+);
+```
+
+### File Organization
+
+- **Consistent naming**: Use kebab-case for files
+- **Logical grouping**: Group related files together
+- **Index exports**: Use index files for clean imports
+- **Types location**: Keep types close to usage
+
+```
+components/
+├── ui/
+│   ├── button.tsx
+│   ├── input.tsx
+│   └── index.ts          # Export all UI components
+├── blocks/
+│   ├── content-list.tsx
+│   └── table-of-contents.tsx
+└── features/
+    ├── search/
+    │   ├── search-dialog.tsx
+    │   ├── search-input.tsx
+    │   ├── search-results.tsx
+    │   ├── types.ts       # Search-specific types
+    │   └── index.ts       # Export search components
+    └── navigation/
+```
+
+## Testing Guidelines
+
+### Unit Tests
+
+Write unit tests for:
+- Utility functions
+- Custom hooks
+- Component logic
+- Content processing
+
+```typescript
+// utils/content.test.ts
+import { parseContentFrontmatter } from './content';
+
+describe('parseContentFrontmatter', () => {
+  it('should parse valid frontmatter', () => {
+    const content = `---
+title: "Test Title"
+category: "blog"
+---
+Content here`;
+
+    const result = parseContentFrontmatter(content);
+    
+    expect(result.frontmatter.title).toBe('Test Title');
+    expect(result.frontmatter.category).toBe('blog');
+    expect(result.content).toBe('Content here');
+  });
+
+  it('should handle invalid frontmatter gracefully', () => {
+    const content = 'No frontmatter here';
+    const result = parseContentFrontmatter(content);
+    
+    expect(result.frontmatter).toEqual({});
+    expect(result.content).toBe(content);
+  });
+});
+```
+
+### Integration Tests
+
+Test component interactions:
+
+```typescript
+// components/search-dialog.test.tsx
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { SearchDialog } from './search-dialog';
+
+describe('SearchDialog', () => {
+  it('should search and display results', async () => {
+    render(<SearchDialog isOpen={true} onClose={() => {}} />);
+    
+    const searchInput = screen.getByPlaceholderText('Search documentation...');
+    fireEvent.change(searchInput, { target: { value: 'installation' } });
+    
+    await waitFor(() => {
+      expect(screen.getByText('Installation Guide')).toBeInTheDocument();
+    });
+  });
+});
+```
+
+### E2E Tests
+
+Test user workflows:
+
+```typescript
+// e2e/content-navigation.spec.ts
+import { test, expect } from '@playwright/test';
+
+test('user can navigate to content', async ({ page }) => {
+  await page.goto('/');
+  
+  // Click on documentation link
+  await page.click('text=Documentation');
+  await expect(page).toHaveURL(/\/docs/);
+  
+  // Navigate to specific guide
+  await page.click('text=Getting Started');
+  await expect(page).toHaveURL(/\/docs\/getting-started/);
+  
+  // Verify content loads
+  await expect(page.locator('h1')).toContainText('Getting Started');
+});
+```
+
+## Design Guidelines
+
+### UI/UX Principles
+
+- **Accessibility First**: WCAG 2.1 AA compliance
+- **Progressive Enhancement**: Works without JavaScript
+- **Mobile Responsive**: Mobile-first design approach
+- **Performance**: Fast loading and smooth interactions
+
+### Component Design
+
+- **Composable**: Components should be easily composable
+- **Consistent**: Follow established design patterns
+- **Flexible**: Support customization through props
+- **Accessible**: Include proper ARIA attributes
+
+```typescript
+// Example: Accessible modal component
+export function Modal({ 
+  isOpen, 
+  onClose, 
+  title, 
+  children 
+}: ModalProps) {
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+    
+    return () => {
+      document.body.style.overflow = 'auto';
+    };
+  }, [isOpen]);
+
+  if (!isOpen) return null;
+
+  return (
+    <div 
+      className="fixed inset-0 z-50 bg-black/50"
+      onClick={onClose}
+      aria-modal="true"
+      role="dialog"
+      aria-labelledby="modal-title"
+    >
+      <div 
+        className="fixed left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <h2 id="modal-title" className="sr-only">{title}</h2>
+        {children}
+      </div>
+    </div>
+  );
+}
+```
+
+## Git Workflow
+
+### Commit Message Format
+
+Use conventional commits for clear history:
+
+```
+type(scope): description
+
+[optional body]
+
+[optional footer]
+```
+
+**Types:**
+- `feat`: New feature
+- `fix`: Bug fix
+- `docs`: Documentation changes
+- `style`: Code style changes (formatting, etc.)
+- `refactor`: Code refactoring
+- `test`: Adding or updating tests
+- `chore`: Maintenance tasks
+
+**Examples:**
+```bash
+feat(search): add fuzzy search functionality
+fix(ui): resolve button focus state issue
+docs(contributing): update development setup guide
+style(components): format code with prettier
+refactor(content): optimize content parsing performance
+test(search): add unit tests for search engine
+chore(deps): update dependencies to latest versions
+```
+
+### Branch Naming
+
+Use descriptive branch names:
+
+```bash
+# Features
+feature/add-dark-mode
+feature/implement-search
+feature/mobile-navigation
+
+# Bug fixes
+fix/header-responsive-issue
+fix/search-results-styling
+fix/content-loading-error
+
+# Documentation
+docs/update-readme
+docs/add-contributing-guide
+docs/fix-installation-steps
+
+# Chores
+chore/update-dependencies
+chore/cleanup-unused-code
+chore/improve-build-process
+```
+
+### Pull Request Process
+
+1. **Fill out the PR template** completely
+2. **Link related issues** using keywords (fixes #123)
+3. **Add screenshots** for UI changes
+4. **Ensure CI passes** all checks
+5. **Request review** from maintainers
+6. **Address feedback** promptly
+
+**PR Template:**
+```markdown
+## Description
+Brief description of changes made.
+
+## Type of Change
+- [ ] Bug fix
+- [ ] New feature
+- [ ] Documentation update
+- [ ] Performance improvement
+
+## Testing
+- [ ] Unit tests pass
+- [ ] E2E tests pass
+- [ ] Manual testing completed
+
+## Screenshots
+(If applicable)
+
+## Checklist
+- [ ] Code follows project style guidelines
+- [ ] Self-review completed
+- [ ] Documentation updated
+- [ ] Tests added/updated
+```
+
+## Code Review Guidelines
+
+### For Contributors
+
+**Before requesting review:**
+- [ ] Test your changes thoroughly
+- [ ] Follow coding standards
+- [ ] Update documentation
+- [ ] Add/update tests
+- [ ] Run all checks locally
+
+**During review:**
+- Be responsive to feedback
+- Ask questions if unclear
+- Make requested changes promptly
+- Thank reviewers for their time
+
+### For Reviewers
+
+**Review checklist:**
+- [ ] Code follows project conventions
+- [ ] Logic is sound and efficient
+- [ ] Tests are adequate
+- [ ] Documentation is updated
+- [ ] No breaking changes (or properly documented)
+
+**Review etiquette:**
+- Be constructive and helpful
+- Explain reasoning for suggestions
+- Acknowledge good practices
+- Focus on the code, not the person
+
+## Recognition
+
+### Contributors
+
+We recognize contributors in multiple ways:
+- **Contributors file**: Listed in CONTRIBUTORS.md
+- **Release notes**: Mentioned in changelog
+- **Social media**: Highlighted on our channels
+- **Swag**: Stickers and merchandise for active contributors
+
+### Becoming a Maintainer
+
+Active contributors may be invited to become maintainers with:
+- **Commit access**: Direct push to repository
+- **Review permissions**: Approve pull requests
+- **Release management**: Help with version releases
+- **Community leadership**: Guide project direction
+
+**Criteria for maintainership:**
+- Consistent high-quality contributions
+- Good understanding of project architecture
+- Helpful in community discussions
+- Demonstrates good judgment in reviews
+
+## Issue Templates
+
+### Bug Report Template
+
+```markdown
+**Bug Description**
+A clear description of the bug.
+
+**To Reproduce**
+Steps to reproduce the behavior:
+1. Go to '...'
+2. Click on '....'
+3. Scroll down to '....'
+4. See error
+
+**Expected Behavior**
+What you expected to happen.
+
+**Screenshots**
+If applicable, add screenshots.
+
+**Environment:**
+- OS: [e.g. macOS, Windows, Linux]
+- Browser: [e.g. Chrome, Firefox, Safari]
+- Version: [e.g. 22]
+- Node.js: [e.g. 18.17.0]
+
+**Additional Context**
+Any other context about the problem.
+```
+
+### Feature Request Template
+
+```markdown
+**Is your feature request related to a problem?**
+A clear description of what the problem is.
+
+**Describe the solution you'd like**
+A clear description of what you want to happen.
+
+**Describe alternatives you've considered**
+Alternative solutions or features you've considered.
+
+**Additional context**
+Add any other context or screenshots about the feature request.
+```
+
+## Code of Conduct
+
+### Our Pledge
+
+We pledge to make participation in our project a harassment-free experience for everyone, regardless of:
+- Age, body size, disability, ethnicity
+- Gender identity and expression
+- Level of experience, nationality
+- Personal appearance, race, religion
+- Sexual identity and orientation
+
+### Expected Behavior
+
+- Use welcoming and inclusive language
+- Be respectful of differing viewpoints
+- Gracefully accept constructive criticism
+- Focus on what's best for the community
+- Show empathy towards other members
+
+### Unacceptable Behavior
+
+- Trolling, insulting/derogatory comments
+- Public or private harassment
+- Publishing others' private information
+- Other conduct inappropriate in a professional setting
+
+### Enforcement
+
+Instances of abusive behavior may be reported to the project team. All complaints will be reviewed and investigated promptly and fairly.
+
+## Community
+
+### Communication Channels
+
+- **GitHub Issues**: Bug reports and feature requests
+- **GitHub Discussions**: General questions and ideas
+- **Discord**: Real-time chat with the community
+- **Twitter**: Updates and announcements
+
+### Getting Help
+
+- **Documentation**: Check our comprehensive guides
+- **Search Issues**: Look for existing solutions
+- **Ask Questions**: Use GitHub Discussions
+- **Join Discord**: Get help from the community
+
+## Resources
+
+### Learning Resources
+
+- **Next.js Documentation**: [nextjs.org/docs](https://nextjs.org/docs)
+- **React Documentation**: [react.dev](https://react.dev)
+- **TypeScript Handbook**: [typescriptlang.org](https://www.typescriptlang.org/docs)
+- **Tailwind CSS**: [tailwindcss.com](https://tailwindcss.com)
+
+### Development Tools
+
+- **VS Code Extensions**:
+  - TypeScript and JavaScript Language Features
+  - Tailwind CSS IntelliSense
+  - ES7+ React/Redux/React-Native snippets
+  - Prettier - Code formatter
+  - ESLint
+
+### Project Resources
+
+- **GitHub Repository**: [findoora-docs](https://github.com/muralitmuthuhotmail/findoora-docs)
+- **Live Demo**: [findoora-docs.vercel.app](https://findoora-docs.vercel.app)
+- **Documentation**: [docs.findoora.com](https://docs.findoora.com)
+
+---
+
+Thank you for contributing to Findoora Docs! Your efforts help make documentation better for everyone. 🙏
+
+Questions? Join our [Discord community](https://discord.gg/findoora) or start a [discussion](https://github.com/muralitmuthuhotmail/findoora-docs/discussions).

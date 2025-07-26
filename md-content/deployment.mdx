@@ -1,0 +1,827 @@
+---
+menuTitle: "Deployment"
+title: "Deployment Guide"
+publishedAt: "2025-07-26"
+summary: "Complete deployment guide for Findoora Docs covering Docker, cloud platforms, CDN setup, and production optimization."
+category: "documents"
+author: "Findoora Team"
+tags: ["deployment", "docker", "production", "hosting", "devops"]
+thumbnail: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&h=600&fit=crop"
+supportsGfm: true
+hasDataTables: true
+---
+
+Deploy Findoora Docs to production with various hosting options and optimization strategies.
+
+## Deployment Overview
+
+Findoora Docs supports multiple deployment strategies:
+
+- **🐳 Docker** - Containerized deployment (recommended)
+- **☁️ Cloud Platforms** - Vercel, Netlify, Railway
+- **🖥️ VPS/Dedicated** - Traditional server deployment
+- **🔧 Self-hosted** - On-premises deployment
+
+## Docker Deployment (Recommended)
+
+### Quick Production Deploy
+
+```bash
+# Clone and deploy with Docker Compose
+git clone https://github.com/muralitmuthuhotmail/findoora-docs.git
+cd findoora-docs
+
+# Production deployment
+docker-compose up -d
+
+# Check status
+docker-compose ps
+```
+
+### Production Docker Compose
+
+Create a production-ready `docker-compose.prod.yml`:
+
+```yaml
+version: '3.8'
+
+services:
+  docs:
+    build:
+      context: .
+      dockerfile: dockerfile
+    container_name: findoora-docs-prod
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - NEXT_PUBLIC_BASE_URL=https://your-domain.com
+      - NEXT_PUBLIC_GA_ID=your-ga-id
+      - NEXT_TELEMETRY_DISABLED=1
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  # Optional: Nginx reverse proxy
+  nginx:
+    image: nginx:alpine
+    container_name: findoora-nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./ssl:/etc/nginx/ssl:ro
+    depends_on:
+      - docs
+    restart: unless-stopped
+
+networks:
+  default:
+    name: findoora-network
+```
+
+### Nginx Configuration
+
+Create `nginx.conf` for reverse proxy:
+
+```nginx
+events {
+    worker_connections 1024;
+}
+
+http {
+    upstream app {
+        server docs:3000;
+    }
+
+    # HTTP redirect to HTTPS
+    server {
+        listen 80;
+        server_name your-domain.com www.your-domain.com;
+        return 301 https://$server_name$request_uri;
+    }
+
+    # HTTPS server
+    server {
+        listen 443 ssl http2;
+        server_name your-domain.com www.your-domain.com;
+
+        # SSL configuration
+        ssl_certificate /etc/nginx/ssl/cert.pem;
+        ssl_certificate_key /etc/nginx/ssl/key.pem;
+        ssl_session_timeout 1d;
+        ssl_session_cache shared:SSL:50m;
+        ssl_session_tickets off;
+
+        # Security headers
+        add_header X-Frame-Options DENY;
+        add_header X-Content-Type-Options nosniff;
+        add_header X-XSS-Protection "1; mode=block";
+        add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
+
+        # Gzip compression
+        gzip on;
+        gzip_vary on;
+        gzip_types text/plain text/css text/xml text/javascript application/javascript application/xml+rss application/json;
+
+        location / {
+            proxy_pass http://app;
+            proxy_http_version 1.1;
+            proxy_set_header Upgrade $http_upgrade;
+            proxy_set_header Connection 'upgrade';
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
+            proxy_cache_bypass $http_upgrade;
+        }
+
+        # Cache static assets
+        location /_next/static/ {
+            proxy_pass http://app;
+            add_header Cache-Control "public, max-age=31536000, immutable";
+        }
+
+        # Health check
+        location /api/health {
+            proxy_pass http://app;
+            access_log off;
+        }
+    }
+}
+```
+
+### Docker Production Commands
+
+```bash
+# Build production image
+docker build -t findoora-docs:latest .
+
+# Run with production settings
+docker run -d \
+  --name findoora-docs-prod \
+  -p 3000:3000 \
+  -e NODE_ENV=production \
+  -e NEXT_PUBLIC_BASE_URL=https://your-domain.com \
+  --memory=512m \
+  --cpus=1 \
+  --restart=unless-stopped \
+  findoora-docs:latest
+
+# View logs
+docker logs -f findoora-docs-prod
+
+# Update deployment
+docker pull findoora-docs:latest
+docker stop findoora-docs-prod
+docker rm findoora-docs-prod
+docker run -d [... same options as above ...]
+```
+
+## Cloud Platform Deployment
+
+### Vercel (Recommended for simplicity)
+
+#### One-Click Deploy
+[Deploy with Vercel](https://vercel.com/new/clone?repository-url=https://github.com/muralitmuthuhotmail/findoora-docs)
+
+#### Manual Vercel Deployment
+
+```bash
+# Install Vercel CLI
+npm i -g vercel
+
+# Login and deploy
+vercel login
+vercel --prod
+
+# Set environment variables
+vercel env add NEXT_PUBLIC_BASE_URL production
+vercel env add NEXT_PUBLIC_GA_ID production
+```
+
+#### Vercel Configuration (`vercel.json`)
+
+```json
+{
+  "buildCommand": "pnpm build",
+  "outputDirectory": ".next",
+  "framework": "nextjs",
+  "regions": ["iad1"],
+  "env": {
+    "NEXT_PUBLIC_BASE_URL": "@base-url",
+    "NEXT_PUBLIC_GA_ID": "@ga-id"
+  },
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        },
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        }
+      ]
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/docs",
+      "destination": "/docs/getting-started",
+      "permanent": false
+    }
+  ]
+}
+```
+
+### Netlify
+
+#### Netlify Configuration (`netlify.toml`)
+
+```toml
+[build]
+  publish = ".next"
+  command = "pnpm build"
+
+[build.environment]
+  NODE_VERSION = "18"
+  NPM_FLAGS = "--prefix=/dev/null"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-XSS-Protection = "1; mode=block"
+    X-Content-Type-Options = "nosniff"
+
+[[redirects]]
+  from = "/docs"
+  to = "/docs/getting-started"
+  status = 302
+
+# SPA fallback
+[[redirects]]
+  from = "/*"
+  to = "/404.html"
+  status = 404
+```
+
+#### Netlify Deployment
+
+```bash
+# Install Netlify CLI
+npm install -g netlify-cli
+
+# Login and deploy
+netlify login
+netlify init
+netlify deploy --prod
+
+# Or drag and drop the .next folder to Netlify dashboard
+```
+
+### Railway
+
+#### Railway Configuration
+
+Create `railway.toml`:
+
+```toml
+[build]
+cmd = "pnpm build"
+
+[deploy]
+healthcheckPath = "/api/health"
+healthcheckTimeout = 100
+restartPolicyType = "ON_FAILURE"
+restartPolicyMaxRetries = 10
+
+[env]
+NODE_ENV = "production"
+```
+
+#### Railway Deployment
+
+```bash
+# Install Railway CLI
+npm install -g @railway/cli
+
+# Login and deploy
+railway login
+railway link
+railway up
+```
+
+### DigitalOcean App Platform
+
+#### App Platform Configuration
+
+Create `.do/app.yaml`:
+
+```yaml
+name: findoora-docs
+services:
+- name: web
+  source_dir: /
+  github:
+    repo: your-username/findoora-docs
+    branch: main
+    deploy_on_push: true
+  run_command: pnpm start
+  build_command: pnpm build
+  environment_slug: node-js
+  instance_count: 1
+  instance_size_slug: basic-xxs
+  envs:
+  - key: NODE_ENV
+    value: production
+  - key: NEXT_PUBLIC_BASE_URL
+    value: ${APP_URL}
+  routes:
+  - path: /
+  health_check:
+    http_path: /api/health
+```
+
+## VPS/Dedicated Server Deployment
+
+### Server Setup (Ubuntu/Debian)
+
+```bash
+# Update system
+sudo apt update && sudo apt upgrade -y
+
+# Install Node.js 18
+curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+sudo apt-get install -y nodejs
+
+# Install pnpm
+npm install -g pnpm
+
+# Install Docker (optional)
+curl -fsSL https://get.docker.com -o get-docker.sh
+sudo sh get-docker.sh
+sudo usermod -aG docker $USER
+
+# Install Nginx
+sudo apt install nginx -y
+
+# Install Certbot for SSL
+sudo apt install certbot python3-certbot-nginx -y
+```
+
+### Manual Deployment
+
+```bash
+# Clone repository
+git clone https://github.com/muralitmuthuhotmail/findoora-docs.git
+cd findoora-docs
+
+# Install dependencies
+pnpm install
+
+# Build for production
+pnpm build
+
+# Install PM2 for process management
+npm install -g pm2
+
+# Create PM2 ecosystem file
+cat > ecosystem.config.js << 'EOF'
+module.exports = {
+  apps: [{
+    name: 'findoora-docs',
+    script: 'pnpm',
+    args: 'start',
+    cwd: '/path/to/findoora-docs',
+    env: {
+      NODE_ENV: 'production',
+      PORT: 3000,
+      NEXT_PUBLIC_BASE_URL: 'https://your-domain.com'
+    },
+    instances: 'max',
+    exec_mode: 'cluster',
+    watch: false,
+    max_memory_restart: '500M',
+    error_file: '/var/log/findoora-docs/error.log',
+    out_file: '/var/log/findoora-docs/out.log',
+    log_file: '/var/log/findoora-docs/combined.log',
+    time: true
+  }]
+};
+EOF
+
+# Start with PM2
+pm2 start ecosystem.config.js
+pm2 save
+pm2 startup
+```
+
+### Nginx Server Block
+
+```nginx
+server {
+    listen 80;
+    server_name your-domain.com www.your-domain.com;
+
+    location / {
+        proxy_pass http://localhost:3000;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_cache_bypass $http_upgrade;
+    }
+
+    # Static files cache
+    location /_next/static/ {
+        proxy_pass http://localhost:3000;
+        add_header Cache-Control "public, max-age=31536000, immutable";
+    }
+}
+```
+
+### SSL Setup with Let's Encrypt
+
+```bash
+# Get SSL certificate
+sudo certbot --nginx -d your-domain.com -d www.your-domain.com
+
+# Auto-renewal
+sudo crontab -e
+# Add: 0 12 * * * /usr/bin/certbot renew --quiet
+```
+
+## Production Optimization
+
+### Environment Variables
+
+Create production `.env.production`:
+
+```env
+NODE_ENV=production
+NEXT_PUBLIC_BASE_URL=https://your-domain.com
+NEXT_PUBLIC_BASE_API_URL=https://your-domain.com
+NEXT_PUBLIC_GA_ID=your-ga-id
+NEXT_TELEMETRY_DISABLED=1
+```
+
+### Performance Optimization
+
+#### Next.js Configuration
+
+```typescript
+// next.config.ts
+const nextConfig = {
+  // Performance optimizations
+  experimental: {
+    optimizeCss: true,
+    optimizeServerReact: true,
+  },
+  
+  // Compression
+  compress: true,
+  
+  // Image optimization
+  images: {
+    formats: ['image/avif', 'image/webp'],
+    domains: ['images.unsplash.com'],
+    deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
+  },
+  
+  // Headers
+  async headers() {
+    return [
+      {
+        source: '/(.*)',
+        headers: [
+          {
+            key: 'X-Frame-Options',
+            value: 'DENY',
+          },
+          {
+            key: 'X-Content-Type-Options',
+            value: 'nosniff',
+          },
+          {
+            key: 'Referrer-Policy',
+            value: 'origin-when-cross-origin',
+          },
+        ],
+      },
+    ];
+  },
+};
+```
+
+#### Docker Optimization
+
+```dockerfile
+# Multi-stage build for smaller image
+FROM node:18-alpine AS base
+RUN npm install -g pnpm
+
+FROM base AS deps
+WORKDIR /app
+COPY package.json pnpm-lock.yaml* ./
+RUN pnpm install --frozen-lockfile --prod
+
+FROM base AS builder
+WORKDIR /app
+COPY package.json pnpm-lock.yaml* ./
+RUN pnpm install --frozen-lockfile
+COPY . .
+RUN pnpm build
+
+FROM base AS runner
+WORKDIR /app
+ENV NODE_ENV=production
+RUN addgroup --system --gid 1001 nodejs
+RUN adduser --system --uid 1001 nextjs
+
+COPY --from=builder /app/public ./public
+COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
+COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+
+USER nextjs
+EXPOSE 3000
+ENV PORT=3000
+
+CMD ["node", "server.js"]
+```
+
+## Monitoring & Maintenance
+
+### Health Monitoring
+
+```bash
+# Monitor application health
+curl -f http://localhost:3000/api/health || exit 1
+
+# Docker health check
+docker inspect --format='{{.State.Health.Status}}' findoora-docs
+
+# PM2 monitoring
+pm2 status
+pm2 logs findoora-docs
+pm2 monit
+```
+
+### Log Management
+
+```bash
+# Docker logs
+docker logs -f findoora-docs --tail 100
+
+# Nginx logs
+sudo tail -f /var/log/nginx/access.log
+sudo tail -f /var/log/nginx/error.log
+
+# Application logs
+tail -f /var/log/findoora-docs/combined.log
+```
+
+### Backup Strategy
+
+```bash
+#!/bin/bash
+# backup.sh
+
+# Variables
+BACKUP_DIR="/backups/findoora-docs"
+DATE=$(date +%Y%m%d_%H%M%S)
+
+# Create backup directory
+mkdir -p $BACKUP_DIR
+
+# Backup content
+tar -czf $BACKUP_DIR/content_$DATE.tar.gz posts/ md-content/
+
+# Backup configuration
+tar -czf $BACKUP_DIR/config_$DATE.tar.gz lib/ next.config.ts package.json
+
+# Backup database (if applicable)
+# pg_dump mydb > $BACKUP_DIR/database_$DATE.sql
+
+# Clean old backups (keep last 7 days)
+find $BACKUP_DIR -type f -mtime +7 -delete
+
+echo "Backup completed: $DATE"
+```
+
+### Update Strategy
+
+```bash
+#!/bin/bash
+# update.sh
+
+# Backup current deployment
+./backup.sh
+
+# Pull latest changes
+git pull origin main
+
+# Install dependencies
+pnpm install
+
+# Build new version
+pnpm build
+
+# Test build
+pnpm start &
+SERVER_PID=$!
+sleep 10
+
+# Health check
+if curl -f http://localhost:3000/api/health; then
+    echo "✅ Update successful"
+    kill $SERVER_PID
+    
+    # Restart production server
+    pm2 restart findoora-docs
+else
+    echo "❌ Update failed, rolling back"
+    kill $SERVER_PID
+    git checkout HEAD~1
+    pnpm build
+    pm2 restart findoora-docs
+fi
+```
+
+## Security Considerations
+
+### Security Headers
+
+```typescript
+// Security headers in next.config.ts
+const securityHeaders = [
+  {
+    key: 'X-DNS-Prefetch-Control',
+    value: 'on'
+  },
+  {
+    key: 'Strict-Transport-Security',
+    value: 'max-age=63072000; includeSubDomains; preload'
+  },
+  {
+    key: 'X-XSS-Protection',
+    value: '1; mode=block'
+  },
+  {
+    key: 'X-Frame-Options',
+    value: 'SAMEORIGIN'
+  },
+  {
+    key: 'Permissions-Policy',
+    value: 'camera=(), microphone=(), geolocation=()'
+  },
+  {
+    key: 'X-Content-Type-Options',
+    value: 'nosniff'
+  },
+  {
+    key: 'Referrer-Policy',
+    value: 'origin-when-cross-origin'
+  }
+];
+```
+
+### Firewall Configuration
+
+```bash
+# UFW firewall setup
+sudo ufw default deny incoming
+sudo ufw default allow outgoing
+sudo ufw allow ssh
+sudo ufw allow 'Nginx Full'
+sudo ufw enable
+```
+
+## Performance Monitoring
+
+### Web Vitals Tracking
+
+```typescript
+// lib/analytics.ts
+export function trackWebVitals(metric: any) {
+  if (process.env.NODE_ENV === 'production') {
+    // Send to analytics service
+    gtag('event', metric.name, {
+      value: Math.round(metric.name === 'CLS' ? metric.value * 1000 : metric.value),
+      event_label: metric.id,
+      non_interaction: true,
+    });
+  }
+}
+```
+
+### Lighthouse CI
+
+```yaml
+# .github/workflows/lighthouse.yml
+name: Lighthouse CI
+on: [push]
+jobs:
+  lhci:
+    name: Lighthouse
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js 18.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.x
+      - run: npm install -g @lhci/cli@0.12.x
+      - run: lhci autorun
+```
+
+## Troubleshooting Deployment
+
+### Common Issues
+
+**Build failures:**
+```bash
+# Check Node.js version
+node --version  # Should be 18+
+
+# Clear cache and rebuild
+rm -rf .next node_modules
+pnpm install
+pnpm build
+```
+
+**Memory issues:**
+```bash
+# Increase Node.js memory limit
+NODE_OPTIONS="--max_old_space_size=4096" pnpm build
+
+# Monitor memory usage
+docker stats findoora-docs
+```
+
+**SSL certificate issues:**
+```bash
+# Renew Let's Encrypt certificate
+sudo certbot renew --dry-run
+sudo certbot renew
+
+# Check certificate status
+sudo certbot certificates
+```
+
+**Database connection issues:**
+```bash
+# Test database connectivity
+nc -zv your-db-host 5432
+
+# Check environment variables
+printenv | grep DATABASE
+```
+
+## Deployment Checklist
+
+Before going live:
+
+- [ ] Configure all environment variables
+- [ ] Set up SSL certificates
+- [ ] Configure security headers
+- [ ] Set up monitoring and logging
+- [ ] Test health check endpoints
+- [ ] Configure backup strategy
+- [ ] Set up auto-renewal for certificates
+- [ ] Test mobile responsiveness
+- [ ] Verify analytics integration
+- [ ] Test search functionality
+- [ ] Configure CDN (optional)
+- [ ] Set up error tracking
+
+## Getting Help
+
+Need deployment assistance?
+
+1. Check the [Troubleshooting Guide](./troubleshooting)
+2. Review [GitHub Issues](https://github.com/muralitmuthuhotmail/findoora-docs/issues)
+3. Join our [Discord Community](https://discord.gg/findoora)
+4. Contact support at support@findoora.com
+
+---
+
+Your documentation site is now ready for production! 🎉
+
+Next: [Architecture Guide](./architecture) | [Development Guide](./development)

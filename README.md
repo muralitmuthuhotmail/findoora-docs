@@ -325,7 +325,7 @@ menuTitle: "Getting Started"
 title: "Getting Started with Findoora Docs"
 publishedAt: "2024-07-26"
 summary: "Learn how to set up and customize your documentation site"
-category: "docs"
+category: "documents"
 author: "Your Name"
 tags: ["setup", "configuration", "getting-started"]
 thumbnail: "/images/getting-started.jpg"
@@ -644,7 +644,7 @@ The docs app uses a flexible content system that supports multiple content types
 
 - **Content Posts**: Generic content with category-based organization
 - **Blogs**: Articles, tutorials, and thoughts (category: "blog")
-- **Documentation**: Technical guides and references (category: "docs")
+- **Documentation**: Technical guides and references (category: "documents")
 - **Tutorials**: Step-by-step learning materials (category: "tutorial")
 - **Custom Types**: Any content category you define
 

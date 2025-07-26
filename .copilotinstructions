@@ -11,7 +11,7 @@
 
 ### Component Organization
 
-```
+```bash
 components/
 ├── blocks/          # Reusable sections (hero, auth, etc.)
 ├── layout/          # Layout components (navbar, footer, etc.)

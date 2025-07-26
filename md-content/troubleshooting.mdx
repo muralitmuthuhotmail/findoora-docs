@@ -1,0 +1,771 @@
+---
+menuTitle: "Troubleshooting"
+title: "Troubleshooting Guide"
+publishedAt: "2025-07-26"
+summary: "Common issues and solutions for Findoora Docs including installation problems, build failures, deployment issues, and debugging tips."
+category: "documents"
+author: "Findoora Team"
+tags: ["troubleshooting", "debugging", "issues", "solutions", "help"]
+thumbnail: "https://images.unsplash.com/photo-1554415707-6e8cfc93fe23?w=800&h=600&fit=crop"
+supportsGfm: true
+hasDataTables: true
+---
+
+Common issues and their solutions for Findoora Docs.
+
+## Installation Issues
+
+### Node.js Version Problems
+
+**Problem**: Build fails with Node.js version errors
+```bash
+Error: The engine "node" is incompatible with this module.
+```
+
+**Solution**:
+```bash
+# Check current Node.js version
+node --version
+
+# Install Node.js 18+ using nvm
+nvm install 18
+nvm use 18
+
+# Or update using package manager
+# macOS with Homebrew
+brew install node@18
+
+# Ubuntu/Debian
+curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+sudo apt-get install -y nodejs
+```
+
+### pnpm Installation Issues
+
+**Problem**: `pnpm` command not found
+```bash
+bash: pnpm: command not found
+```
+
+**Solution**:
+```bash
+# Install pnpm globally
+npm install -g pnpm
+
+# Or use alternative installation methods
+curl -fsSL https://get.pnpm.io/install.sh | sh -
+
+# Verify installation
+pnpm --version
+```
+
+**Problem**: Permission denied when installing pnpm globally
+```bash
+Error: EACCES: permission denied
+```
+
+**Solution**:
+```bash
+# Option 1: Use npm prefix
+npm config set prefix ~/.npm-global
+export PATH=~/.npm-global/bin:$PATH
+
+# Option 2: Use node version manager
+nvm install node  # Installs latest Node.js
+npm install -g pnpm
+
+# Option 3: Use yarn instead
+npm install -g yarn
+yarn install  # Instead of pnpm install
+```
+
+### Dependency Resolution Issues
+
+**Problem**: Package dependency conflicts
+```bash
+Error: Conflicting peer dependencies
+```
+
+**Solution**:
+```bash
+# Clear package manager cache
+pnpm store prune
+rm -rf node_modules
+rm pnpm-lock.yaml
+
+# Reinstall dependencies
+pnpm install
+
+# If still failing, try legacy peer deps
+pnpm install --legacy-peer-deps
+
+# Or force resolution
+pnpm install --force
+```
+
+## Build Issues
+
+### TypeScript Compilation Errors
+
+**Problem**: TypeScript build failures
+```bash
+Type error: Property 'xyz' does not exist on type
+```
+
+**Solution**:
+```bash
+# Run type checking to see detailed errors
+pnpm typecheck
+
+# Clear TypeScript cache
+rm -rf .next/cache
+rm -rf node_modules/.cache
+
+# Check for missing type definitions
+pnpm add -D @types/node @types/react @types/react-dom
+
+# Restart TypeScript server in VS Code
+# Command Palette > TypeScript: Restart TS Server
+```
+
+**Common TypeScript fixes**:
+```typescript
+// Fix: Add proper typing for custom props
+interface CustomComponentProps {
+  children: React.ReactNode;
+  className?: string;
+}
+
+// Fix: Use proper Next.js types
+import type { Metadata } from 'next';
+import type { NextRequest, NextResponse } from 'next/server';
+
+// Fix: Type MDX components properly
+const components: MDXComponents = {
+  h1: (props) => <h1 className="text-4xl font-bold" {...props} />,
+  // ...
+};
+```
+
+### MDX Processing Errors
+
+**Problem**: MDX files not rendering correctly
+```bash
+Error: Could not parse expression with acorn
+```
+
+**Solution**:
+```bash
+# Check MDX file syntax
+# Ensure all JSX is properly closed
+<Component>
+  Content here
+</Component>
+
+# Not: <Component> Content here (missing closing tag)
+
+# Check for conflicting frontmatter
+---
+title: "My Title"  # Use quotes for titles with special characters
+date: "2025-07-26"  # Use consistent date format
+---
+
+# Verify MDX component imports
+import { CustomComponent } from '../components/custom';
+
+<CustomComponent prop="value">
+  Content
+</CustomComponent>
+```
+
+### Build Memory Issues
+
+**Problem**: Build fails with out of memory errors
+```bash
+FATAL ERROR: Ineffective mark-compacts near heap limit
+```
+
+**Solution**:
+```bash
+# Increase Node.js memory limit
+NODE_OPTIONS="--max_old_space_size=4096" pnpm build
+
+# Or set in package.json
+{
+  "scripts": {
+    "build": "NODE_OPTIONS='--max_old_space_size=4096' next build"
+  }
+}
+
+# For very large sites, consider incremental builds
+# Enable experimental features in next.config.ts
+experimental: {
+  incrementalCacheHandlerPath: require.resolve('./cache-handler.js'),
+}
+```
+
+## Docker Issues
+
+### Container Won't Start
+
+**Problem**: Docker container exits immediately
+```bash
+docker: Error response from daemon: container exited with code 1
+```
+
+**Solution**:
+```bash
+# Check container logs
+docker logs container-name
+
+# Common fixes:
+# 1. Check Dockerfile syntax
+# 2. Verify port exposure
+EXPOSE 3000
+
+# 3. Check entry point
+CMD ["pnpm", "start"]
+# or
+CMD ["node", "server.js"]
+
+# 4. Verify file permissions
+RUN chown -R nextjs:nodejs /app
+USER nextjs
+```
+
+### Port Already in Use
+
+**Problem**: Port 3000 is already in use
+```bash
+Error: listen EADDRINUSE: address already in use :::3000
+```
+
+**Solution**:
+```bash
+# Find what's using the port
+lsof -i :3000
+
+# Kill the process (replace PID)
+kill -9 <PID>
+
+# Or use a different port
+docker run -p 3001:3000 findoora-docs
+
+# For docker-compose, update ports
+services:
+  docs:
+    ports:
+      - "3001:3000"
+```
+
+### Docker Build Failures
+
+**Problem**: Docker build fails with network errors
+```bash
+ERROR: failed to solve: failed to load cache key
+```
+
+**Solution**:
+```bash
+# Clear Docker cache
+docker system prune -a
+
+# Build without cache
+docker build --no-cache -t findoora-docs .
+
+# Check Docker BuildKit version
+docker buildx version
+
+# Use legacy builder if needed
+DOCKER_BUILDKIT=0 docker build -t findoora-docs .
+```
+
+## Deployment Issues
+
+### Vercel Deployment Failures
+
+**Problem**: Vercel build fails
+```bash
+Error: Command "pnpm build" exited with 1
+```
+
+**Solution**:
+```bash
+# Check Vercel logs in dashboard
+# Common fixes:
+
+# 1. Set correct Node.js version
+# Create .nvmrc file
+echo "18" > .nvmrc
+
+# 2. Configure build command in vercel.json
+{
+  "buildCommand": "pnpm build",
+  "outputDirectory": ".next"
+}
+
+# 3. Set environment variables in Vercel dashboard
+NEXT_PUBLIC_BASE_URL=https://your-site.vercel.app
+
+# 4. Check dependencies
+# Ensure all dependencies are in package.json, not just devDependencies
+```
+
+### Static Export Issues
+
+**Problem**: Static export fails with dynamic routes
+```bash
+Error: Dynamic server usage not allowed in static export
+```
+
+**Solution**:
+```typescript
+// Ensure all dynamic routes have generateStaticParams
+export async function generateStaticParams() {
+  const posts = await getContentPosts();
+  return posts.map(post => ({
+    category: post.category,
+    slug: post.slug,
+  }));
+}
+
+// Remove dynamic server functions in static export
+// Comment out or remove:
+// - headers()
+// - cookies()
+// - searchParams in Server Components
+```
+
+### SSL Certificate Issues
+
+**Problem**: SSL certificate errors in production
+```bash
+Error: certificate has expired
+```
+
+**Solution**:
+```bash
+# For Let's Encrypt certificates
+sudo certbot renew
+
+# Check certificate status
+sudo certbot certificates
+
+# Test renewal
+sudo certbot renew --dry-run
+
+# For custom domains on Vercel
+# Ensure domain is properly configured in Vercel dashboard
+# Check DNS propagation: https://dnschecker.org/
+```
+
+## Content Issues
+
+### Content Not Showing
+
+**Problem**: MDX content not appearing on site
+
+**Solution**:
+```bash
+# Check file location
+# Ensure files are in correct directory:
+posts/my-post.mdx
+# or
+md-content/my-post.mdx
+
+# Check frontmatter syntax
+---
+title: "My Title"        # Required
+category: "blog"         # Required
+publishedAt: "2025-07-26"  # Required format
+---
+
+# Verify file extension
+# Must be .mdx, not .md
+
+# Check category spelling
+# Ensure category matches exactly (case-sensitive)
+category: "documents"  # Not "Docs" or "documentation"
+```
+
+### Broken Images
+
+**Problem**: Images not loading or showing broken links
+
+**Solution**:
+```bash
+# Check image paths
+# For local images, use public directory
+![Alt text](/images/my-image.jpg)  # File at public/images/my-image.jpg
+
+# For external images, verify URLs
+![Alt text](https://example.com/image.jpg)
+
+# Optimize images for web
+# Use WebP format when possible
+# Compress images: https://tinypng.com/
+
+# Check Next.js Image configuration
+// next.config.ts
+images: {
+  domains: ['images.unsplash.com', 'your-domain.com'],
+  formats: ['image/avif', 'image/webp'],
+}
+```
+
+### Search Not Working
+
+**Problem**: Search functionality not returning results
+
+**Solution**:
+```bash
+# Check content indexing
+# Ensure content has required fields:
+- title (required for search)
+- summary (indexed for search)
+- content (indexed for search)
+
+# Check search configuration
+// lib/utils/search.ts
+export const SEARCH_CONFIG = {
+  enableLiveSearch: true,
+  minQueryLength: 2,  # Minimum characters to search
+  maxResults: 50,     # Maximum results to return
+};
+
+# Debug search index
+console.log('Search index:', searchEngine.getIndex());
+console.log('Posts for search:', posts.length);
+
+# Clear search cache
+localStorage.removeItem('search-cache');
+```
+
+## Styling Issues
+
+### Tailwind CSS Not Working
+
+**Problem**: Tailwind classes not applying
+
+**Solution**:
+```bash
+# Check Tailwind configuration
+// tailwind.config.js
+module.exports = {
+  content: [
+    './pages/**/*.{js,ts,jsx,tsx,mdx}',
+    './components/**/*.{js,ts,jsx,tsx,mdx}',
+    './app/**/*.{js,ts,jsx,tsx,mdx}',
+  ],
+  // ...
+};
+
+# Import Tailwind in CSS
+/* globals.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+# Restart development server
+pnpm dev
+
+# Purge Tailwind cache
+rm -rf .next
+pnpm dev
+```
+
+### CSS Variables Not Working
+
+**Problem**: CSS custom properties not applying
+
+**Solution**:
+```css
+/* Check CSS variable definition */
+:root {
+  --primary: 200 100% 50%;  /* HSL values without hsl() */
+}
+
+/* Use in Tailwind */
+.text-primary {
+  color: hsl(var(--primary));
+}
+
+/* Check dark mode configuration */
+[data-theme="dark"] {
+  --primary: 200 100% 70%;  /* Lighter for dark mode */
+}
+```
+
+### Theme Toggle Not Working
+
+**Problem**: Dark/light mode toggle not functioning
+
+**Solution**:
+```typescript
+// Check theme provider setup
+// app/layout.tsx
+import { ThemeProvider } from 'next-themes';
+
+export default function RootLayout({ children }) {
+  return (
+    <html lang="en" suppressHydrationWarning>
+      <body>
+        <ThemeProvider attribute="data-theme" defaultTheme="system">
+          {children}
+        </ThemeProvider>
+      </body>
+    </html>
+  );
+}
+
+// Check theme toggle component
+const { theme, setTheme } = useTheme();
+
+// Ensure suppressHydrationWarning on html element
+// This prevents hydration mismatch with theme
+```
+
+## Performance Issues
+
+### Slow Build Times
+
+**Problem**: Build takes too long
+
+**Solution**:
+```bash
+# Enable Turbopack (experimental)
+pnpm dev --turbo
+
+# Analyze bundle size
+pnpm build:analyze
+
+# Remove unused dependencies
+pnpm dlx depcheck
+
+# Optimize images
+# Use next/image component
+# Enable image optimization in next.config.ts
+
+# Enable SWC minifier
+// next.config.ts
+swcMinify: true
+
+# Consider incremental builds
+experimental: {
+  incrementalCacheHandlerPath: './cache-handler.js'
+}
+```
+
+### Large Bundle Size
+
+**Problem**: JavaScript bundle too large
+
+**Solution**:
+```bash
+# Analyze bundle
+pnpm build:analyze
+
+# Common optimizations:
+# 1. Dynamic imports for heavy components
+const HeavyComponent = dynamic(() => import('./heavy-component'), {
+  loading: () => <Skeleton />,
+});
+
+# 2. Remove unused dependencies
+# Check bundle analyzer for largest packages
+
+# 3. Tree shaking
+# Use ES modules imports
+import { specific } from 'library';
+# Not: import * as library from 'library';
+
+# 4. Code splitting at route level (automatic with App Router)
+```
+
+### Memory Leaks
+
+**Problem**: High memory usage during development
+
+**Solution**:
+```bash
+# Restart development server regularly
+pnpm dev
+
+# Check for:
+# 1. Circular dependencies
+# 2. Event listeners not being cleaned up
+useEffect(() => {
+  const handler = () => {};
+  window.addEventListener('event', handler);
+  
+  return () => {
+    window.removeEventListener('event', handler);  # Cleanup
+  };
+}, []);
+
+# 3. Large state objects
+# Use pagination for large lists
+# Implement virtual scrolling for many items
+```
+
+## Development Issues
+
+### Hot Reload Not Working
+
+**Problem**: Changes not reflecting in browser
+
+**Solution**:
+```bash
+# Check file watchers limit (Linux)
+echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf
+sudo sysctl -p
+
+# Restart development server
+pnpm dev
+
+# Check for:
+# 1. Syntax errors in terminal
+# 2. TypeScript errors
+# 3. Network issues
+
+# Try different port
+PORT=3001 pnpm dev
+```
+
+### IDE Issues
+
+**Problem**: TypeScript errors in VS Code but builds successfully
+
+**Solution**:
+```bash
+# Restart TypeScript server
+# Command Palette (Cmd/Ctrl + Shift + P)
+# > TypeScript: Restart TS Server
+
+# Update VS Code TypeScript version
+# Command Palette
+# > TypeScript: Select TypeScript Version
+# Choose workspace version
+
+# Check VS Code settings
+{
+  "typescript.preferences.includePackageJsonAutoImports": "auto",
+  "typescript.suggest.autoImports": true
+}
+```
+
+## Debugging Tips
+
+### Enable Debug Mode
+
+```bash
+# Enable Next.js debug mode
+DEBUG=* pnpm dev
+
+# Enable specific debug namespaces
+DEBUG=next:* pnpm dev
+
+# Enable verbose logging
+NEXT_DEBUG=1 pnpm build
+```
+
+### Browser Developer Tools
+
+```javascript
+// Debug search functionality
+console.log('Search results:', searchResults);
+console.log('Search query:', query);
+
+// Debug content loading
+console.log('Content posts:', posts);
+console.log('Current post:', post);
+
+// Debug navigation
+console.log('Current route:', window.location.pathname);
+console.log('Navigation state:', navigationState);
+```
+
+### Performance Profiling
+
+```bash
+# Lighthouse audit
+npx lighthouse http://localhost:3000 --view
+
+# Bundle analysis
+pnpm build:analyze
+
+# Web Vitals in development
+# Check browser console for CLS, FCP, LCP metrics
+```
+
+## Getting Help
+
+### Community Resources
+
+- **GitHub Issues**: [Report bugs](https://github.com/muralitmuthuhotmail/findoora-docs/issues)
+- **Discussions**: [Community support](https://github.com/muralitmuthuhotmail/findoora-docs/discussions)
+- **Discord**: [Join our community](https://discord.gg/findoora)
+
+### Creating Effective Bug Reports
+
+Include these details when reporting issues:
+
+```markdown
+**Environment:**
+- OS: macOS 14.0
+- Node.js: 18.17.0
+- pnpm: 8.6.0
+- Browser: Chrome 115.0
+
+**Steps to Reproduce:**
+1. Clone repository
+2. Run `pnpm install`
+3. Run `pnpm dev`
+4. Navigate to /docs/getting-started
+
+**Expected Behavior:**
+Page should load with content
+
+**Actual Behavior:**
+Page shows 404 error
+
+**Error Messages:**
+```
+Error: Cannot read property 'title' of undefined
+  at ContentPage (page.tsx:15:8)
+```
+
+**Additional Context:**
+- Happens only with certain content files
+- Works fine in production build
+```
+
+### Emergency Fixes
+
+**Complete Reset:**
+```bash
+# Nuclear option - reset everything
+rm -rf node_modules
+rm -rf .next
+rm -rf .cache
+rm pnpm-lock.yaml
+
+pnpm install
+pnpm dev
+```
+
+**Revert to Last Working State:**
+```bash
+# Git reset to last working commit
+git log --oneline -10  # Find last working commit
+git reset --hard <commit-hash>
+
+# Or create a new branch from working commit
+git checkout -b fix-branch <commit-hash>
+```
+
+---
+
+Still having issues? Don't hesitate to [open an issue](https://github.com/muralitmuthuhotmail/findoora-docs/issues/new) with detailed information about your problem.
+
+Next: [Contributing Guide](./contributing) | [Development Guide](./development)

@@ -58,7 +58,7 @@ function getMDXData(dir: string): ContentPost[] {
 
 export function getContentPosts(category?: string): ContentPost[] {
   try {
-    const postsPath = path.join(process.cwd(), "posts");
+    const postsPath = path.join(process.cwd(), "md-content");
 
     if (!fs.existsSync(postsPath)) {
       console.warn("Posts directory not found, creating empty array");

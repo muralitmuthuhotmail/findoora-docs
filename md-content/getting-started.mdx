@@ -1,0 +1,244 @@
+---
+menuTitle: "Getting Started"
+title: "Getting Started with Findoora Docs"
+publishedAt: "2025-07-26"
+summary: "A quick introduction to Findoora Docs - a modern documentation platform built with Next.js 15, MDX, and TypeScript."
+category: "documents"
+author: "Findoora Team"
+tags: ["getting-started", "overview", "documentation", "nextjs", "mdx"]
+thumbnail: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800&h=600&fit=crop"
+bannerImage: "https://images.unsplash.com/photo-1517077304055-6e89abbf09b0?w=1200&h=400&fit=crop"
+supportsGfm: true
+hasDataTables: true
+---
+
+> A modern, highly extensible documentation platform built with Next.js 15, designed for developers who want powerful content management with exceptional user experience.
+
+**Findoora Docs** is a cutting-edge documentation platform that combines the simplicity of Markdown with the power of React components. Built for teams and individuals who need a fast, scalable, and beautiful way to create and share knowledge.
+
+## Tech Stack
+
+- **Next.js 15** - Latest React framework with App Router
+- **TypeScript 5.8** - Full type safety throughout
+- **MDX 3.1** - Markdown with React components
+- **Tailwind CSS** - Utility-first styling
+- **shadcn/ui** - Modern, accessible components
+- **Docker** - Production-ready containerization
+- **MIT Licensed** - Free and open source
+
+## Key Features
+
+### Content-First Architecture
+- **Flexible Content System**: Support for blogs, documentation, tutorials, guides, and custom content types
+- **MDX Integration**: Write in Markdown, enhance with React components
+- **Category-Based Organization**: Automatic navigation and filtering by content categories
+- **Frontmatter Support**: Rich metadata with custom fields
+
+### Performance & Developer Experience
+- **Next.js 15 App Router**: Latest Next.js features with optimal performance
+- **TypeScript Throughout**: Full type safety from content to components
+- **Bundle Analysis**: Built-in tools to monitor and optimize bundle size
+- **Hot Reload**: Instant feedback during development
+- **Docker Ready**: Production-ready containerization
+
+### Beautiful User Interface
+- **shadcn/ui Components**: Modern, accessible UI components
+- **Responsive Design**: Mobile-first approach with seamless desktop experience
+- **Dark/Light Mode**: System-aware theme switching
+- **Interactive Navigation**: Smart sidebar with breadcrumbs and table of contents
+- **Search Functionality**: Powerful full-text search with live suggestions
+
+### Advanced Features
+- **Mermaid Diagrams**: Render complex diagrams and flowcharts
+- **Syntax Highlighting**: Beautiful code blocks with GitHub-style themes
+- **Social Sharing**: Built-in sharing for all major platforms
+- **SEO Optimized**: Structured data, Open Graph, and sitemap generation
+- **Accessibility**: WCAG 2.1 AA compliant with screen reader support
+
+## Quick Start
+
+Ready to get started? Choose your preferred method:
+
+### Docker (Recommended)
+```bash
+git clone https://github.com/muralitmuthuhotmail/findoora-docs.git
+cd findoora-docs
+docker-compose up -d
+# Visit http://localhost:3000
+```
+
+### Local Development
+```bash
+git clone https://github.com/muralitmuthuhotmail/findoora-docs.git
+cd findoora-docs
+pnpm install
+pnpm dev
+# Visit http://localhost:3000
+```
+
+### Deploy to Vercel
+[Deploy with Vercel](https://vercel.com/new/clone?repository-url=https://github.com/muralitmuthuhotmail/findoora-docs)
+
+## Documentation Guide
+
+Our comprehensive documentation is organized into focused guides:
+
+### Setup & Configuration
+- **[Installation Guide](./installation)** - Get up and running with Docker, local development, or cloud deployment
+- **[Configuration Guide](./configuration)** - Customize site settings, environment variables, and theming
+
+### Content & Development
+- **[Content Management](./content-management)** - Create and organize content with MDX, frontmatter, and advanced features
+- **[Development Guide](./development)** - Customize components, styling, and extend functionality
+
+### Production & Advanced
+- **[Deployment Guide](./deployment)** - Deploy to production with various hosting options and optimization
+- **[Architecture Guide](./architecture)** - Understand the project structure and technical implementation
+- **[Troubleshooting Guide](./troubleshooting)** - Common issues and solutions
+
+## Use Cases
+
+### For Teams & Organizations
+- **Technical Documentation**: API docs, implementation guides, troubleshooting
+- **Knowledge Base**: Internal wikis, onboarding materials, best practices
+- **Product Documentation**: User guides, feature announcements, changelog
+
+### For Individual Developers
+- **Personal Blog**: Share knowledge, document learning journey
+- **Portfolio Website**: Showcase projects with detailed case studies
+- **Tutorial Platform**: Create step-by-step learning materials
+
+### For Education
+- **Course Materials**: Lessons, assignments, resources
+- **Research Documentation**: Papers, methodology, findings
+- **Learning Paths**: Structured curriculum with progress tracking
+
+### For Open Source Projects
+- **Project Documentation**: Setup guides, contribution guidelines
+- **API Reference**: Comprehensive endpoint documentation
+- **Community Hub**: Announcements, FAQ, community guidelines
+
+## Project Architecture
+
+```bash
+findoora-docs/
+├── app/                            # Next.js App Router
+│   ├── [category]/                 # Dynamic category routes
+│   │   ├── page.tsx                # Category listing page
+│   │   └── [slug]/                 # Individual content pages
+│   ├── api/                        # API routes
+│   │   ├── search/                 # Search functionality
+│   │   ├── navigation/             # Navigation data
+│   │   └── health/                 # Health check
+│   ├── layout.tsx                  # Root layout with navigation
+│   └── page.tsx                    # Homepage
+├── components/                     # React components
+│   ├── blocks/                     # Content blocks
+│   │   ├── mdx/                    # MDX components
+│   │   ├── content-list.tsx        # Content listing
+│   │   └── table-of-contents.tsx
+│   ├── features/                   # Feature components
+│   │   ├── search-dialog.tsx       # Search interface
+│   │   ├── back-to-top.tsx         # Navigation helper
+│   │   └── social-share.tsx        # Social sharing
+│   ├── layout/                     # Layout components
+│   │   ├── app-bar.tsx             # Top navigation
+│   │   ├── navigation-sidebar.tsx
+│   │   └── mobile-navigation.tsx
+│   ├── pages/                      # Page-specific components
+│   ├── providers/                  # Context providers
+│   ├── seo/                        # SEO components
+│   └── ui/                         # Reusable UI components
+├── lib/                            # Utility functions
+│   ├── content.ts                  # Content management
+│   ├── config.ts                   # App configuration
+│   └── utils/                      # Helper utilities
+├── posts/                          # MDX content files
+├── public/                         # Static assets
+├── styles/                         # CSS and styling
+├── types/                          # TypeScript definitions
+├── docker-compose.yml              # Docker configuration
+└── dockerfile                      # Docker build instructions
+```
+
+For a detailed breakdown of the architecture, see the **[Architecture Guide](./architecture)**.
+
+## What's Next?
+
+Now that you understand what Findoora Docs can do, here's your roadmap to get started:
+
+### Get Started
+- Follow the **[Installation Guide](./installation)** to set up your environment
+- Choose between Docker, local development, or cloud deployment
+
+### Configure Your Site
+- Customize your site with the **[Configuration Guide](./configuration)**
+- Set up environment variables, theming, and site settings
+
+### Create Content
+- Learn content creation with the **[Content Management Guide](./content-management)**
+- Master MDX, frontmatter, and advanced content features
+
+### Customize & Develop
+- Extend functionality with the **[Development Guide](./development)**
+- Create custom components and modify the design
+
+### Deploy to Production
+- Go live with the **[Deployment Guide](./deployment)**
+- Choose from various hosting options and optimization strategies
+
+## Example Content
+
+Want to see what's possible? Check out these examples:
+
+- **[MDX Showcase](../mdx-showcase)** - Advanced MDX features and components
+- **[Task List Demo](../task-list-demo)** - Interactive task lists and checkboxes
+- **[Vim Guide](../vim)** - Technical documentation example
+- **[Spaces vs Tabs](../spaces-vs-tabs)** - Blog post example
+- **[Static Typing](../static-typing)** - Tutorial example
+
+## Development Workflow
+
+Ready to start developing? Here's the typical workflow:
+
+```bash
+# 1. Install dependencies
+pnpm install
+
+# 2. Start development server
+pnpm dev
+
+# 3. Create your first content
+touch posts/my-first-post.mdx
+
+# 4. Add frontmatter and content
+# 5. Preview your changes at http://localhost:3000
+# 6. Deploy when ready
+```
+
+## Need Help?
+
+- 📖 **Documentation**: Browse our comprehensive guides above
+- 🐛 **Issues**: [Report bugs or request features](https://github.com/muralitmuthuhotmail/findoora-docs/issues)
+- 💬 **Discussions**: [Join community discussions](https://github.com/muralitmuthuhotmail/findoora-docs/discussions)
+- 🔧 **Troubleshooting**: Check the [Troubleshooting Guide](./troubleshooting)
+
+## Contributing
+
+We welcome contributions! Whether you're fixing bugs, adding features, or improving documentation, we'd love your help. Check out our **[Contributing Guide](./contributing)** to get started.
+
+## License
+
+This project is licensed under the [MIT License](https://github.com/muralitmuthuhotmail/findoora-docs/blob/main/LICENSE) - see the LICENSE file for details.
+
+---
+
+<div align="center">
+
+**[⭐ Star this project](https://github.com/muralitmuthuhotmail/findoora-docs)** • **[🐛 Report Bug](https://github.com/muralitmuthuhotmail/findoora-docs/issues)** • **[💡 Request Feature](https://github.com/muralitmuthuhotmail/findoora-docs/issues)**
+
+Made with ❤️ by [Murali Thangamuthu](https://github.com/muralitmuthuhotmail)
+
+Ready to start? **[Begin with Installation →](./installation)**
+
+</div>
