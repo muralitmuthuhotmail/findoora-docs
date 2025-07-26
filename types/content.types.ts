@@ -12,6 +12,7 @@ export interface ContentMetadata {
   tags?: string[];
   hasDataTables?: boolean;
   supportsGfm?: boolean;
+  sequence?: number;
 }
 
 export interface ContentPost {

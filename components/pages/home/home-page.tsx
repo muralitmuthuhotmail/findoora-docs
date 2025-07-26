@@ -12,14 +12,10 @@ export function HomePage() {
   return (
     <section>
       <h1 className="mb-8 text-2xl font-semibold tracking-tighter">
-        My Portfolio
+        Findoora Docs
       </h1>
       <p className="mb-4">
-        {`I'm a Vim enthusiast and tab advocate, finding unmatched efficiency in
-        Vim's keystroke commands and tabs' flexibility for personal viewing
-        preferences. This extends to my support for static typing, where its
-        early error detection ensures cleaner code, and my preference for dark
-        mode, which eases long coding sessions by reducing eye strain.`}
+        {`Explore our comprehensive documentation, tutorials, and guides on modern web development, TypeScript, React, and software engineering best practices.`}
       </p>
       {categories.map((category) => (
         <div key={category} className="flex flex-col">

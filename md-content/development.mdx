@@ -9,6 +9,7 @@ tags: ["development", "customization", "components", "typescript", "nextjs"]
 thumbnail: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800&h=600&fit=crop"
 supportsGfm: true
 hasDataTables: true
+sequence: 6
 ---
 
 Learn how to customize, extend, and develop with Findoora Docs.
@@ -158,29 +159,43 @@ findoora-docs/
 
 ```tsx
 // components/ui/custom-button.tsx
-import { cn } from '@/lib/utils';
-import { ButtonHTMLAttributes, forwardRef } from 'react';
+import { cn } from "@/lib/utils";
+import { ButtonHTMLAttributes, forwardRef } from "react";
 
 interface CustomButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'primary' | 'secondary' | 'outline';
-  size?: 'sm' | 'md' | 'lg';
+  variant?: "primary" | "secondary" | "outline";
+  size?: "sm" | "md" | "lg";
   isLoading?: boolean;
 }
 
 export const CustomButton = forwardRef<HTMLButtonElement, CustomButtonProps>(
-  ({ className, variant = 'primary', size = 'md', isLoading, children, ...props }, ref) => {
-    const baseStyles = 'inline-flex items-center justify-center rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none';
-    
+  (
+    {
+      className,
+      variant = "primary",
+      size = "md",
+      isLoading,
+      children,
+      ...props
+    },
+    ref,
+  ) => {
+    const baseStyles =
+      "inline-flex items-center justify-center rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none";
+
     const variants = {
-      primary: 'bg-primary text-primary-foreground hover:bg-primary/90 focus:ring-primary',
-      secondary: 'bg-secondary text-secondary-foreground hover:bg-secondary/80 focus:ring-secondary',
-      outline: 'border border-input bg-background hover:bg-accent hover:text-accent-foreground focus:ring-accent',
+      primary:
+        "bg-primary text-primary-foreground hover:bg-primary/90 focus:ring-primary",
+      secondary:
+        "bg-secondary text-secondary-foreground hover:bg-secondary/80 focus:ring-secondary",
+      outline:
+        "border border-input bg-background hover:bg-accent hover:text-accent-foreground focus:ring-accent",
     };
-    
+
     const sizes = {
-      sm: 'h-9 px-3 text-sm',
-      md: 'h-10 px-4 py-2',
-      lg: 'h-11 px-6 text-lg',
+      sm: "h-9 px-3 text-sm",
+      md: "h-10 px-4 py-2",
+      lg: "h-11 px-6 text-lg",
     };
 
     return (
@@ -192,24 +207,41 @@ export const CustomButton = forwardRef<HTMLButtonElement, CustomButtonProps>(
       >
         {isLoading && (
           <svg className="mr-2 h-4 w-4 animate-spin" viewBox="0 0 24 24">
-            <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" className="opacity-25" />
-            <path fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" className="opacity-75" />
+            <circle
+              cx="12"
+              cy="12"
+              r="10"
+              stroke="currentColor"
+              strokeWidth="4"
+              className="opacity-25"
+            />
+            <path
+              fill="currentColor"
+              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+              className="opacity-75"
+            />
           </svg>
         )}
         {children}
       </button>
     );
-  }
+  },
 );
 
-CustomButton.displayName = 'CustomButton';
+CustomButton.displayName = "CustomButton";
 ```
 
 #### 2. Content Block Component
 
 ```tsx
 // components/blocks/feature-grid.tsx
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 
 interface Feature {
   title: string;
@@ -224,15 +256,19 @@ interface FeatureGridProps {
   className?: string;
 }
 
-export function FeatureGrid({ features, columns = 3, className }: FeatureGridProps) {
+export function FeatureGrid({
+  features,
+  columns = 3,
+  className,
+}: FeatureGridProps) {
   const gridCols = {
-    2: 'md:grid-cols-2',
-    3: 'md:grid-cols-3',
-    4: 'md:grid-cols-4',
+    2: "md:grid-cols-2",
+    3: "md:grid-cols-3",
+    4: "md:grid-cols-4",
   };
 
   return (
-    <div className={cn('grid grid-cols-1 gap-6', gridCols[columns], className)}>
+    <div className={cn("grid grid-cols-1 gap-6", gridCols[columns], className)}>
       {features.map((feature, index) => (
         <Card key={index} className="group hover:shadow-lg transition-shadow">
           <CardHeader className="pb-4">
@@ -255,8 +291,8 @@ export function FeatureGrid({ features, columns = 3, className }: FeatureGridPro
 
 ```tsx
 // components/blocks/mdx/code-showcase.tsx
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { CodeBlock } from './mdx-code';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { CodeBlock } from "./mdx-code";
 
 interface CodeShowcaseProps {
   title?: string;
@@ -281,7 +317,7 @@ export function CodeShowcase({ title, examples }: CodeShowcaseProps) {
         </TabsList>
         {examples.map((example) => (
           <TabsContent key={example.label} value={example.label}>
-            <CodeBlock 
+            <CodeBlock
               language={example.language}
               code={example.code}
               showLineNumbers
@@ -300,8 +336,8 @@ Add your custom components to the MDX provider:
 
 ```tsx
 // components/blocks/mdx/custom-mdx.tsx
-import { FeatureGrid } from '../feature-grid';
-import { CodeShowcase } from './code-showcase';
+import { FeatureGrid } from "../feature-grid";
+import { CodeShowcase } from "./code-showcase";
 
 const components = {
   // Existing components...
@@ -309,7 +345,9 @@ const components = {
   CodeShowcase,
   // Custom HTML elements
   h1: (props: any) => <h1 className="text-4xl font-bold mb-6" {...props} />,
-  h2: (props: any) => <h2 className="text-3xl font-semibold mb-4 mt-8" {...props} />,
+  h2: (props: any) => (
+    <h2 className="text-3xl font-semibold mb-4 mt-8" {...props} />
+  ),
   p: (props: any) => <p className="mb-4 leading-relaxed" {...props} />,
   // Add more as needed...
 };
@@ -336,26 +374,26 @@ The project uses a layered CSS architecture:
   /* Base colors */
   --background: 0 0% 100%;
   --foreground: 222.2 84% 4.9%;
-  
+
   /* Primary colors */
   --primary: 222.2 47.4% 11.2%;
   --primary-foreground: 210 40% 98%;
-  
+
   /* Brand colors */
   --brand-primary: 200 100% 50%;
   --brand-secondary: 160 100% 45%;
   --brand-accent: 280 100% 60%;
-  
+
   /* Component colors */
   --card: 0 0% 100%;
   --card-foreground: 222.2 84% 4.9%;
   --muted: 210 40% 96%;
   --muted-foreground: 215.4 16.3% 46.9%;
-  
+
   /* Interactive colors */
   --hover: 210 40% 96%;
   --active: 210 40% 92%;
-  
+
   /* Border and spacing */
   --border: 214.3 31.8% 91.4%;
   --radius: 0.5rem;
@@ -375,63 +413,60 @@ The project uses a layered CSS architecture:
 
 ```javascript
 // tailwind.config.js
-const { fontFamily } = require('tailwindcss/defaultTheme');
+const { fontFamily } = require("tailwindcss/defaultTheme");
 
 module.exports = {
   content: [
-    './pages/**/*.{js,ts,jsx,tsx,mdx}',
-    './components/**/*.{js,ts,jsx,tsx,mdx}',
-    './app/**/*.{js,ts,jsx,tsx,mdx}',
+    "./pages/**/*.{js,ts,jsx,tsx,mdx}",
+    "./components/**/*.{js,ts,jsx,tsx,mdx}",
+    "./app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
-  darkMode: ['class', '[data-theme="dark"]'],
+  darkMode: ["class", '[data-theme="dark"]'],
   theme: {
     extend: {
       colors: {
-        border: 'hsl(var(--border))',
-        input: 'hsl(var(--input))',
-        ring: 'hsl(var(--ring))',
-        background: 'hsl(var(--background))',
-        foreground: 'hsl(var(--foreground))',
+        border: "hsl(var(--border))",
+        input: "hsl(var(--input))",
+        ring: "hsl(var(--ring))",
+        background: "hsl(var(--background))",
+        foreground: "hsl(var(--foreground))",
         primary: {
-          DEFAULT: 'hsl(var(--primary))',
-          foreground: 'hsl(var(--primary-foreground))',
+          DEFAULT: "hsl(var(--primary))",
+          foreground: "hsl(var(--primary-foreground))",
         },
         secondary: {
-          DEFAULT: 'hsl(var(--secondary))',
-          foreground: 'hsl(var(--secondary-foreground))',
+          DEFAULT: "hsl(var(--secondary))",
+          foreground: "hsl(var(--secondary-foreground))",
         },
         brand: {
-          primary: 'hsl(var(--brand-primary))',
-          secondary: 'hsl(var(--brand-secondary))',
-          accent: 'hsl(var(--brand-accent))',
+          primary: "hsl(var(--brand-primary))",
+          secondary: "hsl(var(--brand-secondary))",
+          accent: "hsl(var(--brand-accent))",
         },
       },
       fontFamily: {
-        sans: ['Inter', ...fontFamily.sans],
-        mono: ['JetBrains Mono', ...fontFamily.mono],
-        heading: ['Cal Sans', 'Inter', ...fontFamily.sans],
+        sans: ["Inter", ...fontFamily.sans],
+        mono: ["JetBrains Mono", ...fontFamily.mono],
+        heading: ["Cal Sans", "Inter", ...fontFamily.sans],
       },
       typography: {
         DEFAULT: {
           css: {
-            maxWidth: 'none',
-            color: 'hsl(var(--foreground))',
-            h1: { color: 'hsl(var(--foreground))' },
-            h2: { color: 'hsl(var(--foreground))' },
-            h3: { color: 'hsl(var(--foreground))' },
-            h4: { color: 'hsl(var(--foreground))' },
-            code: { color: 'hsl(var(--primary))' },
-            'blockquote p:first-of-type::before': { content: 'none' },
-            'blockquote p:first-of-type::after': { content: 'none' },
+            maxWidth: "none",
+            color: "hsl(var(--foreground))",
+            h1: { color: "hsl(var(--foreground))" },
+            h2: { color: "hsl(var(--foreground))" },
+            h3: { color: "hsl(var(--foreground))" },
+            h4: { color: "hsl(var(--foreground))" },
+            code: { color: "hsl(var(--primary))" },
+            "blockquote p:first-of-type::before": { content: "none" },
+            "blockquote p:first-of-type::after": { content: "none" },
           },
         },
       },
     },
   },
-  plugins: [
-    require('@tailwindcss/typography'),
-    require('tailwindcss-animate'),
-  ],
+  plugins: [require("@tailwindcss/typography"), require("tailwindcss-animate")],
 };
 ```
 
@@ -441,46 +476,53 @@ module.exports = {
 
 ```tsx
 // components/ui/card.tsx
-import { cn } from '@/lib/utils';
+import { cn } from "@/lib/utils";
 
-const Card = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
-  ({ className, ...props }, ref) => (
-    <div
-      ref={ref}
-      className={cn(
-        'rounded-lg border bg-card text-card-foreground shadow-sm',
-        className
-      )}
-      {...props}
-    />
-  )
-);
+const Card = React.forwardRef<
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement>
+>(({ className, ...props }, ref) => (
+  <div
+    ref={ref}
+    className={cn(
+      "rounded-lg border bg-card text-card-foreground shadow-sm",
+      className,
+    )}
+    {...props}
+  />
+));
 
-const CardHeader = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
-  ({ className, ...props }, ref) => (
-    <div
-      ref={ref}
-      className={cn('flex flex-col space-y-1.5 p-6', className)}
-      {...props}
-    />
-  )
-);
+const CardHeader = React.forwardRef<
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement>
+>(({ className, ...props }, ref) => (
+  <div
+    ref={ref}
+    className={cn("flex flex-col space-y-1.5 p-6", className)}
+    {...props}
+  />
+));
 
-const CardTitle = React.forwardRef<HTMLParagraphElement, React.HTMLAttributes<HTMLHeadingElement>>(
-  ({ className, ...props }, ref) => (
-    <h3
-      ref={ref}
-      className={cn('text-2xl font-semibold leading-none tracking-tight', className)}
-      {...props}
-    />
-  )
-);
+const CardTitle = React.forwardRef<
+  HTMLParagraphElement,
+  React.HTMLAttributes<HTMLHeadingElement>
+>(({ className, ...props }, ref) => (
+  <h3
+    ref={ref}
+    className={cn(
+      "text-2xl font-semibold leading-none tracking-tight",
+      className,
+    )}
+    {...props}
+  />
+));
 
-const CardContent = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
-  ({ className, ...props }, ref) => (
-    <div ref={ref} className={cn('p-6 pt-0', className)} {...props} />
-  )
-);
+const CardContent = React.forwardRef<
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement>
+>(({ className, ...props }, ref) => (
+  <div ref={ref} className={cn("p-6 pt-0", className)} {...props} />
+));
 
 export { Card, CardHeader, CardTitle, CardContent };
 ```
@@ -489,17 +531,25 @@ export { Card, CardHeader, CardTitle, CardContent };
 
 ```tsx
 // Responsive grid component
-export function ResponsiveGrid({ children, className }: { children: React.ReactNode; className?: string }) {
+export function ResponsiveGrid({
+  children,
+  className,
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) {
   return (
-    <div className={cn(
-      'grid gap-4',
-      'grid-cols-1',           // Mobile: 1 column
-      'sm:grid-cols-2',        // Small: 2 columns
-      'md:grid-cols-3',        // Medium: 3 columns
-      'lg:grid-cols-4',        // Large: 4 columns
-      'xl:grid-cols-5',        // Extra large: 5 columns
-      className
-    )}>
+    <div
+      className={cn(
+        "grid gap-4",
+        "grid-cols-1", // Mobile: 1 column
+        "sm:grid-cols-2", // Small: 2 columns
+        "md:grid-cols-3", // Medium: 3 columns
+        "lg:grid-cols-4", // Large: 4 columns
+        "xl:grid-cols-5", // Extra large: 5 columns
+        className,
+      )}
+    >
       {children}
     </div>
   );
@@ -514,12 +564,12 @@ export function ResponsiveGrid({ children, className }: { children: React.ReactN
 
 ```typescript
 // lib/utils/content-processor.ts
-import { remark } from 'remark';
-import remarkGfm from 'remark-gfm';
-import remarkMath from 'remark-math';
-import { rehype } from 'rehype';
-import rehypeSlug from 'rehype-slug';
-import rehypeAutolinkHeadings from 'rehype-autolink-headings';
+import { remark } from "remark";
+import remarkGfm from "remark-gfm";
+import remarkMath from "remark-math";
+import { rehype } from "rehype";
+import rehypeSlug from "rehype-slug";
+import rehypeAutolinkHeadings from "rehype-autolink-headings";
 
 export interface ContentProcessor {
   processMarkdown(content: string): Promise<string>;
@@ -528,17 +578,15 @@ export interface ContentProcessor {
 }
 
 class MDXContentProcessor implements ContentProcessor {
-  private remarkProcessor = remark()
-    .use(remarkGfm)
-    .use(remarkMath);
-    
+  private remarkProcessor = remark().use(remarkGfm).use(remarkMath);
+
   private rehypeProcessor = rehype()
     .use(rehypeSlug)
     .use(rehypeAutolinkHeadings, {
-      behavior: 'wrap',
+      behavior: "wrap",
       properties: {
-        className: ['anchor-link'],
-        'aria-label': 'Link to heading',
+        className: ["anchor-link"],
+        "aria-label": "Link to heading",
       },
     });
 
@@ -551,20 +599,20 @@ class MDXContentProcessor implements ContentProcessor {
   extractMetadata(content: string): ContentMetadata {
     const frontmatterRegex = /^---\n([\s\S]*?)\n---/;
     const match = content.match(frontmatterRegex);
-    
+
     if (!match) return {};
-    
+
     const frontmatter = match[1];
     const metadata: ContentMetadata = {};
-    
-    frontmatter.split('\n').forEach(line => {
-      const [key, ...valueParts] = line.split(':');
+
+    frontmatter.split("\n").forEach((line) => {
+      const [key, ...valueParts] = line.split(":");
       if (key && valueParts.length > 0) {
-        const value = valueParts.join(':').trim();
+        const value = valueParts.join(":").trim();
         metadata[key.trim()] = this.parseValue(value);
       }
     });
-    
+
     return metadata;
   }
 
@@ -572,12 +620,15 @@ class MDXContentProcessor implements ContentProcessor {
     const headingRegex = /^(#{1,6})\s+(.+)$/gm;
     const toc: TableOfContents[] = [];
     let match;
-    
+
     while ((match = headingRegex.exec(content)) !== null) {
       const level = match[1].length;
       const title = match[2].trim();
-      const slug = title.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]/g, '');
-      
+      const slug = title
+        .toLowerCase()
+        .replace(/\s+/g, "-")
+        .replace(/[^\w-]/g, "");
+
       toc.push({
         level,
         title,
@@ -585,43 +636,46 @@ class MDXContentProcessor implements ContentProcessor {
         children: [],
       });
     }
-    
+
     return this.buildTocHierarchy(toc);
   }
 
   private parseValue(value: string): any {
     // Parse arrays
-    if (value.startsWith('[') && value.endsWith(']')) {
-      return value.slice(1, -1).split(',').map(item => item.trim().replace(/['"]/g, ''));
+    if (value.startsWith("[") && value.endsWith("]")) {
+      return value
+        .slice(1, -1)
+        .split(",")
+        .map((item) => item.trim().replace(/['"]/g, ""));
     }
-    
+
     // Parse booleans
-    if (value === 'true') return true;
-    if (value === 'false') return false;
-    
+    if (value === "true") return true;
+    if (value === "false") return false;
+
     // Parse strings
-    return value.replace(/['"]/g, '');
+    return value.replace(/['"]/g, "");
   }
 
   private buildTocHierarchy(flatToc: TableOfContents[]): TableOfContents[] {
     const hierarchy: TableOfContents[] = [];
     const stack: TableOfContents[] = [];
-    
-    flatToc.forEach(item => {
+
+    flatToc.forEach((item) => {
       // Find parent level
       while (stack.length > 0 && stack[stack.length - 1].level >= item.level) {
         stack.pop();
       }
-      
+
       if (stack.length === 0) {
         hierarchy.push(item);
       } else {
         stack[stack.length - 1].children.push(item);
       }
-      
+
       stack.push(item);
     });
-    
+
     return hierarchy;
   }
 }
@@ -635,7 +689,7 @@ export const contentProcessor = new MDXContentProcessor();
 
 ```typescript
 // lib/utils/search.ts
-import Fuse from 'fuse.js';
+import Fuse from "fuse.js";
 
 export interface SearchResult {
   item: ContentPost;
@@ -652,11 +706,11 @@ export class AdvancedSearch {
     threshold: 0.3,
     minMatchCharLength: 2,
     keys: [
-      { name: 'title', weight: 5 },
-      { name: 'summary', weight: 3 },
-      { name: 'content', weight: 1 },
-      { name: 'tags', weight: 2 },
-      { name: 'category', weight: 2 },
+      { name: "title", weight: 5 },
+      { name: "summary", weight: 3 },
+      { name: "content", weight: 1 },
+      { name: "tags", weight: 2 },
+      { name: "category", weight: 2 },
     ],
   };
 
@@ -666,16 +720,16 @@ export class AdvancedSearch {
 
   search(query: string, filters?: SearchFilters): SearchResult[] {
     if (!query.trim()) return [];
-    
+
     let results = this.fuse.search(query);
-    
+
     // Apply filters
     if (filters) {
       results = this.applyFilters(results, filters);
     }
-    
+
     // Transform results
-    return results.map(result => ({
+    return results.map((result) => ({
       item: result.item,
       score: result.score || 0,
       matches: result.matches || [],
@@ -683,42 +737,57 @@ export class AdvancedSearch {
     }));
   }
 
-  private applyFilters(results: Fuse.FuseResult<ContentPost>[], filters: SearchFilters): Fuse.FuseResult<ContentPost>[] {
-    return results.filter(result => {
-      if (filters.categories && !filters.categories.includes(result.item.category)) {
+  private applyFilters(
+    results: Fuse.FuseResult<ContentPost>[],
+    filters: SearchFilters,
+  ): Fuse.FuseResult<ContentPost>[] {
+    return results.filter((result) => {
+      if (
+        filters.categories &&
+        !filters.categories.includes(result.item.category)
+      ) {
         return false;
       }
-      
-      if (filters.tags && !filters.tags.some(tag => result.item.tags?.includes(tag))) {
+
+      if (
+        filters.tags &&
+        !filters.tags.some((tag) => result.item.tags?.includes(tag))
+      ) {
         return false;
       }
-      
+
       if (filters.dateRange) {
         const publishedDate = new Date(result.item.publishedAt);
-        if (publishedDate < filters.dateRange.start || publishedDate > filters.dateRange.end) {
+        if (
+          publishedDate < filters.dateRange.start ||
+          publishedDate > filters.dateRange.end
+        ) {
           return false;
         }
       }
-      
+
       return true;
     });
   }
 
   private generateHighlights(result: Fuse.FuseResult<ContentPost>): string[] {
     const highlights: string[] = [];
-    
-    result.matches?.forEach(match => {
+
+    result.matches?.forEach((match) => {
       if (match.indices && match.value) {
         match.indices.forEach(([start, end]) => {
           const before = match.value!.substring(Math.max(0, start - 20), start);
           const highlighted = match.value!.substring(start, end + 1);
-          const after = match.value!.substring(end + 1, Math.min(match.value!.length, end + 21));
-          
+          const after = match.value!.substring(
+            end + 1,
+            Math.min(match.value!.length, end + 21),
+          );
+
           highlights.push(`...${before}<mark>${highlighted}</mark>${after}...`);
         });
       }
     });
-    
+
     return highlights;
   }
 }
@@ -730,15 +799,15 @@ export class AdvancedSearch {
 
 ```tsx
 // Dynamic imports for better performance
-import dynamic from 'next/dynamic';
+import dynamic from "next/dynamic";
 
 // Lazy load heavy components
-const MermaidDiagram = dynamic(() => import('./mermaid-diagram'), {
+const MermaidDiagram = dynamic(() => import("./mermaid-diagram"), {
   loading: () => <div className="animate-pulse bg-muted h-48 rounded-lg" />,
   ssr: false,
 });
 
-const CodePlayground = dynamic(() => import('./code-playground'), {
+const CodePlayground = dynamic(() => import("./code-playground"), {
   loading: () => <div className="animate-pulse bg-muted h-96 rounded-lg" />,
 });
 
@@ -756,8 +825,8 @@ export function ContentRenderer({ content }: { content: ContentPost }) {
 
 ```tsx
 // components/ui/optimized-image.tsx
-import Image from 'next/image';
-import { useState } from 'react';
+import Image from "next/image";
+import { useState } from "react";
 
 interface OptimizedImageProps {
   src: string;
@@ -768,22 +837,20 @@ interface OptimizedImageProps {
   priority?: boolean;
 }
 
-export function OptimizedImage({ 
-  src, 
-  alt, 
-  width = 800, 
-  height = 600, 
-  className, 
-  priority = false 
+export function OptimizedImage({
+  src,
+  alt,
+  width = 800,
+  height = 600,
+  className,
+  priority = false,
 }: OptimizedImageProps) {
   const [isLoading, setIsLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
 
   return (
-    <div className={cn('relative overflow-hidden rounded-lg', className)}>
-      {isLoading && (
-        <div className="absolute inset-0 bg-muted animate-pulse" />
-      )}
+    <div className={cn("relative overflow-hidden rounded-lg", className)}>
+      {isLoading && <div className="absolute inset-0 bg-muted animate-pulse" />}
       {hasError ? (
         <div className="flex items-center justify-center bg-muted text-muted-foreground">
           <span>Failed to load image</span>
@@ -796,8 +863,8 @@ export function OptimizedImage({
           height={height}
           priority={priority}
           className={cn(
-            'transition-opacity duration-300',
-            isLoading ? 'opacity-0' : 'opacity-100'
+            "transition-opacity duration-300",
+            isLoading ? "opacity-0" : "opacity-100",
           )}
           onLoad={() => setIsLoading(false)}
           onError={() => {
@@ -845,7 +912,7 @@ describe('CustomButton', () => {
   it('handles click events', () => {
     const handleClick = jest.fn();
     render(<CustomButton onClick={handleClick}>Click me</CustomButton>);
-    
+
     fireEvent.click(screen.getByRole('button'));
     expect(handleClick).toHaveBeenCalledTimes(1);
   });
@@ -882,16 +949,16 @@ describe('ContentPage', () => {
 
   it('renders content correctly', () => {
     render(<ContentPage params={{ category: 'blog', slug: 'test-post' }} />);
-    
+
     expect(screen.getByText('Test Post')).toBeInTheDocument();
     expect(screen.getByText('This is a test post')).toBeInTheDocument();
   });
 
   it('shows 404 for non-existent content', () => {
     (getContentPost as jest.Mock).mockReturnValue(null);
-    
+
     render(<ContentPage params={{ category: 'blog', slug: 'non-existent' }} />);
-    
+
     // Should render not-found component
     expect(screen.getByText(/not found/i)).toBeInTheDocument();
   });
@@ -902,39 +969,39 @@ describe('ContentPage', () => {
 
 ```typescript
 // __tests__/e2e/navigation.spec.ts
-import { test, expect } from '@playwright/test';
+import { test, expect } from "@playwright/test";
 
-test.describe('Navigation', () => {
-  test('should navigate between pages', async ({ page }) => {
-    await page.goto('/');
-    
+test.describe("Navigation", () => {
+  test("should navigate between pages", async ({ page }) => {
+    await page.goto("/");
+
     // Check homepage loads
     await expect(page).toHaveTitle(/Findoora Docs/);
-    
+
     // Navigate to documentation
-    await page.click('text=Documentation');
+    await page.click("text=Documentation");
     await expect(page).toHaveURL(/\/docs/);
-    
+
     // Check sidebar navigation
-    await page.click('text=Getting Started');
+    await page.click("text=Getting Started");
     await expect(page).toHaveURL(/\/docs\/getting-started/);
   });
 
-  test('should search for content', async ({ page }) => {
-    await page.goto('/');
-    
+  test("should search for content", async ({ page }) => {
+    await page.goto("/");
+
     // Open search dialog
-    await page.keyboard.press('Meta+K');
+    await page.keyboard.press("Meta+K");
     await expect(page.locator('[role="dialog"]')).toBeVisible();
-    
+
     // Type search query
-    await page.fill('[placeholder="Search documentation..."]', 'installation');
-    
+    await page.fill('[placeholder="Search documentation..."]', "installation");
+
     // Check search results
-    await expect(page.locator('text=Installation Guide')).toBeVisible();
-    
+    await expect(page.locator("text=Installation Guide")).toBeVisible();
+
     // Click on result
-    await page.click('text=Installation Guide');
+    await page.click("text=Installation Guide");
     await expect(page).toHaveURL(/\/docs\/installation/);
   });
 });
@@ -957,31 +1024,35 @@ open .next/analyze/client.html
 ```typescript
 // lib/performance.ts
 export function measurePerformance(name: string) {
-  return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {
+  return function (
+    target: any,
+    propertyKey: string,
+    descriptor: PropertyDescriptor,
+  ) {
     const originalMethod = descriptor.value;
-    
+
     descriptor.value = async function (...args: any[]) {
       const start = performance.now();
       const result = await originalMethod.apply(this, args);
       const end = performance.now();
-      
+
       console.log(`${name} took ${end - start} milliseconds`);
-      
+
       // Send to analytics in production
-      if (process.env.NODE_ENV === 'production') {
+      if (process.env.NODE_ENV === "production") {
         // Analytics tracking code
       }
-      
+
       return result;
     };
-    
+
     return descriptor;
   };
 }
 
 // Usage
 class ContentService {
-  @measurePerformance('getContentPosts')
+  @measurePerformance("getContentPosts")
   async getContentPosts() {
     // Method implementation
   }
@@ -1044,13 +1115,8 @@ git push origin feature/new-component
 // package.json
 {
   "lint-staged": {
-    "*.{js,jsx,ts,tsx}": [
-      "eslint --fix",
-      "prettier --write"
-    ],
-    "*.{md,mdx}": [
-      "prettier --write"
-    ]
+    "*.{js,jsx,ts,tsx}": ["eslint --fix", "prettier --write"],
+    "*.{md,mdx}": ["prettier --write"]
   },
   "husky": {
     "hooks": {
@@ -1066,6 +1132,7 @@ git push origin feature/new-component
 ### Common Issues
 
 **TypeScript errors:**
+
 ```bash
 # Clear TypeScript cache
 rm -rf .next
@@ -1076,6 +1143,7 @@ pnpm add -D @types/node @types/react
 ```
 
 **Build failures:**
+
 ```bash
 # Clear all caches
 rm -rf .next node_modules
@@ -1084,6 +1152,7 @@ pnpm build
 ```
 
 **Hot reload not working:**
+
 ```bash
 # Check file watchers limit (Linux)
 echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf

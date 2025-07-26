@@ -9,6 +9,7 @@ tags: ["content", "mdx", "writing", "documentation", "blog"]
 thumbnail: "https://images.unsplash.com/photo-1455390582262-044cdead277a?w=800&h=600&fit=crop"
 supportsGfm: true
 hasDataTables: true
+sequence: 4
 ---
 
 Learn how to create, organize, and manage content effectively in Findoora Docs.
@@ -68,19 +69,19 @@ Write your content using Markdown syntax...
 
 ### Frontmatter Fields
 
-| Field | Required | Description | Example |
-|-------|----------|-------------|---------|
-| `menuTitle` | ✅ | Short title for navigation | `"Getting Started"` |
-| `title` | ✅ | Full page title | `"Getting Started with Findoora Docs"` |
-| `publishedAt` | ✅ | Publication date | `"2025-07-26"` |
-| `summary` | ✅ | Brief description | `"A guide to setup..."` |
-| `category` | ✅ | Content category | `"docs"`, `"blog"`, `"tutorial"` |
-| `author` | ❌ | Author name | `"John Doe"` |
-| `tags` | ❌ | Array of tags | `["setup", "guide"]` |
-| `thumbnail` | ❌ | Preview image URL | `"https://example.com/image.jpg"` |
-| `bannerImage` | ❌ | Header image URL | `"https://example.com/banner.jpg"` |
-| `supportsGfm` | ❌ | Enable GitHub Flavored Markdown | `true` |
-| `hasDataTables` | ❌ | Enable data table styling | `true` |
+| Field           | Required | Description                     | Example                                |
+| --------------- | -------- | ------------------------------- | -------------------------------------- |
+| `menuTitle`     | ✅       | Short title for navigation      | `"Getting Started"`                    |
+| `title`         | ✅       | Full page title                 | `"Getting Started with Findoora Docs"` |
+| `publishedAt`   | ✅       | Publication date                | `"2025-07-26"`                         |
+| `summary`       | ✅       | Brief description               | `"A guide to setup..."`                |
+| `category`      | ✅       | Content category                | `"docs"`, `"blog"`, `"tutorial"`       |
+| `author`        | ❌       | Author name                     | `"John Doe"`                           |
+| `tags`          | ❌       | Array of tags                   | `["setup", "guide"]`                   |
+| `thumbnail`     | ❌       | Preview image URL               | `"https://example.com/image.jpg"`      |
+| `bannerImage`   | ❌       | Header image URL                | `"https://example.com/banner.jpg"`     |
+| `supportsGfm`   | ❌       | Enable GitHub Flavored Markdown | `true`                                 |
+| `hasDataTables` | ❌       | Enable data table styling       | `true`                                 |
 
 ## Writing Content
 
@@ -88,10 +89,12 @@ Write your content using Markdown syntax...
 
 ```mdx
 # Heading 1
+
 ## Heading 2
+
 ### Heading 3
 
-**Bold text** and *italic text*
+**Bold text** and _italic text_
 
 [Link text](https://example.com)
 
@@ -127,7 +130,7 @@ Supported languages include: `typescript`, `javascript`, `python`, `bash`, `json
 
 ````mdx
 ```tsx title="components/example.tsx" {1,3-5} showLineNumbers
-import React from 'react';
+import React from "react";
 
 export function Example() {
   return <div>Hello World!</div>;
@@ -136,6 +139,7 @@ export function Example() {
 ````
 
 Features:
+
 - `title="filename"` - Show filename
 - `{1,3-5}` - Highlight specific lines
 - `showLineNumbers` - Display line numbers
@@ -143,15 +147,15 @@ Features:
 ### Tables
 
 ```mdx
-| Feature | Supported | Notes |
-|---------|-----------|-------|
-| Basic tables | ✅ | Standard Markdown |
-| Aligned content | ✅ | Left, center, right |
-| Complex data | ✅ | With `hasDataTables: true` |
+| Feature         | Supported | Notes                      |
+| --------------- | --------- | -------------------------- |
+| Basic tables    | ✅        | Standard Markdown          |
+| Aligned content | ✅        | Left, center, right        |
+| Complex data    | ✅        | With `hasDataTables: true` |
 
 | Left Aligned | Center Aligned | Right Aligned |
-|:-------------|:--------------:|--------------:|
-| Data | Data | Data |
+| :----------- | :------------: | ------------: |
+| Data         |      Data      |          Data |
 ```
 
 ### Task Lists
@@ -190,6 +194,7 @@ graph TD
 ````
 
 Supported diagram types:
+
 - Flowcharts
 - Sequence diagrams
 - Class diagrams
@@ -203,6 +208,7 @@ Supported diagram types:
 Inline math: $E = mc^2$
 
 Block math:
+
 $$
 \int_{-\infty}^{\infty} e^{-x^2} dx = \sqrt{\pi}
 $$
@@ -216,11 +222,11 @@ You can use React components directly in your MDX:
 
 ```mdx
 <CustomComponent title="Important Note">
-This is a custom component with **markdown** support!
+  This is a custom component with **markdown** support!
 </CustomComponent>
 
 <div className="bg-blue-50 p-4 rounded-lg">
-This is a styled div with Tailwind classes.
+  This is a styled div with Tailwind classes.
 </div>
 ```
 
@@ -231,17 +237,17 @@ This is a styled div with Tailwind classes.
 ```tsx
 // components/blocks/mdx/info-box.tsx
 interface InfoBoxProps {
-  type?: 'info' | 'warning' | 'success' | 'error';
+  type?: "info" | "warning" | "success" | "error";
   title?: string;
   children: React.ReactNode;
 }
 
-export function InfoBox({ type = 'info', title, children }: InfoBoxProps) {
+export function InfoBox({ type = "info", title, children }: InfoBoxProps) {
   const styles = {
-    info: 'bg-blue-50 border-blue-200 text-blue-800',
-    warning: 'bg-yellow-50 border-yellow-200 text-yellow-800',
-    success: 'bg-green-50 border-green-200 text-green-800',
-    error: 'bg-red-50 border-red-200 text-red-800',
+    info: "bg-blue-50 border-blue-200 text-blue-800",
+    warning: "bg-yellow-50 border-yellow-200 text-yellow-800",
+    success: "bg-green-50 border-green-200 text-green-800",
+    error: "bg-red-50 border-red-200 text-red-800",
   };
 
   return (
@@ -256,7 +262,7 @@ export function InfoBox({ type = 'info', title, children }: InfoBoxProps) {
 2. Register it in `components/blocks/mdx/custom-mdx.tsx`:
 
 ```tsx
-import { InfoBox } from './info-box';
+import { InfoBox } from "./info-box";
 
 const components = {
   // ... existing components
@@ -268,7 +274,7 @@ const components = {
 
 ```mdx
 <InfoBox type="warning" title="Important">
-This is a warning message with **markdown** support.
+  This is a warning message with **markdown** support.
 </InfoBox>
 ```
 
@@ -339,6 +345,7 @@ tags: ["setup", "configuration", "beginner", "tutorial"]
 ```
 
 Tags enable:
+
 - Filtering content by topic
 - Related content suggestions
 - Search improvements
@@ -383,6 +390,7 @@ All content is automatically indexed for search:
 ### Related Content
 
 The system automatically suggests related content based on:
+
 - Shared categories
 - Common tags
 - Similar titles
@@ -394,10 +402,13 @@ Automatic TOC generation from headings:
 
 ```mdx
 ## Section 1
+
 ### Subsection 1.1
+
 ### Subsection 1.2
 
 ## Section 2
+
 ### Subsection 2.1
 ```
 
@@ -406,7 +417,7 @@ Configure TOC behavior:
 ```tsx
 // components/blocks/table-of-contents.tsx
 const TOC_CONFIG = {
-  maxDepth: 3,           // Maximum heading level
+  maxDepth: 3, // Maximum heading level
   enableSmoothScroll: true,
   enableActiveHighlight: true,
   enableProgressIndicator: true,
@@ -432,12 +443,12 @@ Monitor content health:
 ```typescript
 // Content metrics
 interface ContentMetrics {
-  readingTime: number;     // Estimated reading time
-  wordCount: number;       // Total words
-  headingCount: number;    // Number of headings
-  linkCount: number;       // External links
-  imageCount: number;      // Images used
-  lastUpdated: Date;       // Last modification
+  readingTime: number; // Estimated reading time
+  wordCount: number; // Total words
+  headingCount: number; // Number of headings
+  linkCount: number; // External links
+  imageCount: number; // Images used
+  lastUpdated: Date; // Last modification
 }
 ```
 
@@ -513,23 +524,27 @@ git checkout -b content/major-update
 ### Common Issues
 
 **Content not showing:**
+
 - Check frontmatter syntax
 - Verify category spelling
 - Ensure file extension is `.mdx`
 - Check for TypeScript errors
 
 **Images not loading:**
+
 - Verify image URLs
 - Check image file extensions
 - Ensure proper aspect ratios
 - Test image accessibility
 
 **Code blocks not highlighting:**
+
 - Check language specification
 - Verify syntax highlighting setup
 - Test with different languages
 
 **Search not finding content:**
+
 - Rebuild search index
 - Check category inclusion
 - Verify content metadata

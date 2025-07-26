@@ -9,6 +9,7 @@ tags: ["contributing", "development", "open-source", "community"]
 thumbnail: "https://images.unsplash.com/photo-1556075798-4825dfaaf498?w=800&h=600&fit=crop"
 supportsGfm: true
 hasDataTables: true
+sequence: 8
 ---
 
 We welcome contributions from the community! Whether you're fixing bugs, adding features, or improving documentation, your help makes Findoora Docs better for everyone.
@@ -16,35 +17,45 @@ We welcome contributions from the community! Whether you're fixing bugs, adding 
 ## Ways to Contribute
 
 ### Bug Reports
+
 Found an issue? Help us fix it!
+
 - Use our [issue template](https://github.com/muralitmuthuhotmail/findoora-docs/issues/new?template=bug_report.md)
 - Include detailed reproduction steps
 - Provide environment information
 - Add screenshots if applicable
 
 ### Feature Requests
+
 Have an idea for improvement?
+
 - Use our [feature request template](https://github.com/muralitmuthuhotmail/findoora-docs/issues/new?template=feature_request.md)
 - Describe the problem you're solving
 - Explain your proposed solution
 - Include use cases and examples
 
 ### Documentation
+
 Help improve our documentation:
+
 - Fix typos and grammatical errors
 - Add missing information
 - Create new guides and tutorials
 - Improve existing examples
 
 ### Design & UX
+
 Enhance user experience:
+
 - UI/UX improvements
 - Accessibility enhancements
 - Mobile responsiveness
 - Theme and styling improvements
 
 ### Code Contributions
+
 Contribute to the codebase:
+
 - Bug fixes
 - New features
 - Performance optimizations
@@ -55,6 +66,7 @@ Contribute to the codebase:
 ### Prerequisites
 
 Ensure you have the following installed:
+
 - **Node.js 18+** ([Download](https://nodejs.org/))
 - **pnpm 8+** (`npm install -g pnpm`)
 - **Git** ([Download](https://git-scm.com/))
@@ -63,22 +75,26 @@ Ensure you have the following installed:
 
 1. **Fork the repository** on GitHub
 2. **Clone your fork**:
+
 ```bash
 git clone https://github.com/your-username/findoora-docs.git
 cd findoora-docs
 ```
 
 3. **Add upstream remote**:
+
 ```bash
 git remote add upstream https://github.com/muralitmuthuhotmail/findoora-docs.git
 ```
 
 4. **Install dependencies**:
+
 ```bash
 pnpm install
 ```
 
 5. **Start development server**:
+
 ```bash
 pnpm dev
 ```
@@ -88,6 +104,7 @@ pnpm dev
 ### Development Workflow
 
 1. **Create a feature branch**:
+
 ```bash
 git checkout -b feature/your-feature-name
 # or
@@ -97,6 +114,7 @@ git checkout -b fix/issue-description
 2. **Make your changes** following our coding standards
 
 3. **Test your changes**:
+
 ```bash
 # Run type checking
 pnpm typecheck
@@ -112,12 +130,14 @@ pnpm build
 ```
 
 4. **Commit your changes**:
+
 ```bash
 git add .
 git commit -m "feat: add new search functionality"
 ```
 
 5. **Push to your fork**:
+
 ```bash
 git push origin feature/your-feature-name
 ```
@@ -148,7 +168,7 @@ function getUserProfile(id: string): Promise<UserProfile> {
 // ❌ Avoid
 const getUserProfile = (id: any): any => {
   // Implementation
-}
+};
 ```
 
 ### React Component Guidelines
@@ -167,15 +187,15 @@ interface ButtonProps {
   onClick?: () => void;
 }
 
-export default function Button({ 
-  variant = 'primary', 
-  size = 'md', 
-  children, 
-  onClick 
+export default function Button({
+  variant = 'primary',
+  size = 'md',
+  children,
+  onClick
 }: ButtonProps) {
   return (
-    <button 
-      className={cn(buttonVariants({ variant, size }))} 
+    <button
+      className={cn(buttonVariants({ variant, size }))}
       onClick={onClick}
     >
       {children}
@@ -198,23 +218,24 @@ export default function Button(props: any) {
 
 ```typescript
 // ✅ Good
-import { cva } from 'class-variance-authority';
+import { cva } from "class-variance-authority";
 
 const buttonVariants = cva(
-  'inline-flex items-center justify-center rounded-md font-medium transition-colors',
+  "inline-flex items-center justify-center rounded-md font-medium transition-colors",
   {
     variants: {
       variant: {
-        primary: 'bg-primary text-primary-foreground hover:bg-primary/90',
-        secondary: 'bg-secondary text-secondary-foreground hover:bg-secondary/80',
+        primary: "bg-primary text-primary-foreground hover:bg-primary/90",
+        secondary:
+          "bg-secondary text-secondary-foreground hover:bg-secondary/80",
       },
       size: {
-        sm: 'h-9 px-3 text-sm',
-        md: 'h-10 px-4 py-2',
-        lg: 'h-11 px-6 text-lg',
+        sm: "h-9 px-3 text-sm",
+        md: "h-10 px-4 py-2",
+        lg: "h-11 px-6 text-lg",
       },
     },
-  }
+  },
 );
 ```
 
@@ -249,6 +270,7 @@ components/
 ### Unit Tests
 
 Write unit tests for:
+
 - Utility functions
 - Custom hooks
 - Component logic
@@ -256,10 +278,10 @@ Write unit tests for:
 
 ```typescript
 // utils/content.test.ts
-import { parseContentFrontmatter } from './content';
+import { parseContentFrontmatter } from "./content";
 
-describe('parseContentFrontmatter', () => {
-  it('should parse valid frontmatter', () => {
+describe("parseContentFrontmatter", () => {
+  it("should parse valid frontmatter", () => {
     const content = `---
 title: "Test Title"
 category: "blog"
@@ -267,16 +289,16 @@ category: "blog"
 Content here`;
 
     const result = parseContentFrontmatter(content);
-    
-    expect(result.frontmatter.title).toBe('Test Title');
-    expect(result.frontmatter.category).toBe('blog');
-    expect(result.content).toBe('Content here');
+
+    expect(result.frontmatter.title).toBe("Test Title");
+    expect(result.frontmatter.category).toBe("blog");
+    expect(result.content).toBe("Content here");
   });
 
-  it('should handle invalid frontmatter gracefully', () => {
-    const content = 'No frontmatter here';
+  it("should handle invalid frontmatter gracefully", () => {
+    const content = "No frontmatter here";
     const result = parseContentFrontmatter(content);
-    
+
     expect(result.frontmatter).toEqual({});
     expect(result.content).toBe(content);
   });
@@ -295,10 +317,10 @@ import { SearchDialog } from './search-dialog';
 describe('SearchDialog', () => {
   it('should search and display results', async () => {
     render(<SearchDialog isOpen={true} onClose={() => {}} />);
-    
+
     const searchInput = screen.getByPlaceholderText('Search documentation...');
     fireEvent.change(searchInput, { target: { value: 'installation' } });
-    
+
     await waitFor(() => {
       expect(screen.getByText('Installation Guide')).toBeInTheDocument();
     });
@@ -312,21 +334,21 @@ Test user workflows:
 
 ```typescript
 // e2e/content-navigation.spec.ts
-import { test, expect } from '@playwright/test';
+import { test, expect } from "@playwright/test";
 
-test('user can navigate to content', async ({ page }) => {
-  await page.goto('/');
-  
+test("user can navigate to content", async ({ page }) => {
+  await page.goto("/");
+
   // Click on documentation link
-  await page.click('text=Documentation');
+  await page.click("text=Documentation");
   await expect(page).toHaveURL(/\/docs/);
-  
+
   // Navigate to specific guide
-  await page.click('text=Getting Started');
+  await page.click("text=Getting Started");
   await expect(page).toHaveURL(/\/docs\/getting-started/);
-  
+
   // Verify content loads
-  await expect(page.locator('h1')).toContainText('Getting Started');
+  await expect(page.locator("h1")).toContainText("Getting Started");
 });
 ```
 
@@ -348,11 +370,11 @@ test('user can navigate to content', async ({ page }) => {
 
 ```typescript
 // Example: Accessible modal component
-export function Modal({ 
-  isOpen, 
-  onClose, 
-  title, 
-  children 
+export function Modal({
+  isOpen,
+  onClose,
+  title,
+  children
 }: ModalProps) {
   useEffect(() => {
     if (isOpen) {
@@ -360,7 +382,7 @@ export function Modal({
     } else {
       document.body.style.overflow = 'auto';
     }
-    
+
     return () => {
       document.body.style.overflow = 'auto';
     };
@@ -369,14 +391,14 @@ export function Modal({
   if (!isOpen) return null;
 
   return (
-    <div 
+    <div
       className="fixed inset-0 z-50 bg-black/50"
       onClick={onClose}
       aria-modal="true"
       role="dialog"
       aria-labelledby="modal-title"
     >
-      <div 
+      <div
         className="fixed left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2"
         onClick={(e) => e.stopPropagation()}
       >
@@ -403,6 +425,7 @@ type(scope): description
 ```
 
 **Types:**
+
 - `feat`: New feature
 - `fix`: Bug fix
 - `docs`: Documentation changes
@@ -412,6 +435,7 @@ type(scope): description
 - `chore`: Maintenance tasks
 
 **Examples:**
+
 ```bash
 feat(search): add fuzzy search functionality
 fix(ui): resolve button focus state issue
@@ -458,25 +482,31 @@ chore/improve-build-process
 6. **Address feedback** promptly
 
 **PR Template:**
+
 ```markdown
 ## Description
+
 Brief description of changes made.
 
 ## Type of Change
+
 - [ ] Bug fix
 - [ ] New feature
 - [ ] Documentation update
 - [ ] Performance improvement
 
 ## Testing
+
 - [ ] Unit tests pass
 - [ ] E2E tests pass
 - [ ] Manual testing completed
 
 ## Screenshots
+
 (If applicable)
 
 ## Checklist
+
 - [ ] Code follows project style guidelines
 - [ ] Self-review completed
 - [ ] Documentation updated
@@ -488,6 +518,7 @@ Brief description of changes made.
 ### For Contributors
 
 **Before requesting review:**
+
 - [ ] Test your changes thoroughly
 - [ ] Follow coding standards
 - [ ] Update documentation
@@ -495,6 +526,7 @@ Brief description of changes made.
 - [ ] Run all checks locally
 
 **During review:**
+
 - Be responsive to feedback
 - Ask questions if unclear
 - Make requested changes promptly
@@ -503,6 +535,7 @@ Brief description of changes made.
 ### For Reviewers
 
 **Review checklist:**
+
 - [ ] Code follows project conventions
 - [ ] Logic is sound and efficient
 - [ ] Tests are adequate
@@ -510,6 +543,7 @@ Brief description of changes made.
 - [ ] No breaking changes (or properly documented)
 
 **Review etiquette:**
+
 - Be constructive and helpful
 - Explain reasoning for suggestions
 - Acknowledge good practices
@@ -520,6 +554,7 @@ Brief description of changes made.
 ### Contributors
 
 We recognize contributors in multiple ways:
+
 - **Contributors file**: Listed in CONTRIBUTORS.md
 - **Release notes**: Mentioned in changelog
 - **Social media**: Highlighted on our channels
@@ -528,12 +563,14 @@ We recognize contributors in multiple ways:
 ### Becoming a Maintainer
 
 Active contributors may be invited to become maintainers with:
+
 - **Commit access**: Direct push to repository
 - **Review permissions**: Approve pull requests
 - **Release management**: Help with version releases
 - **Community leadership**: Guide project direction
 
 **Criteria for maintainership:**
+
 - Consistent high-quality contributions
 - Good understanding of project architecture
 - Helpful in community discussions
@@ -549,6 +586,7 @@ A clear description of the bug.
 
 **To Reproduce**
 Steps to reproduce the behavior:
+
 1. Go to '...'
 2. Click on '....'
 3. Scroll down to '....'
@@ -561,6 +599,7 @@ What you expected to happen.
 If applicable, add screenshots.
 
 **Environment:**
+
 - OS: [e.g. macOS, Windows, Linux]
 - Browser: [e.g. Chrome, Firefox, Safari]
 - Version: [e.g. 22]
@@ -591,6 +630,7 @@ Add any other context or screenshots about the feature request.
 ### Our Pledge
 
 We pledge to make participation in our project a harassment-free experience for everyone, regardless of:
+
 - Age, body size, disability, ethnicity
 - Gender identity and expression
 - Level of experience, nationality

@@ -20,7 +20,34 @@ function parseFrontmatter(fileContent: string) {
     if (key) {
       let value = valueArr.join(": ").trim();
       value = value.replace(/^['"](.*)['"]$/, "$1"); // Remove quotes
-      (metadata as Record<string, unknown>)[key.trim()] = value;
+
+      // Handle sequence field as number
+      if (key.trim() === "sequence") {
+        const numValue = parseInt(value, 10);
+        if (!isNaN(numValue)) {
+          (metadata as Record<string, unknown>)[key.trim()] = numValue;
+        }
+      }
+      // Handle array fields (like tags)
+      else if (
+        key.trim() === "tags" &&
+        value.startsWith("[") &&
+        value.endsWith("]")
+      ) {
+        try {
+          const parsedArray = JSON.parse(value);
+          (metadata as Record<string, unknown>)[key.trim()] = parsedArray;
+        } catch {
+          // If JSON parsing fails, treat as regular string
+          (metadata as Record<string, unknown>)[key.trim()] = value;
+        }
+      }
+      // Handle boolean fields
+      else if (value === "true" || value === "false") {
+        (metadata as Record<string, unknown>)[key.trim()] = value === "true";
+      } else {
+        (metadata as Record<string, unknown>)[key.trim()] = value;
+      }
     }
   });
 
@@ -67,11 +94,50 @@ export function getContentPosts(category?: string): ContentPost[] {
 
     const posts = getMDXData(postsPath);
 
+    let filteredPosts = posts;
     if (category) {
-      return posts.filter((post) => post.metadata.category === category);
+      filteredPosts = posts.filter(
+        (post) => post.metadata.category === category,
+      );
     }
 
-    return posts;
+    // Sort by sequence first (ascending), then by publishedAt (descending)
+    return filteredPosts.sort((a, b) => {
+      // First, sort by sequence if both have sequence numbers
+      const aSequence = a.metadata.sequence;
+      const bSequence = b.metadata.sequence;
+
+      if (aSequence !== undefined && bSequence !== undefined) {
+        return aSequence - bSequence; // Ascending order for sequence
+      }
+
+      // If only one has sequence, prioritize it
+      if (aSequence !== undefined && bSequence === undefined) {
+        return -1; // a comes first
+      }
+      if (aSequence === undefined && bSequence !== undefined) {
+        return 1; // b comes first
+      }
+
+      // If neither has sequence, fall back to publishedAt
+      const aDate = a.metadata.publishedAt
+        ? new Date(a.metadata.publishedAt)
+        : undefined;
+      const bDate = b.metadata.publishedAt
+        ? new Date(b.metadata.publishedAt)
+        : undefined;
+
+      if (aDate && bDate) {
+        return bDate.getTime() - aDate.getTime(); // Descending order for dates
+      }
+      if (!aDate && bDate) {
+        return 1; // a is undefined, goes last
+      }
+      if (aDate && !bDate) {
+        return -1; // b is undefined, goes last
+      }
+      return 0; // both undefined, maintain original order
+    });
   } catch (error) {
     console.error("Error loading content posts:", error);
     return [];

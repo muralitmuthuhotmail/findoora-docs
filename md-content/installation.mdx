@@ -8,6 +8,7 @@ author: "Findoora Team"
 tags: ["installation", "setup", "docker", "deployment"]
 thumbnail: "https://images.unsplash.com/photo-1518432031352-d6fc5c10da5a?w=800&h=600&fit=crop"
 supportsGfm: true
+sequence: 2
 ---
 
 Get Findoora Docs up and running in minutes with your preferred installation method.
@@ -21,7 +22,7 @@ Before you begin, ensure you have:
 - **Docker & Docker Compose** (for containerized deployment)
 - **Git** (for cloning the repository)
 
-## Option 1: Docker (Recommended)
+## Docker (Recommended)
 
 The fastest way to get started is with Docker. This method ensures consistency across all environments.
 
@@ -73,7 +74,7 @@ docker ps
 docker-compose down -v
 ```
 
-## Option 2: Local Development
+## Local Development
 
 Perfect for development and customization.
 
@@ -116,7 +117,7 @@ pnpm analyze          # Analyze bundle size
 pnpm build:analyze    # Build and analyze bundle
 ```
 
-## Option 3: Deploy to Cloud
+## Deploy to Cloud
 
 ### Vercel (One-Click Deploy)
 
@@ -238,6 +239,7 @@ pnpm dev
 ### Common Issues
 
 **Port already in use:**
+
 ```bash
 # Find what's using port 3000
 lsof -i :3000
@@ -250,6 +252,7 @@ PORT=3001 pnpm dev
 ```
 
 **Docker build fails:**
+
 ```bash
 # Clean Docker cache
 docker system prune -a
@@ -259,6 +262,7 @@ docker build --no-cache -t findoora-docs .
 ```
 
 **Permission errors (Linux/macOS):**
+
 ```bash
 # Fix file permissions
 sudo chown -R $USER:$USER .
@@ -268,6 +272,7 @@ sudo docker-compose up -d
 ```
 
 **Node.js version issues:**
+
 ```bash
 # Check Node.js version
 node --version
@@ -278,6 +283,7 @@ nvm use 18
 ```
 
 **pnpm not found:**
+
 ```bash
 # Install pnpm globally
 npm install -g pnpm

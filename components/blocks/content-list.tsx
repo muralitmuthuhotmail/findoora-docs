@@ -27,30 +27,11 @@ export function ContentList({
         {category ? `Content posts in ${category}` : "All content posts"}
       </h2>
       <div role="list" className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-        {allContent
-          .sort((a, b) => {
-            const aDate = a.metadata.publishedAt
-              ? new Date(a.metadata.publishedAt)
-              : undefined;
-            const bDate = b.metadata.publishedAt
-              ? new Date(b.metadata.publishedAt)
-              : undefined;
-            if (aDate && bDate) {
-              return bDate.getTime() - aDate.getTime(); // Descending
-            }
-            if (!aDate && bDate) {
-              return 1; // a is undefined, goes last
-            }
-            if (aDate && !bDate) {
-              return -1; // b is undefined, goes last
-            }
-            return 0; // both undefined
-          })
-          .map((post: ContentPost) => (
-            // <AnimatedComponent animationType="slideUp" key={post.slug} delay={0.1}>
-            <ContentPostCard key={post.slug} post={post} />
-            // </AnimatedComponent>
-          ))}
+        {allContent.map((post: ContentPost) => (
+          // <AnimatedComponent animationType="slideUp" key={post.slug} delay={0.1}>
+          <ContentPostCard key={post.slug} post={post} />
+          // </AnimatedComponent>
+        ))}
       </div>
     </section>
   );

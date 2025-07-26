@@ -9,6 +9,7 @@ tags: ["architecture", "nextjs", "technical", "system-design"]
 thumbnail: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&h=600&fit=crop"
 supportsGfm: true
 hasDataTables: true
+sequence: 7
 ---
 
 Deep dive into the technical architecture and design decisions behind Findoora Docs.
@@ -30,25 +31,25 @@ graph TB
         Browser[Browser]
         PWA[Progressive Web App]
     end
-    
+
     subgraph "Application Layer"
         NextJS[Next.js 15 App Router]
         React[React Components]
         MDX[MDX Processing]
     end
-    
+
     subgraph "Content Layer"
         FS[File System]
         Posts[MDX Posts]
         Static[Static Assets]
     end
-    
+
     subgraph "Build Layer"
         Webpack[Webpack/Turbopack]
         TypeScript[TypeScript Compiler]
         Tailwind[Tailwind CSS]
     end
-    
+
     Browser --> NextJS
     PWA --> NextJS
     NextJS --> React
@@ -161,19 +162,19 @@ interface ContentPost {
 // Content processing pipeline
 export class ContentManager {
   // 1. File discovery and parsing
-  private discoverContentFiles(): string[]
-  
+  private discoverContentFiles(): string[];
+
   // 2. Frontmatter extraction
-  private extractFrontmatter(content: string): Frontmatter
-  
+  private extractFrontmatter(content: string): Frontmatter;
+
   // 3. Content processing
-  private processContent(raw: string): ProcessedContent
-  
+  private processContent(raw: string): ProcessedContent;
+
   // 4. Metadata generation
-  private generateMetadata(post: ContentPost): Metadata
-  
+  private generateMetadata(post: ContentPost): Metadata;
+
   // 5. Caching and optimization
-  private cacheContent(posts: ContentPost[]): void
+  private cacheContent(posts: ContentPost[]): void;
 }
 ```
 
@@ -191,23 +192,23 @@ interface RoutePattern {
 
 const routes: RoutePattern[] = [
   {
-    pattern: '/',
+    pattern: "/",
     handler: HomePage,
   },
   {
-    pattern: '/[category]',
+    pattern: "/[category]",
     handler: CategoryPage,
     generateStaticParams: async () => {
       const categories = await getCategories();
-      return categories.map(category => ({ category }));
+      return categories.map((category) => ({ category }));
     },
   },
   {
-    pattern: '/[category]/[slug]',
+    pattern: "/[category]/[slug]",
     handler: ContentPage,
     generateStaticParams: async () => {
       const posts = await getAllPosts();
-      return posts.map(post => ({
+      return posts.map((post) => ({
         category: post.category,
         slug: post.slug,
       }));
@@ -225,20 +226,22 @@ Full-text search with client-side processing:
 export class SearchEngine {
   private index: SearchIndex;
   private posts: ContentPost[];
-  
+
   constructor(posts: ContentPost[]) {
     this.posts = posts;
     this.index = this.buildSearchIndex(posts);
   }
-  
+
   // Build inverted index for efficient searching
   private buildSearchIndex(posts: ContentPost[]): SearchIndex {
     const index: SearchIndex = {};
-    
+
     posts.forEach((post, postIndex) => {
-      const words = this.tokenize(post.title + ' ' + post.summary + ' ' + post.content);
-      
-      words.forEach(word => {
+      const words = this.tokenize(
+        post.title + " " + post.summary + " " + post.content,
+      );
+
+      words.forEach((word) => {
         if (!index[word]) {
           index[word] = [];
         }
@@ -248,23 +251,23 @@ export class SearchEngine {
         });
       });
     });
-    
+
     return index;
   }
-  
+
   // Search with ranking
   search(query: string): SearchResult[] {
     const terms = this.tokenize(query);
     const candidates = new Map<number, number>();
-    
-    terms.forEach(term => {
+
+    terms.forEach((term) => {
       const matches = this.index[term] || [];
-      matches.forEach(match => {
+      matches.forEach((match) => {
         const currentScore = candidates.get(match.postIndex) || 0;
         candidates.set(match.postIndex, currentScore + match.weight);
       });
     });
-    
+
     return Array.from(candidates.entries())
       .map(([postIndex, score]) => ({
         post: this.posts[postIndex],
@@ -332,16 +335,16 @@ interface ContentListProps<T> {
   className?: string;
 }
 
-export function ContentList<T>({ 
-  items, 
-  children, 
+export function ContentList<T>({
+  items,
+  children,
   renderEmpty,
-  className 
+  className
 }: ContentListProps<T>) {
   if (items.length === 0) {
     return renderEmpty ? renderEmpty() : <EmptyState />;
   }
-  
+
   return (
     <div className={cn('space-y-4', className)}>
       {items.map((item, index) => (
@@ -356,7 +359,7 @@ export function ContentList<T>({
 // Usage
 <ContentList items={posts}>
   {(post) => (
-    <ContentCard 
+    <ContentCard
       title={post.title}
       summary={post.summary}
       href={`/${post.category}/${post.slug}`}
@@ -422,34 +425,34 @@ export function SearchProvider({ children }: { children: React.ReactNode }) {
     isSearching: false,
     filters: {},
   });
-  
+
   const searchEngine = useMemo(() => new SearchEngine(posts), [posts]);
-  
+
   const actions: SearchActions = {
     setQuery: (query) => setState(prev => ({ ...prev, query })),
-    
+
     search: async (query) => {
       setState(prev => ({ ...prev, isSearching: true }));
-      
+
       try {
         const results = await searchEngine.search(query);
-        setState(prev => ({ 
-          ...prev, 
-          results, 
-          isSearching: false 
+        setState(prev => ({
+          ...prev,
+          results,
+          isSearching: false
         }));
       } catch (error) {
-        setState(prev => ({ 
-          ...prev, 
+        setState(prev => ({
+          ...prev,
           isSearching: false,
           results: []
         }));
       }
     },
-    
+
     // ... other actions
   };
-  
+
   return (
     <SearchContext.Provider value={{ ...state, ...actions }}>
       {children}
@@ -474,16 +477,20 @@ export const useSearch = () => {
 // Static generation with ISR
 export async function generateStaticParams() {
   const posts = await getContentPosts();
-  
+
   return posts.map((post) => ({
     category: post.category,
     slug: post.slug,
   }));
 }
 
-export async function generateMetadata({ params }: { params: { category: string; slug: string } }) {
+export async function generateMetadata({
+  params,
+}: {
+  params: { category: string; slug: string };
+}) {
   const post = await getContentPost(params.slug);
-  
+
   return {
     title: post.title,
     description: post.summary,
@@ -526,24 +533,24 @@ const SearchDialog = dynamic(() => import('./search-dialog'), {
 export class CacheManager {
   // 1. Memory cache for frequently accessed content
   private memoryCache = new Map<string, any>();
-  
+
   // 2. File system cache for processed content
   private async getCachedContent(key: string): Promise<any> {
-    const cachePath = path.join(process.cwd(), '.cache', `${key}.json`);
-    
+    const cachePath = path.join(process.cwd(), ".cache", `${key}.json`);
+
     try {
-      const cached = await fs.readFile(cachePath, 'utf-8');
+      const cached = await fs.readFile(cachePath, "utf-8");
       return JSON.parse(cached);
     } catch {
       return null;
     }
   }
-  
+
   // 3. CDN cache for static assets
   private getCDNHeaders(): Record<string, string> {
     return {
-      'Cache-Control': 'public, max-age=31536000, immutable',
-      'Vary': 'Accept-Encoding',
+      "Cache-Control": "public, max-age=31536000, immutable",
+      Vary: "Accept-Encoding",
     };
   }
 }
@@ -557,7 +564,7 @@ export class CacheManager {
 // next.config.ts
 const securityHeaders = [
   {
-    key: 'Content-Security-Policy',
+    key: "Content-Security-Policy",
     value: `
       default-src 'self';
       script-src 'self' 'unsafe-eval' 'unsafe-inline' *.googletagmanager.com;
@@ -569,8 +576,10 @@ const securityHeaders = [
       form-action 'self';
       frame-ancestors 'none';
       upgrade-insecure-requests;
-    `.replace(/\s{2,}/g, ' ').trim()
-  }
+    `
+      .replace(/\s{2,}/g, " ")
+      .trim(),
+  },
 ];
 ```
 
@@ -580,21 +589,41 @@ const securityHeaders = [
 // lib/utils/security.ts
 export class ContentSanitizer {
   private allowedTags = [
-    'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
-    'p', 'br', 'strong', 'em', 'u', 's',
-    'blockquote', 'pre', 'code',
-    'ul', 'ol', 'li',
-    'a', 'img',
-    'table', 'thead', 'tbody', 'tr', 'th', 'td',
+    "h1",
+    "h2",
+    "h3",
+    "h4",
+    "h5",
+    "h6",
+    "p",
+    "br",
+    "strong",
+    "em",
+    "u",
+    "s",
+    "blockquote",
+    "pre",
+    "code",
+    "ul",
+    "ol",
+    "li",
+    "a",
+    "img",
+    "table",
+    "thead",
+    "tbody",
+    "tr",
+    "th",
+    "td",
   ];
-  
+
   private allowedAttributes = {
-    a: ['href', 'title', 'target', 'rel'],
-    img: ['src', 'alt', 'title', 'width', 'height'],
-    code: ['className'],
+    a: ["href", "title", "target", "rel"],
+    img: ["src", "alt", "title", "width", "height"],
+    code: ["className"],
     // ... more allowed attributes
   };
-  
+
   sanitize(content: string): string {
     return DOMPurify.sanitize(content, {
       ALLOWED_TAGS: this.allowedTags,
@@ -613,12 +642,12 @@ export class ContentSanitizer {
 module.exports = {
   theme: {
     screens: {
-      'xs': '475px',     // Extra small devices
-      'sm': '640px',     // Small devices (mobile)
-      'md': '768px',     // Medium devices (tablet)
-      'lg': '1024px',    // Large devices (laptop)
-      'xl': '1280px',    // Extra large devices (desktop)
-      '2xl': '1536px',   // 2X large devices (large desktop)
+      xs: "475px", // Extra small devices
+      sm: "640px", // Small devices (mobile)
+      md: "768px", // Medium devices (tablet)
+      lg: "1024px", // Large devices (laptop)
+      xl: "1280px", // Extra large devices (desktop)
+      "2xl": "1536px", // 2X large devices (large desktop)
     },
   },
 };
@@ -630,7 +659,7 @@ module.exports = {
 // Responsive component pattern
 export function ResponsiveLayout({ children }: { children: React.ReactNode }) {
   const isMobile = useMediaQuery('(max-width: 768px)');
-  
+
   return (
     <div className="min-h-screen">
       {isMobile ? (
@@ -658,7 +687,7 @@ describe('Content System', () => {
       expect(result.frontmatter.title).toBe('Test Title');
     });
   });
-  
+
   // Integration tests - component interactions
   describe('ContentRenderer', () => {
     it('should render content with proper structure', () => {
@@ -666,7 +695,7 @@ describe('Content System', () => {
       expect(screen.getByRole('article')).toBeInTheDocument();
     });
   });
-  
+
   // E2E tests - user workflows
   describe('Content Navigation', () => {
     it('should allow users to navigate between content', async () => {
@@ -687,25 +716,25 @@ describe('Content System', () => {
 export class PerformanceMonitor {
   // Core Web Vitals tracking
   static trackWebVitals(metric: Metric) {
-    if (process.env.NODE_ENV === 'production') {
+    if (process.env.NODE_ENV === "production") {
       // Send to analytics service
-      analytics.track('web_vital', {
+      analytics.track("web_vital", {
         name: metric.name,
         value: metric.value,
         id: metric.id,
       });
     }
   }
-  
+
   // Custom performance marks
   static mark(name: string) {
-    if (typeof performance !== 'undefined') {
+    if (typeof performance !== "undefined") {
       performance.mark(name);
     }
   }
-  
+
   static measure(name: string, startMark: string, endMark: string) {
-    if (typeof performance !== 'undefined') {
+    if (typeof performance !== "undefined") {
       performance.measure(name, startMark, endMark);
     }
   }
@@ -731,21 +760,25 @@ export class PerformanceMonitor {
 ## Architecture Best Practices
 
 ### Separation of Concerns
+
 - Clear boundaries between content, presentation, and business logic
 - Modular component design with single responsibilities
 - Clean API boundaries between layers
 
 ### Performance First
+
 - Static generation where possible
 - Progressive enhancement for dynamic features
 - Efficient code splitting and lazy loading
 
 ### Type Safety
+
 - Comprehensive TypeScript coverage
 - Strict type checking enabled
 - Runtime type validation for external data
 
 ### Maintainability
+
 - Consistent naming conventions
 - Comprehensive documentation
 - Automated testing at all levels

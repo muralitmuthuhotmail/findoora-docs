@@ -37,7 +37,10 @@ function calculateRelevanceScore(post: ContentPost, query: string): number {
   }
 
   // Tag matches
-  if (metadata.tags?.some((tag) => tag.toLowerCase().includes(query))) {
+  if (
+    Array.isArray(metadata.tags) &&
+    metadata.tags.some((tag) => tag.toLowerCase().includes(query))
+  ) {
     score += 50;
   }
 
@@ -74,7 +77,10 @@ function getMatchedFields(post: ContentPost, query: string): string[] {
   if (slug.toLowerCase().includes(query)) {
     fields.push("slug");
   }
-  if (metadata.tags?.some((tag) => tag.toLowerCase().includes(query))) {
+  if (
+    Array.isArray(metadata.tags) &&
+    metadata.tags.some((tag) => tag.toLowerCase().includes(query))
+  ) {
     fields.push("tags");
   }
   if (content.toLowerCase().includes(query)) {
@@ -140,7 +146,7 @@ function searchContent(query: string, category?: string): SearchResult[] {
       metadata.menuTitle,
       content,
       slug,
-      ...(metadata.tags || []),
+      ...(Array.isArray(metadata.tags) ? metadata.tags : []),
     ]
       .join(" ")
       .toLowerCase();
@@ -189,14 +195,16 @@ function getSearchSuggestions(query: string, limit: number = 5): string[] {
     });
 
     // Add tags that start with the query
-    metadata.tags?.forEach((tag) => {
-      if (
-        tag.toLowerCase().startsWith(query.toLowerCase()) &&
-        tag.toLowerCase() !== query.toLowerCase()
-      ) {
-        suggestions.add(tag.toLowerCase());
-      }
-    });
+    if (Array.isArray(metadata.tags)) {
+      metadata.tags.forEach((tag) => {
+        if (
+          tag.toLowerCase().startsWith(query.toLowerCase()) &&
+          tag.toLowerCase() !== query.toLowerCase()
+        ) {
+          suggestions.add(tag.toLowerCase());
+        }
+      });
+    }
 
     if (suggestions.size >= limit) {
       break;

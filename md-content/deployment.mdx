@@ -9,6 +9,7 @@ tags: ["deployment", "docker", "production", "hosting", "devops"]
 thumbnail: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&h=600&fit=crop"
 supportsGfm: true
 hasDataTables: true
+sequence: 5
 ---
 
 Deploy Findoora Docs to production with various hosting options and optimization strategies.
@@ -43,7 +44,7 @@ docker-compose ps
 Create a production-ready `docker-compose.prod.yml`:
 
 ```yaml
-version: '3.8'
+version: "3.8"
 
 services:
   docs:
@@ -193,6 +194,7 @@ docker run -d [... same options as above ...]
 ### Vercel (Recommended for simplicity)
 
 #### One-Click Deploy
+
 [Deploy with Vercel](https://vercel.com/new/clone?repository-url=https://github.com/muralitmuthuhotmail/findoora-docs)
 
 #### Manual Vercel Deployment
@@ -334,26 +336,26 @@ Create `.do/app.yaml`:
 ```yaml
 name: findoora-docs
 services:
-- name: web
-  source_dir: /
-  github:
-    repo: your-username/findoora-docs
-    branch: main
-    deploy_on_push: true
-  run_command: pnpm start
-  build_command: pnpm build
-  environment_slug: node-js
-  instance_count: 1
-  instance_size_slug: basic-xxs
-  envs:
-  - key: NODE_ENV
-    value: production
-  - key: NEXT_PUBLIC_BASE_URL
-    value: ${APP_URL}
-  routes:
-  - path: /
-  health_check:
-    http_path: /api/health
+  - name: web
+    source_dir: /
+    github:
+      repo: your-username/findoora-docs
+      branch: main
+      deploy_on_push: true
+    run_command: pnpm start
+    build_command: pnpm build
+    environment_slug: node-js
+    instance_count: 1
+    instance_size_slug: basic-xxs
+    envs:
+      - key: NODE_ENV
+        value: production
+      - key: NEXT_PUBLIC_BASE_URL
+        value: ${APP_URL}
+    routes:
+      - path: /
+    health_check:
+      http_path: /api/health
 ```
 
 ## VPS/Dedicated Server Deployment
@@ -494,34 +496,34 @@ const nextConfig = {
     optimizeCss: true,
     optimizeServerReact: true,
   },
-  
+
   // Compression
   compress: true,
-  
+
   // Image optimization
   images: {
-    formats: ['image/avif', 'image/webp'],
-    domains: ['images.unsplash.com'],
+    formats: ["image/avif", "image/webp"],
+    domains: ["images.unsplash.com"],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
   },
-  
+
   // Headers
   async headers() {
     return [
       {
-        source: '/(.*)',
+        source: "/(.*)",
         headers: [
           {
-            key: 'X-Frame-Options',
-            value: 'DENY',
+            key: "X-Frame-Options",
+            value: "DENY",
           },
           {
-            key: 'X-Content-Type-Options',
-            value: 'nosniff',
+            key: "X-Content-Type-Options",
+            value: "nosniff",
           },
           {
-            key: 'Referrer-Policy',
-            value: 'origin-when-cross-origin',
+            key: "Referrer-Policy",
+            value: "origin-when-cross-origin",
           },
         ],
       },
@@ -652,7 +654,7 @@ sleep 10
 if curl -f http://localhost:3000/api/health; then
     echo "✅ Update successful"
     kill $SERVER_PID
-    
+
     # Restart production server
     pm2 restart findoora-docs
 else
@@ -672,33 +674,33 @@ fi
 // Security headers in next.config.ts
 const securityHeaders = [
   {
-    key: 'X-DNS-Prefetch-Control',
-    value: 'on'
+    key: "X-DNS-Prefetch-Control",
+    value: "on",
   },
   {
-    key: 'Strict-Transport-Security',
-    value: 'max-age=63072000; includeSubDomains; preload'
+    key: "Strict-Transport-Security",
+    value: "max-age=63072000; includeSubDomains; preload",
   },
   {
-    key: 'X-XSS-Protection',
-    value: '1; mode=block'
+    key: "X-XSS-Protection",
+    value: "1; mode=block",
   },
   {
-    key: 'X-Frame-Options',
-    value: 'SAMEORIGIN'
+    key: "X-Frame-Options",
+    value: "SAMEORIGIN",
   },
   {
-    key: 'Permissions-Policy',
-    value: 'camera=(), microphone=(), geolocation=()'
+    key: "Permissions-Policy",
+    value: "camera=(), microphone=(), geolocation=()",
   },
   {
-    key: 'X-Content-Type-Options',
-    value: 'nosniff'
+    key: "X-Content-Type-Options",
+    value: "nosniff",
   },
   {
-    key: 'Referrer-Policy',
-    value: 'origin-when-cross-origin'
-  }
+    key: "Referrer-Policy",
+    value: "origin-when-cross-origin",
+  },
 ];
 ```
 
@@ -720,10 +722,12 @@ sudo ufw enable
 ```typescript
 // lib/analytics.ts
 export function trackWebVitals(metric: any) {
-  if (process.env.NODE_ENV === 'production') {
+  if (process.env.NODE_ENV === "production") {
     // Send to analytics service
-    gtag('event', metric.name, {
-      value: Math.round(metric.name === 'CLS' ? metric.value * 1000 : metric.value),
+    gtag("event", metric.name, {
+      value: Math.round(
+        metric.name === "CLS" ? metric.value * 1000 : metric.value,
+      ),
       event_label: metric.id,
       non_interaction: true,
     });
@@ -756,6 +760,7 @@ jobs:
 ### Common Issues
 
 **Build failures:**
+
 ```bash
 # Check Node.js version
 node --version  # Should be 18+
@@ -767,6 +772,7 @@ pnpm build
 ```
 
 **Memory issues:**
+
 ```bash
 # Increase Node.js memory limit
 NODE_OPTIONS="--max_old_space_size=4096" pnpm build
@@ -776,6 +782,7 @@ docker stats findoora-docs
 ```
 
 **SSL certificate issues:**
+
 ```bash
 # Renew Let's Encrypt certificate
 sudo certbot renew --dry-run
@@ -786,6 +793,7 @@ sudo certbot certificates
 ```
 
 **Database connection issues:**
+
 ```bash
 # Test database connectivity
 nc -zv your-db-host 5432

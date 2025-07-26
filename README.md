@@ -17,12 +17,14 @@
 ## ✨ Key Features
 
 ### 🎯 **Content-First Architecture**
+
 - **Flexible Content System**: Support for blogs, documentation, tutorials, guides, and custom content types
 - **MDX Integration**: Write in Markdown, enhance with React components
 - **Category-Based Organization**: Automatic navigation and filtering by content categories
 - **Frontmatter Support**: Rich metadata with custom fields
 
 ### 🚀 **Performance & Developer Experience**
+
 - **Next.js 15 App Router**: Latest Next.js features with optimal performance
 - **TypeScript Throughout**: Full type safety from content to components
 - **Bundle Analysis**: Built-in tools to monitor and optimize bundle size
@@ -30,6 +32,7 @@
 - **Docker Ready**: Production-ready containerization
 
 ### 🎨 **Beautiful User Interface**
+
 - **shadcn/ui Components**: Modern, accessible UI components
 - **Responsive Design**: Mobile-first approach with seamless desktop experience
 - **Dark/Light Mode**: System-aware theme switching
@@ -37,6 +40,7 @@
 - **Search Functionality**: Powerful full-text search with live suggestions
 
 ### 🔧 **Advanced Features**
+
 - **Mermaid Diagrams**: Render complex diagrams and flowcharts
 - **Syntax Highlighting**: Beautiful code blocks with GitHub-style themes
 - **Social Sharing**: Built-in sharing for all major platforms
@@ -79,24 +83,28 @@ pnpm dev
 ## � Use Cases
 
 ### 🏢 **For Teams & Organizations**
+
 - **Technical Documentation**: API docs, implementation guides, troubleshooting
 - **Knowledge Base**: Internal wikis, onboarding materials, best practices
 - **Product Documentation**: User guides, feature announcements, changelog
 - **Engineering Blogs**: Technical insights, architecture decisions, tutorials
 
 ### 👤 **For Individual Developers**
+
 - **Personal Blog**: Share knowledge, document learning journey
 - **Portfolio Website**: Showcase projects with detailed case studies
 - **Tutorial Platform**: Create step-by-step learning materials
 - **Note-Taking System**: Organize research, code snippets, and ideas
 
 ### 🎓 **For Education**
+
 - **Course Materials**: Lessons, assignments, resources
 - **Research Documentation**: Papers, methodology, findings
 - **Student Portfolios**: Academic work, projects, achievements
 - **Learning Paths**: Structured curriculum with progress tracking
 
 ### 🚀 **For Open Source Projects**
+
 - **Project Documentation**: Setup guides, contribution guidelines
 - **API Reference**: Comprehensive endpoint documentation
 - **Community Hub**: Announcements, FAQ, community guidelines
@@ -105,24 +113,28 @@ pnpm dev
 ## 🛠 Technology Stack
 
 ### **Core Framework**
+
 - **[Next.js 15](https://nextjs.org/)** - React framework with App Router
 - **[TypeScript](https://www.typescriptlang.org/)** - Type-safe JavaScript
 - **[Tailwind CSS](https://tailwindcss.com/)** - Utility-first CSS framework
 - **[shadcn/ui](https://ui.shadcn.com/)** - High-quality React components
 
 ### **Content Management**
+
 - **[MDX](https://mdxjs.com/)** - Markdown with React components
 - **[next-mdx-remote](https://github.com/hashicorp/next-mdx-remote)** - Remote MDX compilation
 - **[remark](https://remark.js.org/)** & **[rehype](https://github.com/rehypejs/rehype)** - Markdown processing
 - **[Mermaid](https://mermaid.js.org/)** - Diagram and flowchart generation
 
 ### **Performance & SEO**
+
 - **[Bundle Analyzer](https://www.npmjs.com/package/@next/bundle-analyzer)** - Bundle size optimization
 - **Structured Data** - Schema.org integration
 - **Open Graph** - Social media optimization
 - **Sitemap Generation** - Automatic SEO indexing
 
 ### **Development Tools**
+
 - **[pnpm](https://pnpm.io/)** - Fast, efficient package manager
 - **[Docker](https://www.docker.com/)** - Containerization for deployment
 - **ESLint & Prettier** - Code quality and formatting
@@ -255,14 +267,14 @@ docker run -d \
 
 ```yaml
 # docker-compose.prod.yml
-version: '3.8'
+version: "3.8"
 services:
   docs:
     build: .
     environment:
       - NODE_ENV=production
     restart: unless-stopped
-    
+
   nginx:
     image: nginx:alpine
     ports:
@@ -306,7 +318,7 @@ pnpm build:analyze    # Build and analyze bundle
 
 Create a `.env.local` file in the root directory:
 
-```env
+````env
 # Base URL for the application
 NEXT_PUBLIC_BASE_URL=http://localhost:3000
 
@@ -349,14 +361,15 @@ const config = {
   title: "My Documentation",
   description: "A comprehensive guide"
 };
-```
+````
 
 ## Next Steps
 
 - [ ] Customize your site configuration
 - [ ] Add your first content
 - [ ] Deploy to production
-```
+
+`````
 
 ### **Supported Content Types**
 
@@ -381,8 +394,9 @@ interface User {
 }
 
 const users: User[] = await fetchUsers();
-```
-````
+`````
+
+`````
 
 #### **Mermaid Diagrams**
 ````mdx
@@ -394,9 +408,10 @@ graph TD
     C --> E[End]
     D --> E
 ```
-````
+`````
 
 #### **Task Lists**
+
 ```mdx
 - [x] Completed task
 - [ ] Pending task
@@ -404,13 +419,15 @@ graph TD
 ```
 
 #### **Tables with Alignment**
+
 ```mdx
 | Left | Center | Right |
-|:-----|:------:|------:|
-| Data | Data   | Data  |
+| :--- | :----: | ----: |
+| Data |  Data  |  Data |
 ```
 
 #### **Callouts and Quotes**
+
 ```mdx
 > 💡 **Pro Tip**: Use frontmatter to add rich metadata to your content.
 
@@ -420,20 +437,26 @@ graph TD
 ### **Content Organization**
 
 #### **Automatic Navigation**
+
 The platform automatically generates navigation based on your content structure:
+
 - Categories become top-level navigation items
 - Individual posts become sub-navigation items
 - Menu titles are used for clean navigation labels
 
 #### **Search Integration**
+
 All content is automatically indexed for search:
+
 - Full-text search across titles, summaries, and content
 - Category-based filtering
 - Relevance scoring with highlighted matches
 - Search suggestions and popular terms
 
 #### **SEO & Social Sharing**
+
 Every piece of content gets:
+
 - Structured data for search engines
 - Open Graph meta tags for social sharing
 - Twitter Card support
@@ -501,6 +524,7 @@ The platform uses Tailwind CSS with CSS custom properties for theming:
 ### **Docker Deployment**
 
 1. **Using Docker Compose** (Recommended):
+
 ```bash
 # Production deployment
 docker-compose up -d
@@ -513,6 +537,7 @@ docker-compose down
 ```
 
 2. **Using Docker directly**:
+
 ```bash
 # Build image
 docker build -t findoora-docs .
@@ -527,6 +552,7 @@ docker run -p 3000:3000 findoora-docs
    [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/muralitmuthuhotmail/findoora-docs)
 
 2. **Manual deployment**:
+
 ```bash
 # Install Vercel CLI
 npm i -g vercel
@@ -538,6 +564,7 @@ vercel --prod
 ### **Other Platforms**
 
 **Netlify**:
+
 ```bash
 # Build command
 pnpm build
@@ -547,6 +574,7 @@ pnpm build
 ```
 
 **AWS/DigitalOcean/Railway**:
+
 - Use the provided `dockerfile` for container-based deployment
 - Set environment variables in your platform's dashboard
 - Ensure Node.js 18+ is available
@@ -580,6 +608,7 @@ pnpm test:coverage      # Generate coverage report
 ### **Development Workflow**
 
 1. **Start the development server**:
+
 ```bash
 pnpm dev
 ```
@@ -591,6 +620,7 @@ pnpm dev
 4. **Update configuration** in `lib/config.ts`
 
 5. **Test your changes** and ensure type safety:
+
 ```bash
 pnpm typecheck && pnpm lint
 ```
@@ -631,10 +661,11 @@ Use in MDX content:
 
 ```mdx
 <CustomComponent title="Important Note">
-This is a custom component with **markdown** support!
+  This is a custom component with **markdown** support!
 </CustomComponent>
 ```
-```
+
+````
 
 ## 📝 Content Management
 
@@ -664,7 +695,7 @@ category: "blog"
 ---
 
 Your content here...
-```
+````
 
 ### Content API Usage
 
@@ -778,15 +809,17 @@ The app bar supports extensive customization through:
 
 ## 🚀 Future Improvements & Possibilities
 
-### **Phase 1: Enhanced Content Management** 
+### **Phase 1: Enhanced Content Management**
+
 - **Multi-language Support**: i18n integration with automatic language detection
-- **Content Versioning**: Git-based content history and rollback functionality  
+- **Content Versioning**: Git-based content history and rollback functionality
 - **Advanced Search**: Full-text search with filters, sorting, and search analytics
 - **Content Templates**: Pre-built templates for different content types
 - **Collaborative Editing**: Real-time collaborative editing with conflict resolution
 - **Content Scheduling**: Publish content at scheduled times with draft previews
 
 ### **Phase 2: Advanced Features**
+
 - **Interactive Playground**: Embedded code execution and live examples
 - **API Documentation Generator**: Auto-generate docs from OpenAPI/GraphQL schemas
 - **Comment System**: Built-in commenting with moderation and notifications
@@ -795,6 +828,7 @@ The app bar supports extensive customization through:
 - **Voice Navigation**: Accessibility enhancement with voice commands
 
 ### **Phase 3: Enterprise & Integration**
+
 - **User Authentication**: Role-based access control with SSO integration
 - **Content Management UI**: Admin interface for non-technical content creators
 - **Webhook Integration**: Auto-sync with external content sources (Notion, Confluence)
@@ -803,6 +837,7 @@ The app bar supports extensive customization through:
 - **Performance Monitoring**: Real-time performance metrics and optimization suggestions
 
 ### **Phase 4: AI & Automation**
+
 - **AI-Powered Content Generation**: Automated documentation from code comments
 - **Smart Content Recommendations**: ML-driven content suggestions for users
 - **Automated Testing**: Content quality checks and broken link detection
@@ -813,18 +848,21 @@ The app bar supports extensive customization through:
 ### **Integration Possibilities**
 
 #### **CMS & Content Sources**
+
 - **Headless CMS**: Contentful, Strapi, Sanity integration
 - **Git-based**: GitHub, GitLab, Bitbucket content synchronization
 - **Note-taking Apps**: Notion, Obsidian, Roam Research imports
 - **Documentation Tools**: GitBook, Confluence, Wiki migration tools
 
 #### **Development Tools**
+
 - **Code Documentation**: JSDoc, TypeDoc, Rust Doc integration
 - **API Tools**: Postman, Insomnia collection imports
 - **Testing Frameworks**: Jest, Cypress test result documentation
 - **Monitoring**: Integration with Sentry, DataDog, New Relic
 
 #### **Productivity & Workflow**
+
 - **Project Management**: Jira, Trello, Asana integration for requirement docs
 - **Communication**: Slack, Discord, Teams for collaborative documentation
 - **Design Tools**: Figma, Sketch integration for design documentation
@@ -833,12 +871,14 @@ The app bar supports extensive customization through:
 ### **Community & Ecosystem**
 
 #### **Plugin Architecture**
+
 - **Plugin Marketplace**: Community-driven extensions and themes
 - **Theme System**: Easy customization with pre-built design systems
 - **Component Library**: Shareable MDX components across installations
 - **Template Gallery**: Industry-specific documentation templates
 
 #### **Open Source Contributions**
+
 - **Documentation Standards**: Best practices and style guides
 - **Accessibility Tools**: Screen reader testing and compliance tools
 - **Performance Optimizations**: Core web vitals improvements
@@ -849,6 +889,7 @@ The app bar supports extensive customization through:
 We welcome contributions from the community! Here's how you can help:
 
 ### **Ways to Contribute**
+
 - 🐛 **Bug Reports**: Found an issue? Let us know!
 - 💡 **Feature Requests**: Have an idea? We'd love to hear it!
 - 📖 **Documentation**: Help improve our docs
@@ -856,24 +897,32 @@ We welcome contributions from the community! Here's how you can help:
 - 🔧 **Code**: Bug fixes, new features, and optimizations
 
 ### **Development Setup**
+
 1. **Fork the repository** on GitHub
 2. **Clone your fork**:
+
 ```bash
 git clone https://github.com/your-username/findoora-docs.git
 cd findoora-docs
 ```
+
 3. **Install dependencies**:
+
 ```bash
 pnpm install
 ```
+
 4. **Create a feature branch**:
+
 ```bash
 git checkout -b feature/your-feature-name
 ```
+
 5. **Make your changes** and test thoroughly
 6. **Submit a pull request** with a clear description
 
 ### **Contribution Guidelines**
+
 - ✅ Follow the existing code style and conventions
 - ✅ Write tests for new features and bug fixes
 - ✅ Update documentation for any API changes
@@ -881,6 +930,7 @@ git checkout -b feature/your-feature-name
 - ✅ Keep commits focused and write clear commit messages
 
 ### **Code of Conduct**
+
 We are committed to providing a welcoming and inclusive environment for all contributors. Please read our [Code of Conduct](CODE_OF_CONDUCT.md) before contributing.
 
 ## 📄 License
@@ -888,6 +938,7 @@ We are committed to providing a welcoming and inclusive environment for all cont
 This project is licensed under the [MIT License](LICENSE) - see the LICENSE file for details.
 
 ### **What this means:**
+
 - ✅ **Commercial Use**: Use this project in commercial applications
 - ✅ **Modification**: Modify the source code to fit your needs
 - ✅ **Distribution**: Distribute the original or modified versions
@@ -898,6 +949,7 @@ This project is licensed under the [MIT License](LICENSE) - see the LICENSE file
 ## 🙏 Acknowledgments
 
 ### **Built With Love Using**
+
 - [Next.js](https://nextjs.org/) - The React framework for production
 - [shadcn/ui](https://ui.shadcn.com/) - Beautiful and accessible React components
 - [Tailwind CSS](https://tailwindcss.com/) - A utility-first CSS framework
@@ -905,6 +957,7 @@ This project is licensed under the [MIT License](LICENSE) - see the LICENSE file
 - [TypeScript](https://www.typescriptlang.org/) - JavaScript with syntax for types
 
 ### **Inspired By**
+
 - [Docusaurus](https://docusaurus.io/) - Documentation platform excellence
 - [GitBook](https://www.gitbook.com/) - Beautiful documentation experiences
 - [Notion](https://www.notion.so/) - Modern content management

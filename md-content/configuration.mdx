@@ -8,6 +8,7 @@ author: "Findoora Team"
 tags: ["configuration", "settings", "customization", "environment"]
 thumbnail: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&h=600&fit=crop"
 supportsGfm: true
+sequence: 3
 ---
 
 Customize Findoora Docs to match your brand, requirements, and workflow.
@@ -45,6 +46,7 @@ export const ENABLE_SEO_OPTIMIZATION = true;
 ### Development Environment
 
 `.env.local`
+
 ```env
 # Base URLs
 NEXT_PUBLIC_BASE_URL=http://localhost:3000
@@ -90,7 +92,7 @@ NEXTAUTH_URL=https://your-domain.com
 In your `docker-compose.yml`:
 
 ```yaml
-version: '3.8'
+version: "3.8"
 services:
   docs:
     build: .
@@ -151,9 +153,9 @@ Update your brand colors:
 ```css
 :root {
   /* Brand colors */
-  --brand-primary: 200 100% 50%;    /* Your primary color */
-  --brand-secondary: 160 100% 45%;  /* Your secondary color */
-  --brand-accent: 280 100% 60%;     /* Your accent color */
+  --brand-primary: 200 100% 50%; /* Your primary color */
+  --brand-secondary: 160 100% 45%; /* Your secondary color */
+  --brand-accent: 280 100% 60%; /* Your accent color */
 }
 ```
 
@@ -166,9 +168,9 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['Inter', 'system-ui', 'sans-serif'],
-        mono: ['JetBrains Mono', 'Consolas', 'monospace'],
-        heading: ['Cal Sans', 'Inter', 'system-ui', 'sans-serif'],
+        sans: ["Inter", "system-ui", "sans-serif"],
+        mono: ["JetBrains Mono", "Consolas", "monospace"],
+        heading: ["Cal Sans", "Inter", "system-ui", "sans-serif"],
       },
     },
   },
@@ -219,12 +221,12 @@ export const SEARCH_CONFIG = {
   enableSearchSuggestions: true,
   enableCategoryFiltering: true,
   enableTagFiltering: true,
-  
+
   // Performance
   debounceMs: 300,
   maxResults: 50,
   minQueryLength: 2,
-  
+
   // Weighting (higher = more important)
   titleWeight: 5,
   summaryWeight: 3,
@@ -240,8 +242,8 @@ Customize what content gets indexed:
 ```typescript
 // Include/exclude content from search
 export const SEARCH_INDEXING = {
-  includeCategories: ['docs', 'blog', 'tutorial'],
-  excludeCategories: ['private', 'draft'],
+  includeCategories: ["docs", "blog", "tutorial"],
+  excludeCategories: ["private", "draft"],
   includeTags: true,
   includeMetadata: true,
   includeCodeBlocks: false,
@@ -283,22 +285,22 @@ Define your content categories in `lib/content.ts`:
 ```typescript
 export const CONTENT_CATEGORIES = {
   docs: {
-    label: 'Documentation',
-    description: 'Technical guides and references',
-    icon: 'BookOpen',
-    color: 'blue',
+    label: "Documentation",
+    description: "Technical guides and references",
+    icon: "BookOpen",
+    color: "blue",
   },
   blog: {
-    label: 'Blog',
-    description: 'Articles and insights',
-    icon: 'PenTool',
-    color: 'green',
+    label: "Blog",
+    description: "Articles and insights",
+    icon: "PenTool",
+    color: "green",
   },
   tutorial: {
-    label: 'Tutorials',
-    description: 'Step-by-step learning',
-    icon: 'GraduationCap',
-    color: 'purple',
+    label: "Tutorials",
+    description: "Step-by-step learning",
+    icon: "GraduationCap",
+    color: "purple",
   },
   // Add more categories as needed
 };
@@ -313,11 +315,7 @@ Customize MDX processing in `next.config.ts`:
 const mdxConfig = {
   extension: /\?$/,
   options: {
-    remarkPlugins: [
-      remarkGfm,
-      remarkMath,
-      remarkToc,
-    ],
+    remarkPlugins: [remarkGfm, remarkMath, remarkToc],
     rehypePlugins: [
       rehypeSlug,
       rehypeAutolinkHeadings,
@@ -342,14 +340,14 @@ export const FEATURES = {
   enableSocialShare: true,
   enableBackToTop: true,
   enableTableOfContents: true,
-  
+
   // Advanced features
   enableComments: false,
   enableUserAuth: false,
   enableBookmarks: false,
   enablePrintMode: true,
   enableOfflineMode: false,
-  
+
   // Integrations
   enableAnalytics: true,
   enableMermaidDiagrams: true,
@@ -367,7 +365,7 @@ Configure CSP in `next.config.ts`:
 ```typescript
 const securityHeaders = [
   {
-    key: 'Content-Security-Policy',
+    key: "Content-Security-Policy",
     value: `
       default-src 'self';
       script-src 'self' 'unsafe-eval' 'unsafe-inline' *.googletagmanager.com;
@@ -379,8 +377,10 @@ const securityHeaders = [
       form-action 'self';
       frame-ancestors 'none';
       upgrade-insecure-requests;
-    `.replace(/\s{2,}/g, ' ').trim()
-  }
+    `
+      .replace(/\s{2,}/g, " ")
+      .trim(),
+  },
 ];
 ```
 
@@ -391,11 +391,12 @@ For API routes, configure CORS:
 ```typescript
 // lib/cors.ts
 export const CORS_CONFIG = {
-  origin: process.env.NODE_ENV === 'production' 
-    ? ['https://your-domain.com']
-    : ['http://localhost:3000'],
-  methods: ['GET', 'POST'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
+  origin:
+    process.env.NODE_ENV === "production"
+      ? ["https://your-domain.com"]
+      : ["http://localhost:3000"],
+  methods: ["GET", "POST"],
+  allowedHeaders: ["Content-Type", "Authorization"],
 };
 ```
 
@@ -406,16 +407,16 @@ export const CORS_CONFIG = {
 Configure PWA settings in `next.config.ts`:
 
 ```typescript
-const withPWA = require('next-pwa')({
-  dest: 'public',
+const withPWA = require("next-pwa")({
+  dest: "public",
   register: true,
   skipWaiting: true,
   runtimeCaching: [
     {
       urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/i,
-      handler: 'CacheFirst',
+      handler: "CacheFirst",
       options: {
-        cacheName: 'google-fonts',
+        cacheName: "google-fonts",
         expiration: {
           maxEntries: 4,
           maxAgeSeconds: 365 * 24 * 60 * 60, // 365 days
@@ -457,25 +458,25 @@ Create a script to validate your configuration:
 
 ```typescript
 // scripts/validate-config.ts
-import { SITE_NAME, GITHUB_URL } from '@/lib/config';
+import { SITE_NAME, GITHUB_URL } from "@/lib/config";
 
 function validateConfig() {
   const errors = [];
-  
-  if (!SITE_NAME || SITE_NAME === 'Your Docs Site') {
-    errors.push('SITE_NAME not configured');
+
+  if (!SITE_NAME || SITE_NAME === "Your Docs Site") {
+    errors.push("SITE_NAME not configured");
   }
-  
+
   if (!process.env.NEXT_PUBLIC_BASE_URL) {
-    errors.push('NEXT_PUBLIC_BASE_URL not set');
+    errors.push("NEXT_PUBLIC_BASE_URL not set");
   }
-  
+
   if (errors.length > 0) {
-    console.error('Configuration errors:', errors);
+    console.error("Configuration errors:", errors);
     process.exit(1);
   }
-  
-  console.log('✅ Configuration is valid');
+
+  console.log("✅ Configuration is valid");
 }
 
 validateConfig();

@@ -9,6 +9,7 @@ tags: ["troubleshooting", "debugging", "issues", "solutions", "help"]
 thumbnail: "https://images.unsplash.com/photo-1554415707-6e8cfc93fe23?w=800&h=600&fit=crop"
 supportsGfm: true
 hasDataTables: true
+sequence: 9
 ---
 
 Common issues and their solutions for Findoora Docs.
@@ -18,11 +19,13 @@ Common issues and their solutions for Findoora Docs.
 ### Node.js Version Problems
 
 **Problem**: Build fails with Node.js version errors
+
 ```bash
 Error: The engine "node" is incompatible with this module.
 ```
 
 **Solution**:
+
 ```bash
 # Check current Node.js version
 node --version
@@ -43,11 +46,13 @@ sudo apt-get install -y nodejs
 ### pnpm Installation Issues
 
 **Problem**: `pnpm` command not found
+
 ```bash
 bash: pnpm: command not found
 ```
 
 **Solution**:
+
 ```bash
 # Install pnpm globally
 npm install -g pnpm
@@ -60,11 +65,13 @@ pnpm --version
 ```
 
 **Problem**: Permission denied when installing pnpm globally
+
 ```bash
 Error: EACCES: permission denied
 ```
 
 **Solution**:
+
 ```bash
 # Option 1: Use npm prefix
 npm config set prefix ~/.npm-global
@@ -82,11 +89,13 @@ yarn install  # Instead of pnpm install
 ### Dependency Resolution Issues
 
 **Problem**: Package dependency conflicts
+
 ```bash
 Error: Conflicting peer dependencies
 ```
 
 **Solution**:
+
 ```bash
 # Clear package manager cache
 pnpm store prune
@@ -108,11 +117,13 @@ pnpm install --force
 ### TypeScript Compilation Errors
 
 **Problem**: TypeScript build failures
+
 ```bash
 Type error: Property 'xyz' does not exist on type
 ```
 
 **Solution**:
+
 ```bash
 # Run type checking to see detailed errors
 pnpm typecheck
@@ -129,6 +140,7 @@ pnpm add -D @types/node @types/react @types/react-dom
 ```
 
 **Common TypeScript fixes**:
+
 ```typescript
 // Fix: Add proper typing for custom props
 interface CustomComponentProps {
@@ -150,11 +162,13 @@ const components: MDXComponents = {
 ### MDX Processing Errors
 
 **Problem**: MDX files not rendering correctly
+
 ```bash
 Error: Could not parse expression with acorn
 ```
 
 **Solution**:
+
 ```bash
 # Check MDX file syntax
 # Ensure all JSX is properly closed
@@ -181,11 +195,13 @@ import { CustomComponent } from '../components/custom';
 ### Build Memory Issues
 
 **Problem**: Build fails with out of memory errors
+
 ```bash
 FATAL ERROR: Ineffective mark-compacts near heap limit
 ```
 
 **Solution**:
+
 ```bash
 # Increase Node.js memory limit
 NODE_OPTIONS="--max_old_space_size=4096" pnpm build
@@ -209,11 +225,13 @@ experimental: {
 ### Container Won't Start
 
 **Problem**: Docker container exits immediately
+
 ```bash
 docker: Error response from daemon: container exited with code 1
 ```
 
 **Solution**:
+
 ```bash
 # Check container logs
 docker logs container-name
@@ -236,11 +254,13 @@ USER nextjs
 ### Port Already in Use
 
 **Problem**: Port 3000 is already in use
+
 ```bash
 Error: listen EADDRINUSE: address already in use :::3000
 ```
 
 **Solution**:
+
 ```bash
 # Find what's using the port
 lsof -i :3000
@@ -261,11 +281,13 @@ services:
 ### Docker Build Failures
 
 **Problem**: Docker build fails with network errors
+
 ```bash
 ERROR: failed to solve: failed to load cache key
 ```
 
 **Solution**:
+
 ```bash
 # Clear Docker cache
 docker system prune -a
@@ -285,11 +307,13 @@ DOCKER_BUILDKIT=0 docker build -t findoora-docs .
 ### Vercel Deployment Failures
 
 **Problem**: Vercel build fails
+
 ```bash
 Error: Command "pnpm build" exited with 1
 ```
 
 **Solution**:
+
 ```bash
 # Check Vercel logs in dashboard
 # Common fixes:
@@ -314,16 +338,18 @@ NEXT_PUBLIC_BASE_URL=https://your-site.vercel.app
 ### Static Export Issues
 
 **Problem**: Static export fails with dynamic routes
+
 ```bash
 Error: Dynamic server usage not allowed in static export
 ```
 
 **Solution**:
+
 ```typescript
 // Ensure all dynamic routes have generateStaticParams
 export async function generateStaticParams() {
   const posts = await getContentPosts();
-  return posts.map(post => ({
+  return posts.map((post) => ({
     category: post.category,
     slug: post.slug,
   }));
@@ -339,11 +365,13 @@ export async function generateStaticParams() {
 ### SSL Certificate Issues
 
 **Problem**: SSL certificate errors in production
+
 ```bash
 Error: certificate has expired
 ```
 
 **Solution**:
+
 ```bash
 # For Let's Encrypt certificates
 sudo certbot renew
@@ -366,6 +394,7 @@ sudo certbot renew --dry-run
 **Problem**: MDX content not appearing on site
 
 **Solution**:
+
 ```bash
 # Check file location
 # Ensure files are in correct directory:
@@ -393,6 +422,7 @@ category: "documents"  # Not "Docs" or "documentation"
 **Problem**: Images not loading or showing broken links
 
 **Solution**:
+
 ```bash
 # Check image paths
 # For local images, use public directory
@@ -418,6 +448,7 @@ images: {
 **Problem**: Search functionality not returning results
 
 **Solution**:
+
 ```bash
 # Check content indexing
 # Ensure content has required fields:
@@ -448,6 +479,7 @@ localStorage.removeItem('search-cache');
 **Problem**: Tailwind classes not applying
 
 **Solution**:
+
 ```bash
 # Check Tailwind configuration
 // tailwind.config.js
@@ -479,10 +511,11 @@ pnpm dev
 **Problem**: CSS custom properties not applying
 
 **Solution**:
+
 ```css
 /* Check CSS variable definition */
 :root {
-  --primary: 200 100% 50%;  /* HSL values without hsl() */
+  --primary: 200 100% 50%; /* HSL values without hsl() */
 }
 
 /* Use in Tailwind */
@@ -492,7 +525,7 @@ pnpm dev
 
 /* Check dark mode configuration */
 [data-theme="dark"] {
-  --primary: 200 100% 70%;  /* Lighter for dark mode */
+  --primary: 200 100% 70%; /* Lighter for dark mode */
 }
 ```
 
@@ -501,6 +534,7 @@ pnpm dev
 **Problem**: Dark/light mode toggle not functioning
 
 **Solution**:
+
 ```typescript
 // Check theme provider setup
 // app/layout.tsx
@@ -532,6 +566,7 @@ const { theme, setTheme } = useTheme();
 **Problem**: Build takes too long
 
 **Solution**:
+
 ```bash
 # Enable Turbopack (experimental)
 pnpm dev --turbo
@@ -561,6 +596,7 @@ experimental: {
 **Problem**: JavaScript bundle too large
 
 **Solution**:
+
 ```bash
 # Analyze bundle
 pnpm build:analyze
@@ -587,6 +623,7 @@ import { specific } from 'library';
 **Problem**: High memory usage during development
 
 **Solution**:
+
 ```bash
 # Restart development server regularly
 pnpm dev
@@ -597,7 +634,7 @@ pnpm dev
 useEffect(() => {
   const handler = () => {};
   window.addEventListener('event', handler);
-  
+
   return () => {
     window.removeEventListener('event', handler);  # Cleanup
   };
@@ -615,6 +652,7 @@ useEffect(() => {
 **Problem**: Changes not reflecting in browser
 
 **Solution**:
+
 ```bash
 # Check file watchers limit (Linux)
 echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf
@@ -637,6 +675,7 @@ PORT=3001 pnpm dev
 **Problem**: TypeScript errors in VS Code but builds successfully
 
 **Solution**:
+
 ```bash
 # Restart TypeScript server
 # Command Palette (Cmd/Ctrl + Shift + P)
@@ -673,16 +712,16 @@ NEXT_DEBUG=1 pnpm build
 
 ```javascript
 // Debug search functionality
-console.log('Search results:', searchResults);
-console.log('Search query:', query);
+console.log("Search results:", searchResults);
+console.log("Search query:", query);
 
 // Debug content loading
-console.log('Content posts:', posts);
-console.log('Current post:', post);
+console.log("Content posts:", posts);
+console.log("Current post:", post);
 
 // Debug navigation
-console.log('Current route:', window.location.pathname);
-console.log('Navigation state:', navigationState);
+console.log("Current route:", window.location.pathname);
+console.log("Navigation state:", navigationState);
 ```
 
 ### Performance Profiling
@@ -712,12 +751,14 @@ Include these details when reporting issues:
 
 ```markdown
 **Environment:**
+
 - OS: macOS 14.0
 - Node.js: 18.17.0
 - pnpm: 8.6.0
 - Browser: Chrome 115.0
 
 **Steps to Reproduce:**
+
 1. Clone repository
 2. Run `pnpm install`
 3. Run `pnpm dev`
@@ -731,8 +772,10 @@ Page shows 404 error
 
 **Error Messages:**
 ```
+
 Error: Cannot read property 'title' of undefined
-  at ContentPage (page.tsx:15:8)
+at ContentPage (page.tsx:15:8)
+
 ```
 
 **Additional Context:**
@@ -743,6 +786,7 @@ Error: Cannot read property 'title' of undefined
 ### Emergency Fixes
 
 **Complete Reset:**
+
 ```bash
 # Nuclear option - reset everything
 rm -rf node_modules
@@ -755,6 +799,7 @@ pnpm dev
 ```
 
 **Revert to Last Working State:**
+
 ```bash
 # Git reset to last working commit
 git log --oneline -10  # Find last working commit
