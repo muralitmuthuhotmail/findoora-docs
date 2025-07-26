@@ -6,36 +6,6 @@ import {
 } from "@/components/blocks/mdx/mdx-heading";
 import { MDXImage } from "@/components/blocks/mdx/mdx-image";
 import { MDXLink } from "@/components/blocks/mdx/mdx-link";
-// Custom MDX table components styled like shadcn/ui table
-const MDXTable = (props: React.TableHTMLAttributes<HTMLTableElement>) => (
-  <div className="w-full overflow-x-auto rounded-xl border border-border my-4">
-    <table
-      className="w-full caption-bottom text-sm [&_tr]:border-b [&_tr:last-child]:border-0"
-      {...props}
-    />
-  </div>
-);
-
-const MDXTableHead = (props: React.HTMLAttributes<HTMLTableSectionElement>) => (
-  <thead className="[&_tr]:border-b [&_tr]:bg-muted/50">{props.children}</thead>
-);
-
-type MDXTableCellProps = React.TdHTMLAttributes<HTMLTableCellElement> &
-  React.ThHTMLAttributes<HTMLTableCellElement> & { tag?: "td" | "th" };
-const MDXTableCell = ({ tag = "td", ...props }: MDXTableCellProps) => {
-  const Tag = tag;
-  const className =
-    Tag === "th"
-      ? "h-12 px-4 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0"
-      : "p-4 align-middle [&:has([role=checkbox])]:pr-0";
-  return (
-    <Tag
-      className={cn(className + (props.className ? ` ${props.className}` : ""))}
-    >
-      {props.children}
-    </Tag>
-  );
-};
 import {
   MDXTaskList,
   MDXTaskListItem,
@@ -53,6 +23,11 @@ import remarkGfm from "remark-gfm";
 import { Mermaid } from "@/components/blocks/mdx/mdx-mermaid";
 import { cn } from "@/lib/utils";
 import { MDXRemote } from "next-mdx-remote/rsc";
+import {
+  MDXTable,
+  MDXTableHead,
+  MDXTableCell,
+} from "@/components/blocks/mdx/mdx-table";
 
 interface CustomMDXProps {
   source: string;
