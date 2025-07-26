@@ -106,7 +106,7 @@
 
 /* Tables (shadcn style) */
 .md-wrapper table {
-  @apply w-full outline-1 rounded-sm overflow-hidden text-sm bg-card;
+  @apply w-full outline-1 rounded overflow-hidden text-sm bg-card;
 }
 
 .md-wrapper th {
@@ -126,7 +126,10 @@
 }
 
 .md-wrapper tr:nth-child(even) {
-  @apply bg-muted/50;
+  @apply bg-muted/50 hover:bg-muted transition-colors;
+}
+.md-wrapper tr:nth-child(odd) {
+  @apply hover:bg-muted/50 transition-colors;
 }
 
 .md-wrapper tr:last-child td {
