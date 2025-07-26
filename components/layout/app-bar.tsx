@@ -80,9 +80,9 @@ export function AppBar({
               className="w-full justify-start text-muted-foreground"
               aria-label="Search documentation"
             >
-              <Search className="mr-2 h-4 w-4" />
-              Search docs...
-              <span className="ml-auto text-xs text-muted-foreground border-border border-1 p-1 rounded-sm bg-muted">
+              <Search className="h-4 w-4" />
+              Search...
+              <span className="ml-auto text-xs text-muted-foreground border-border border-1 px-1 rounded-sm bg-muted">
                 ⌘K
               </span>
             </SearchButton>
