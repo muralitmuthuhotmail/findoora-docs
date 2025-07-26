@@ -52,6 +52,7 @@ const nextConfig = {
   reactStrictMode: true,
   transpilePackages: ["@workspace/ui"],
   pageExtensions: ["js", "jsx", "ts", "tsx", "md", "mdx"],
+  output: "standalone" as const,
   experimental: {
     optimizePackageImports: [
       "lucide-react",
@@ -71,7 +72,7 @@ const nextConfig = {
   images: {
     remotePatterns: [
       {
-        protocol: "https",
+        protocol: "https" as const,
         hostname: "**",
       },
     ],
