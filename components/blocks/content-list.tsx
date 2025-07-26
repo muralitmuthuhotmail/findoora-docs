@@ -4,6 +4,7 @@ import type { ContentPost } from "@/types/content.types";
 import { LazyImage } from "@/components/ui/lazy-image";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import { redirect } from "next/navigation";
 
 export interface ContentListPageProps {
   className?: string;
@@ -17,11 +18,7 @@ export function ContentList({
   const allContent = getContentPosts(category || undefined);
 
   if (allContent.length === 0) {
-    return (
-      <div className="text-center py-12">
-        <p className="text-muted-foreground">No content posts found.</p>
-      </div>
-    );
+    return redirect(`/not-found`);
   }
 
   return (

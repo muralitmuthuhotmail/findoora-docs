@@ -1,6 +1,5 @@
 "use client";
 
-import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
 import Image, { ImageProps } from "next/image";
 import { useState } from "react";
@@ -19,15 +18,9 @@ export function LazyImage({
   containerClassName,
   ...props
 }: LazyImageProps) {
-  const [isLoading, setIsLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
 
-  const handleLoad = () => {
-    setIsLoading(false);
-  };
-
   const handleError = () => {
-    setIsLoading(false);
     setHasError(true);
   };
 
@@ -39,19 +32,11 @@ export function LazyImage({
         </div>
       ) : (
         <>
-          {isLoading && (
-            <Skeleton className={cn("absolute inset-0", className)} />
-          )}
           <Image
             src={src}
             alt={alt}
-            onLoad={handleLoad}
             onError={handleError}
-            className={cn(
-              "transition-opacity duration-300",
-              isLoading ? "opacity-0" : "opacity-100",
-              className,
-            )}
+            className={cn("transition-opacity", className)}
             placeholder="blur"
             blurDataURL={fallback}
             {...props}

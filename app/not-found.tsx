@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 export default function NotFound() {
@@ -34,8 +35,10 @@ export default function NotFound() {
           >
             Go Back
           </Button>
-          <Button onClick={() => router.push("/")} className="min-w-[120px]">
-            Go Home
+          <Button className="min-w-[120px]">
+            <Link className="mr-2" href="/">
+              Home
+            </Link>
           </Button>
         </div>
       </div>

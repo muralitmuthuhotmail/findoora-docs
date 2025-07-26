@@ -1,5 +1,6 @@
 import { ContentListPage } from "@/components/pages/content/content-list-page";
 import { generatePageMetadata } from "@/lib/metadata";
+import NotFound from "../not-found";
 
 export async function generateMetadata({
   params,
@@ -20,6 +21,14 @@ export default async function Page({
   params: Promise<{ category: string }>;
 }) {
   const { category } = await params;
+
+  if (
+    !category ||
+    !category.match(/^[a-zA-Z0-9-]+$/) ||
+    category == "not-found"
+  ) {
+    return <NotFound />;
+  }
 
   return <ContentListPage category={category} />;
 }

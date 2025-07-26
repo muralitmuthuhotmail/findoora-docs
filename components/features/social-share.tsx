@@ -110,11 +110,7 @@ export function SocialShare({
       ) : (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button
-              size="sm"
-              className={cn("hidden md:flex")}
-              aria-label="Share article"
-            >
+            <Button size="sm" aria-label="Share article">
               <Share2 className="h-4 w-4 mr-2" />
               Share
             </Button>
