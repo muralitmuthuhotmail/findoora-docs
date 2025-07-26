@@ -1,36 +1,17 @@
 import Logo from "@/components/ui/logo";
 import { memo } from "react";
-import {
-  FaGithub,
-  FaInstagram,
-  FaLinkedin,
-  FaTwitter,
-  FaRss,
-} from "react-icons/fa";
+import { FaGithub, FaLinkedin, FaRss } from "react-icons/fa";
 
 import {
-  TWITTER_URL,
-  INSTAGRAM_URL,
   LINKEDIN_URL,
   GITHUB_URL,
   RSS_URL,
   SITE_NAME,
   SITE_SUB_TITLE,
   SITE_AUTHOR,
-  GITHUB_ISSUES_URL,
 } from "@/lib/config";
 import Link from "next/link";
 const SOCIAL_LINKS = [
-  {
-    href: TWITTER_URL,
-    icon: FaTwitter,
-    label: "Follow us on Twitter",
-  },
-  {
-    href: INSTAGRAM_URL,
-    icon: FaInstagram,
-    label: "Follow us on Instagram",
-  },
   {
     href: LINKEDIN_URL,
     icon: FaLinkedin,
@@ -74,11 +55,12 @@ const LegalLinks = memo(() => (
     <span className="text-muted-foreground text-sm">
       Made with ❤️ by{" "}
       <Link
-        href="/about"
+        href={LINKEDIN_URL}
+        target="_blank"
         className="text-primary underline hover:text-primary/80 transition-colors"
         aria-label="About us"
       >
-        @{SITE_AUTHOR?.toLowerCase()}
+        {SITE_AUTHOR?.toLowerCase()}
       </Link>
     </span>
     <span className="text-muted-foreground text-sm hidden sm:block">{"|"}</span>
@@ -86,7 +68,8 @@ const LegalLinks = memo(() => (
       {/* © {CURRENT_YEAR} {SITE_NAME} {SITE_SUB_TITLE} Inc. All rights reserved. */}
       The source code is available on{" "}
       <Link
-        href={GITHUB_ISSUES_URL}
+        target="_blank"
+        href={GITHUB_URL}
         className="text-primary underline hover:text-primary/80 transition-colors"
         aria-label="GitHub"
       >

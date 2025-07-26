@@ -48,7 +48,7 @@ export function LazyImage({
             onLoad={handleLoad}
             onError={handleError}
             className={cn(
-              "transition-opacity duration-500",
+              "transition-opacity duration-300",
               isLoading ? "opacity-0" : "opacity-100",
               className,
             )}
@@ -58,7 +58,6 @@ export function LazyImage({
           />
         </>
       )}
-      {isLoading && <div className="absolute inset-0 animate-pulse bg-muted" />}
     </div>
   );
 }

@@ -8,12 +8,13 @@ export const BASE_API_URL =
   process.env.NEXT_PUBLIC_BASE_API_URL || `${BASE_URL}`;
 
 // Social links
-export const GITHUB_URL = "https://github.com/findoora";
+export const GITHUB_URL =
+  "https://github.com/muralitmuthuhotmail/findoora-docs";
 export const GITHUB_ISSUES_URL =
-  "https://github.com/findoora/findoora-shadcn/issues";
+  "https://github.com/muralitmuthuhotmail/findoora-docs/issues";
 export const TWITTER_URL = "https://twitter.com/findoora";
 export const INSTAGRAM_URL = "https://instagram.com/findoora";
-export const LINKEDIN_URL = "https://linkedin.com/company/findoora";
+export const LINKEDIN_URL = "https://www.linkedin.com/in/murali-thangamuthu";
 
 // Site info
 export const SITE_NAME = "findoora";
@@ -29,9 +30,9 @@ export const SITE_KEYWORDS = [
   "Tailwind CSS",
   "shadcn/ui",
 ];
-export const SITE_AUTHOR = "Findoora Team";
-export const SITE_CREATOR = "Findoora Team";
-export const SITE_PUBLISHER = "Findoora Inc.";
+export const SITE_AUTHOR = "@muralitmuthuhotmail";
+export const SITE_CREATOR = "@muralitmuthuhotmail";
+export const SITE_PUBLISHER = "@muralitmuthuhotmail";
 
 // SEO/Schema
 // Media & Assets

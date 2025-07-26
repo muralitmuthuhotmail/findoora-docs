@@ -33,7 +33,7 @@ export function MDXHeading({
       const url = `${window.location.origin}${window.location.pathname}#${slug}`;
       navigator.clipboard.writeText(url);
       setCopyStatus(true);
-      setTimeout(() => setCopyStatus(false), 2000);
+      setTimeout(() => setCopyStatus(false), 5000); // Reset copy status after 5 seconds
       toast.success("Link copied to clipboard!");
     }
   }, [slug]);
@@ -43,15 +43,15 @@ export function MDXHeading({
       <span className="flex items-center gap-2">
         {children}
         <Button
-          variant={"ghost"}
+          variant={!copyStatus ? "outline" : "default"}
+          disabled={copyStatus}
+          size="icon"
           onClick={handleCopy}
           aria-label="Copy link to clipboard"
-          className="ml-2 opacity-0 group-hover:opacity-100 transition-opacity text-muted-foreground hover:text-foreground w-4 h-4"
+          className="ml-2 opacity-0 group-hover:opacity-100 transition-opacity h-full p-1.5"
         >
           {copyStatus ? (
-            <>
-              <Check className="w-4 h-4" />
-            </>
+            <Check className="w-4 h-4" />
           ) : (
             <Link className="w-4 h-4" />
           )}

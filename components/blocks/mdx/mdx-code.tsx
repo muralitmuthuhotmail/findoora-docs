@@ -39,7 +39,7 @@ const CopyButton = memo(function CopyButton({ copyFrom }: CopyButtonProps) {
   return (
     <Button
       size={"sm"}
-      className="absolute top-0 right-0 opacity-0 group-hover:opacity-100 transition-opacity shadow-xs hover:shadow-md mx-h-2 bg-primary/80 hover:bg-primary/90 text-xs text-primary-foreground scale-80 rounded-xl"
+      className="absolute top-0 right-0 opacity-0 group-hover:opacity-100 transition-opacity shadow-xs hover:shadow-md mx-h-2 bg-primary/80 hover:bg-primary/90 text-xs text-primary-foreground scale-90 rounded-md"
       onClick={handleCopy}
       tabIndex={0}
       aria-label="Copy code"
@@ -81,9 +81,9 @@ export function MDXCode({
             <LanguageIcon
               className="inline mr-2"
               language={language}
-              size={14}
+              size={12}
             />
-            {language.toUpperCase()}
+            {language}
           </span>
         )}
         <span ref={codeRef}>{children}</span>

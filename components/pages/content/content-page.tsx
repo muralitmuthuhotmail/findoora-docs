@@ -3,10 +3,10 @@ import { TableOfContents } from "@/components/blocks/table-of-contents";
 import { BackToTop } from "@/components/features/back-to-top";
 import { SocialShare } from "@/components/features/social-share";
 import { StructuredData } from "@/components/seo/structured-data";
+import { LazyImage } from "@/components/ui/lazy-image";
 import { formatDate } from "@/lib/utils/date";
 import { sanitizeHtml } from "@/lib/utils/security";
 import type { ContentPost } from "@/types/content.types";
-import Image from "next/image";
 
 interface BlogPostPageProps {
   post: ContentPost;
@@ -16,7 +16,7 @@ interface BlogPostPageProps {
 export function ContentPage({ post, baseUrl }: BlogPostPageProps) {
   const content = post?.content || "";
   const sanitizedContent = sanitizeHtml(content);
-  const postUrl = `${baseUrl}/${post.metadata.banner}/${post.slug}`;
+  const postUrl = `${baseUrl}/${post.metadata.category}/${post.slug}`;
 
   return (
     <section>
@@ -36,7 +36,7 @@ export function ContentPage({ post, baseUrl }: BlogPostPageProps) {
               summary={post.metadata.summary}
             />
             {(post.metadata.banner || post.metadata.thumbnail) && (
-              <Image
+              <LazyImage
                 src={
                   post.metadata.banner ||
                   post.metadata.thumbnail ||
