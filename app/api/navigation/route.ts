@@ -14,7 +14,8 @@ export async function GET(request: NextRequest) {
         url: `/${post.metadata.category}/${post.slug}`,
         publishedTime: post.metadata.publishedAt,
         image:
-          post.metadata.image ||
+          post.metadata.banner ||
+          post.metadata.thumbnail ||
           `${process.env.NEXT_PUBLIC_BASE_URL}/og?title=${encodeURIComponent(post.metadata.title)}`,
       }));
 
