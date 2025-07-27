@@ -12,6 +12,7 @@ import { Analytics } from "@vercel/analytics/next";
 import { GoogleAnalytics } from "@/components/analytics/google-analytics";
 import { PageViewTracker } from "@/components/analytics/page-view-tracker";
 import { WebVitals } from "@/components/performance/web-vitals";
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 const fontSans = Geist({
   subsets: ["latin"],
@@ -63,6 +64,7 @@ export default function RootLayout({
         <PageViewTracker />
         <Analytics />
         <WebVitals />
+        <SpeedInsights />
         <Providers>
           <AppShell>
             <MainLayout navigationData={navigationData}>{children}</MainLayout>
