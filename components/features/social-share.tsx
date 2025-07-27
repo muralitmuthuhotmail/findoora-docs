@@ -15,6 +15,7 @@ import {
   FaLinkedin as Linkedin,
   FaTwitter as Twitter,
 } from "react-icons/fa";
+import { trackSocialShare } from "@/components/analytics/google-analytics";
 
 interface SocialShareProps {
   url: string;
@@ -45,6 +46,8 @@ export function SocialShare({
       await navigator.clipboard.writeText(url);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
+      // Track copy link event
+      trackSocialShare("copy_link", url);
     } catch (err) {
       console.debug("Error copying link:", err);
       setCopied(false);
@@ -55,11 +58,13 @@ export function SocialShare({
     if (typeof window !== "undefined" && navigator.share) {
       try {
         await navigator.share(shareData());
+        // Track native share event
+        trackSocialShare("native_share", url);
       } catch (err) {
         console.debug("Error sharing:", err);
       }
     }
-  }, [shareData]);
+  }, [shareData, url]);
 
   const shareLinks = useMemo(
     () => [
@@ -123,6 +128,7 @@ export function SocialShare({
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-2 cursor-pointer"
+                  onClick={() => trackSocialShare(link.name.toLowerCase(), url)}
                 >
                   <link.icon className="h-4 w-4" />
                   {link.name}
@@ -145,7 +151,14 @@ export function SocialShare({
           </DropdownMenuContent>
         </DropdownMenu>
       ),
-    [canNativeShare, copied, shareLinks, handleNativeShare, handleCopyLink],
+    [
+      canNativeShare,
+      copied,
+      shareLinks,
+      handleNativeShare,
+      handleCopyLink,
+      url,
+    ],
   );
 
   return (

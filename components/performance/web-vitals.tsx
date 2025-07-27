@@ -8,6 +8,7 @@ import {
   TTFBMetric,
   INPMetric,
 } from "web-vitals";
+import { GOOGLE_ANALYTICS_ID, ENABLE_ANALYTICS } from "@/lib/config";
 
 export function WebVitals() {
   useEffect(() => {
@@ -28,8 +29,8 @@ export function WebVitals() {
 function sendToAnalytics(
   metric: CLSMetric | FCPMetric | LCPMetric | TTFBMetric | INPMetric,
 ) {
-  // Only log in development
-  if (process.env.NEXT_PUBLIC_NODE_ENV !== "development") {
+  // Log in development for debugging
+  if (process.env.NODE_ENV === "development") {
     console.log("Web Vitals:", {
       name: metric.name,
       value: metric.value,
@@ -38,8 +39,8 @@ function sendToAnalytics(
     });
   }
 
-  // Here you can send the metric to your analytics service
-  if (process.env.NEXT_PUBLIC_NODE_ENV === "production") {
+  // Send to Vercel Analytics if available
+  if (process.env.NODE_ENV === "production") {
     if (typeof window !== "undefined" && window.va) {
       window.va("event", {
         eventName: metric.name,
@@ -50,6 +51,24 @@ function sendToAnalytics(
     }
   }
 
-  // In production, send to your analytics service
-  // Example: gtag('event', metric.name, { value: metric.value });
+  // Send to Google Analytics if configured
+  if (
+    ENABLE_ANALYTICS &&
+    GOOGLE_ANALYTICS_ID &&
+    typeof window !== "undefined" &&
+    window.gtag
+  ) {
+    window.gtag("event", metric.name, {
+      event_category: "Web Vitals",
+      event_label: metric.id,
+      value: Math.round(
+        metric.name === "CLS" ? metric.value * 1000 : metric.value,
+      ),
+      non_interaction: true,
+      custom_parameters: {
+        metric_delta: metric.delta,
+        metric_rating: metric.rating,
+      },
+    });
+  }
 }

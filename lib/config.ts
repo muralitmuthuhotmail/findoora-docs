@@ -74,3 +74,8 @@ export const DEFAULT_VERIFICATION_ALIYUN =
   process.env.NEXT_PUBLIC_ALIYUN_SITE_VERIFICATION || "";
 export const DEFAULT_VERIFICATION_TWITTER =
   process.env.NEXT_PUBLIC_TWITTER_SITE_VERIFICATION || "";
+
+// Analytics Configuration
+export const GOOGLE_ANALYTICS_ID = process.env.NEXT_PUBLIC_GA_ID || "";
+export const ENABLE_ANALYTICS =
+  process.env.NEXT_PUBLIC_ENABLE_ANALYTICS !== "false";

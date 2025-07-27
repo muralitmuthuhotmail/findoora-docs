@@ -21,6 +21,10 @@ import {
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
 import { Badge } from "@/components/ui/badge";
 import { useRouter } from "next/navigation";
+import {
+  trackSearch,
+  trackContentView,
+} from "@/components/analytics/google-analytics";
 
 interface SearchDialogProps {
   isOpen: boolean;
@@ -83,8 +87,11 @@ export function SearchDialog({ isOpen, onOpenChange }: SearchDialogProps) {
       ].slice(0, 5);
       setRecentSearches(updated);
       localStorage.setItem("search-recent", JSON.stringify(updated));
+
+      // Track search event
+      trackSearch(trimmed, results.length);
     },
-    [recentSearches],
+    [recentSearches, results.length],
   );
 
   const handleKeyDown = useCallback(
@@ -206,6 +213,8 @@ export function SearchDialog({ isOpen, onOpenChange }: SearchDialogProps) {
                       e.preventDefault();
                       onOpenChange(false);
                       saveSearch(query);
+                      // Track content view
+                      trackContentView("documentation", r.post.slug);
                       setTimeout(() => {
                         router.push(
                           `/${r.post.metadata.category}/${r.post.slug}`,

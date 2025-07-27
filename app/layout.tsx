@@ -9,6 +9,9 @@ import { cn } from "@/lib/utils";
 import { Geist, Geist_Mono } from "next/font/google";
 import { AppShell } from "@/components/app-shell";
 import { Analytics } from "@vercel/analytics/next";
+import { GoogleAnalytics } from "@/components/analytics/google-analytics";
+import { PageViewTracker } from "@/components/analytics/page-view-tracker";
+import { WebVitals } from "@/components/performance/web-vitals";
 
 const fontSans = Geist({
   subsets: ["latin"],
@@ -56,7 +59,10 @@ export default function RootLayout({
           `font-sans antialiased relative`,
         )}
       >
+        <GoogleAnalytics />
+        <PageViewTracker />
         <Analytics />
+        <WebVitals />
         <Providers>
           <AppShell>
             <MainLayout navigationData={navigationData}>{children}</MainLayout>

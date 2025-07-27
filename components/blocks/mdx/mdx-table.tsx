@@ -5,9 +5,7 @@ import { cn } from "@/lib/utils";
 // Custom MDX table components styled like shadcn/ui table
 const MDXTable = (props: React.TableHTMLAttributes<HTMLTableElement>) => (
   <div className="w-full overflow-x-auto">
-    <table
-      {...props}
-    />
+    <table {...props} />
   </div>
 );
 
