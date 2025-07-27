@@ -8,6 +8,7 @@ import "@/styles/globals.css";
 import { cn } from "@/lib/utils";
 import { Geist, Geist_Mono } from "next/font/google";
 import { AppShell } from "@/components/app-shell";
+import { Analytics } from "@vercel/analytics/next";
 
 const fontSans = Geist({
   subsets: ["latin"],
@@ -55,6 +56,7 @@ export default function RootLayout({
           `font-sans antialiased relative`,
         )}
       >
+        <Analytics />
         <Providers>
           <AppShell>
             <MainLayout navigationData={navigationData}>{children}</MainLayout>

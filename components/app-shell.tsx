@@ -1,7 +1,8 @@
 "use client";
 
 import { SplashScreen } from "@/components/splash-screen";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
+import { WebVitals } from "@/components/performance/web-vitals";
 
 export function AppShell({ children }: { children: React.ReactNode }) {
   const [showSplash, setShowSplash] = useState(true);
@@ -13,7 +14,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   return (
     <>
       {showSplash && <SplashScreen show={showSplash} />}
-      {children}
+      <Suspense fallback={<WebVitals />}>{children}</Suspense>
     </>
   );
 }

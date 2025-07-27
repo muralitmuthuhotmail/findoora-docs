@@ -49,9 +49,8 @@ export function AppBar({
           aria-label="Navigate to homepage"
         >
           <Logo
-            size="md"
             iconVariant="gradient"
-            hideText
+            text={SITE_NAME}
             interactive
             aria-label="Navigate to homepage"
           />

@@ -10,7 +10,9 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import { GITHUB_URL } from "@/lib/config";
 import { Menu } from "lucide-react";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { FaGithub } from "react-icons/fa";
 
@@ -70,8 +72,15 @@ export function MobileNavigation({ navigationData }: MobileNavigationProps) {
             />
           </div>
           <div className="p-4 pb-5 flex flex-col border-t-1 gap-3 justify-center items-baseline mt-auto bg-muted/50">
-            <Button variant="gradient" className="w-full">
-              <FaGithub /> View on GitHub
+            <Button variant="gradient" className="w-full" asChild>
+              <Link
+                href={GITHUB_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="View on GitHub"
+              >
+                <FaGithub /> View on GitHub
+              </Link>
             </Button>
           </div>
         </div>

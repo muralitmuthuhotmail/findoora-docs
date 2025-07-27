@@ -29,13 +29,25 @@ function sendToAnalytics(
   metric: CLSMetric | FCPMetric | LCPMetric | TTFBMetric | INPMetric,
 ) {
   // Only log in development
-  if (process.env.NEXT_PUBLIC_NODE_ENV === "development") {
+  if (process.env.NEXT_PUBLIC_NODE_ENV !== "development") {
     console.log("Web Vitals:", {
       name: metric.name,
       value: metric.value,
       rating: metric.rating,
       delta: metric.delta,
     });
+  }
+
+  // Here you can send the metric to your analytics service
+  if (process.env.NEXT_PUBLIC_NODE_ENV === "production") {
+    if (typeof window !== "undefined" && window.va) {
+      window.va("event", {
+        eventName: metric.name,
+        value: metric.value,
+        rating: metric.rating,
+        delta: metric.delta,
+      });
+    }
   }
 
   // In production, send to your analytics service
