@@ -52,3 +52,23 @@ export function escapeHtml(text: string): string {
 
   return text.replace(/[&<>"']/g, (match) => map[match] || match);
 }
+
+export function onlyAalphaNumeric(str: string, level: string): string {
+  return (
+    "heading" +
+    level +
+    str
+      .replace(/[^a-zA-Z0-9]/g, "")
+      .replace(/^\d+/, "")
+      .toLowerCase()
+  );
+}
+
+export function getAlphaNumeric(str: string): string {
+  // Remove markdown formatting but keep specific symbols
+  return str
+    .replace(/[*`#>]/g, "") // Remove common markdown formatting characters
+    .replace(/[^a-zA-Z0-9\s?_\-:]/g, "") // Keep alphanumeric, spaces, and specific symbols
+    .replace(/^\d+/, "") // Remove leading numbers
+    .trim();
+}

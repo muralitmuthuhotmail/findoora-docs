@@ -6,6 +6,7 @@ import { JSX } from "react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
+import { onlyAalphaNumeric } from "@/lib/utils/security";
 
 export interface MDXHeadingProps {
   level: 1 | 2 | 3 | 4 | 5 | 6;
@@ -25,8 +26,9 @@ export function MDXHeading({
   const slug =
     id ||
     (typeof children === "string"
-      ? children.toLowerCase().replace(/\s+/g, "-")
-      : "");
+      ? onlyAalphaNumeric(children, level.toString())
+      : `t`) ||
+    `heading-${level}-${Math.random().toString(36).substring(2, 9)}`;
 
   const handleCopy = useCallback(() => {
     if (typeof window !== "undefined") {

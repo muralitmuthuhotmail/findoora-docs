@@ -19,6 +19,7 @@ import {
   useRef,
   useState,
 } from "react";
+import { getAlphaNumeric, onlyAalphaNumeric } from "@/lib/utils/security";
 
 export function TableOfContents({
   content,
@@ -75,10 +76,16 @@ export function TableOfContents({
       const stack: HeadingItem[] = [];
 
       for (const item of items) {
+        const existingId =
+          onlyAalphaNumeric(item.id, item.level.toString()) ||
+          `heading-${item.level}-${Math.random().toString(36).substring(2, 9)}`;
+
+        const title = getAlphaNumeric(item.text);
+
         const node: HeadingItem = {
           level: item.level,
-          text: item.text,
-          id: item.id,
+          text: title,
+          id: existingId,
           children: [],
         };
 

@@ -1,6 +1,6 @@
 ---
 menuTitle: "Development"
-title: "Development Guide"
+title: "Development"
 publishedAt: "2025-07-26"
 summary: "Complete development guide for customizing and extending Findoora Docs including component development, theming, and best practices."
 category: "documents"
@@ -998,10 +998,10 @@ test.describe("Navigation", () => {
     await page.fill('[placeholder="Search documentation..."]', "installation");
 
     // Check search results
-    await expect(page.locator("text=Installation Guide")).toBeVisible();
+    await expect(page.locator("text=Installation")).toBeVisible();
 
     // Click on result
-    await page.click("text=Installation Guide");
+    await page.click("text=Installation");
     await expect(page).toHaveURL(/\/docs\/installation/);
   });
 });

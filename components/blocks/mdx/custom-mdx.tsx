@@ -166,7 +166,7 @@ const components = {
 
 export function CustomMDX({ source, className }: CustomMDXProps) {
   return (
-    <div className={cn("md-wrapper", className)} suppressHydrationWarning>
+    <div className={cn("markdown-body", className)} suppressHydrationWarning>
       <MDXRemote
         source={source}
         options={{
