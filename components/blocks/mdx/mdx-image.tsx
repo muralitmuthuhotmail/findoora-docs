@@ -1,7 +1,7 @@
 "use client";
 
+import { LazyImage } from "@/components/ui/lazy-image";
 import { cn } from "@/lib/utils";
-import Image from "next/image";
 
 interface MDXImageProps {
   src: string;
@@ -20,15 +20,25 @@ export function MDXImage({
 }: MDXImageProps) {
   return (
     <div className="my-8">
-      <Image
-        src={src}
-        alt={alt}
-        width={width || 800}
-        height={height || 400}
-        className={cn(`rounded-xl border`, className)}
-        placeholder="blur"
-        blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
-      />
+      {width && height ? (
+        <LazyImage
+          src={src}
+          alt={alt}
+          width={width}
+          height={height}
+          className={cn(`rounded-xl border`, className)}
+          placeholder="blur"
+          blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
+        />
+      ) : (
+        <img
+          src={src || ""}
+          alt={alt || ""}
+          className={cn(`rounded border`, className)}
+          width={width}
+          height={height}
+        />
+      )}
     </div>
   );
 }
