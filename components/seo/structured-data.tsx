@@ -21,7 +21,7 @@ export function StructuredData({ post, baseUrl }: StructuredDataProps) {
     },
     publisher: {
       "@type": "Organization",
-      name: {SITE_NAME},
+      name: { SITE_NAME },
       url: baseUrl,
       logo: {
         "@type": "ImageObject",

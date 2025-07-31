@@ -15,7 +15,8 @@ export function GET(request: Request) {
           alignItems: "center",
           justifyContent: "center",
           backgroundColor: "white",
-        }}>
+        }}
+      >
         <div
           style={{
             display: "flex",
@@ -24,7 +25,8 @@ export function GET(request: Request) {
             padding: "32px",
             alignItems: "center",
             justifyContent: "space-between",
-          }}>
+          }}
+        >
           <h2
             style={{
               display: "flex",
@@ -32,7 +34,8 @@ export function GET(request: Request) {
               fontSize: "48px",
               fontWeight: "bold",
               textAlign: "left",
-            }}>
+            }}
+          >
             {title}
           </h2>
         </div>
@@ -41,6 +44,6 @@ export function GET(request: Request) {
     {
       width: 1200,
       height: 630,
-    }
+    },
   );
 }

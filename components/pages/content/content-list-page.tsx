@@ -21,7 +21,8 @@ export function ContentListPage({
       </h1>
       <article
         className={cn("grid grid-cols-1 2xl:grid-cols-10 gap-2", className)}
-        role="article">
+        role="article"
+      >
         <div className="col-span-1 2xl:col-span-7 pr-0 2xl:pr-6 w-full flex justify-center items-center flex-col">
           <div className="w-full prose prose-invert dark:prose-invert max-w-none">
             <ContentList category={category} />

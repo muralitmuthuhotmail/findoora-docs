@@ -9,8 +9,8 @@ export function HomePage() {
   const contentPosts = getContentPosts();
   const categories = Array.from(
     new Set(
-      contentPosts.map((post) => post.metadata.category || "Uncategorized")
-    )
+      contentPosts.map((post) => post.metadata.category || "Uncategorized"),
+    ),
   );
 
   return (
@@ -20,7 +20,8 @@ export function HomePage() {
       </h1>
       <article
         className={cn("grid grid-cols-1 2xl:grid-cols-10 gap-2")}
-        role="article">
+        role="article"
+      >
         <div className="col-span-1 2xl:col-span-7 pr-0 2xl:pr-6 w-full flex justify-center items-center flex-col">
           <div className="w-full prose prose-invert dark:prose-invert max-w-none">
             <p className="mb-4">

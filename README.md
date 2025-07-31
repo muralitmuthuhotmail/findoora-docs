@@ -1,5 +1,7 @@
 # 📚 Findoora Docs
+
 ![Findoora Docs Hero](public/images/screenshots/hero-banner.png)
+
 > A modern, highly extensible documentation platform built with Next.js 15, designed for developers who want powerful content management with exceptional user experience.
 
 <div align="center">

@@ -31,7 +31,9 @@ export default function Error({ error, reset }: ErrorProps) {
           {process.env.NEXT_PUBLIC_NODE_ENV !== "production" && (
             <Alert variant={"destructive"} className="mt-4">
               <TrafficCone />
-              <AlertTitle className="text-left">Error Details (Development Only)</AlertTitle>
+              <AlertTitle className="text-left">
+                Error Details (Development Only)
+              </AlertTitle>
               <AlertDescription>{error.message}</AlertDescription>
             </Alert>
           )}
