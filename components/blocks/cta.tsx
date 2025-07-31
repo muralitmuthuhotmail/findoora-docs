@@ -35,7 +35,7 @@ export function CTACard({
 
   return (
     <Card
-      className={cn(`rounded-lg p-6 shadow-xl ${variantStyles[variant]}`,className)}
+      className={cn(`rounded-lg p-6 gap-3 shadow-xl ${variantStyles[variant]}`,className)}
     >
       <h3 className="text-lg font-semibold text-foreground">{title}</h3>
       <p className="text-muted-foreground">{description}</p>
