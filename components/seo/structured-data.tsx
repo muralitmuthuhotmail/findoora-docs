@@ -1,4 +1,4 @@
-import { SCHEMA_ORG_URL } from "@/lib/config";
+import { SCHEMA_ORG_URL, SITE_NAME } from "@/lib/config";
 import type { ContentPost } from "@/types/content.types";
 
 interface StructuredDataProps {
@@ -9,7 +9,7 @@ interface StructuredDataProps {
 export function StructuredData({ post, baseUrl }: StructuredDataProps) {
   const structuredData = {
     "@context": SCHEMA_ORG_URL,
-    "@type": "BlogPosting",
+    "@type": post.metadata.category || "BlogPosting",
     headline: post.metadata.title,
     description: post.metadata.summary,
     datePublished: post.metadata.publishedAt,
@@ -21,20 +21,20 @@ export function StructuredData({ post, baseUrl }: StructuredDataProps) {
     },
     publisher: {
       "@type": "Organization",
-      name: "Findoora Inc.",
+      name: {SITE_NAME},
       url: baseUrl,
       logo: {
         "@type": "ImageObject",
         url: `${baseUrl}/logo.png`,
       },
     },
-    image: post.metadata.image
-      ? `${baseUrl}${post.metadata.image}`
+    image: post.metadata.banner
+      ? `${baseUrl}${post.metadata.banner}`
       : `${baseUrl}/og?title=${encodeURIComponent(post.metadata.title)}`,
-    url: `${baseUrl}/${post.metadata.banner}/${post.slug}`,
+    url: `${baseUrl}/${post.metadata.category}/${post.slug}`,
     mainEntityOfPage: {
       "@type": "WebPage",
-      "@id": `${baseUrl}/${post.metadata.banner}/${post.slug}`,
+      "@id": `${baseUrl}/${post.metadata.category}/${post.slug}`,
     },
     keywords: [
       "web development",

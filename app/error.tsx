@@ -1,6 +1,9 @@
 "use client";
 
+import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
+import { Terminal, TrafficCone } from "lucide-react";
+import Link from "next/link";
 import { useEffect } from "react";
 
 interface ErrorProps {
@@ -25,22 +28,21 @@ export default function Error({ error, reset }: ErrorProps) {
             We encountered an unexpected error. Please try again or contact
             support if the problem persists.
           </p>
-          {process.env.NEXT_PUBLIC_NODE_ENV === "development" && (
-            <details className="text-left bg-muted p-4 rounded-md">
-              <summary className="cursor-pointer text-sm font-medium mb-2">
-                Error Details (Development Only)
-              </summary>
-              <pre className="text-xs text-muted-foreground whitespace-pre-wrap">
-                {error.message}
-              </pre>
-            </details>
+          {process.env.NEXT_PUBLIC_NODE_ENV !== "production" && (
+            <Alert variant={"destructive"} className="mt-4">
+              <TrafficCone />
+              <AlertTitle className="text-left">Error Details (Development Only)</AlertTitle>
+              <AlertDescription>{error.message}</AlertDescription>
+            </Alert>
           )}
         </div>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <Button onClick={reset} variant="outline">
             Try Again
           </Button>
-          <Button onClick={() => (window.location.href = "/")}>Go Home</Button>
+          <Button>
+            <Link href={"/"}>Go Home</Link>
+          </Button>
         </div>
       </div>
     </div>

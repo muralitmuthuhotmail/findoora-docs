@@ -15,7 +15,9 @@ export function HomePage() {
         Findoora Docs
       </h1>
       <p className="mb-4">
-        {`Explore our comprehensive documentation, tutorials, and guides on modern web development, TypeScript, React, and software engineering best practices.`}
+        Explore our comprehensive documentation, tutorials,  
+        and guides on modern web development, 
+        TypeScript, React, and software engineering best practices.
       </p>
       {categories.map((category) => (
         <div key={category} className="flex flex-col">
