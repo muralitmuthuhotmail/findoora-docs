@@ -15,6 +15,9 @@ export const GITHUB_ISSUES_URL =
 export const TWITTER_URL = "https://twitter.com/findoora";
 export const INSTAGRAM_URL = "https://instagram.com/findoora";
 export const LINKEDIN_URL = "https://www.linkedin.com/in/murali-thangamuthu";
+export const SUPPORT_PROJECT_URL =
+  process.env.NEXT_PUBLIC_SUPPORT_PROJECT_URL ||
+  "https://buymeacoffee.com/findoora";
 
 // Site info
 export const SITE_NAME = "findoora";
