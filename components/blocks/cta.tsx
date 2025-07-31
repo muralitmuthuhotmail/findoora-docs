@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { ExternalLink } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
-import { Card } from "../ui/card";
+import { Card } from "@/components/ui/card";
 
 interface CTAAction {
   label: string;
@@ -35,11 +35,11 @@ export function CTACard({
 
   return (
     <Card
-      className={cn(`rounded-lg p-6 ${variantStyles[variant]} ${className}`)}
+      className={cn(`rounded-lg p-6 shadow-xl ${variantStyles[variant]}`,className)}
     >
-      <h3 className="text-lg font-semibold text-foreground mb-2">{title}</h3>
-      <p className="text-muted-foreground mb-4">{description}</p>
-      <div className="flex flex-wrap gap-3">
+      <h3 className="text-lg font-semibold text-foreground">{title}</h3>
+      <p className="text-muted-foreground">{description}</p>
+      <div className="flex flex-wrap gap-3 justify-between">
         {actions.map((action, index) => (
           <Button
             key={index}

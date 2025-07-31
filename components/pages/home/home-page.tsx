@@ -46,7 +46,7 @@ export function HomePage() {
         </div>
         <CTACard
           variant="feedback"
-          className="col-span-3 2xl:sticky 2xl:top-20 rounded-xl bg-muted/60 h-fit w-full hidden 2xl:block p-6"
+          className="col-span-1 2xl:col-span-3 shadow-xl 2xl:mt-0 2xl:sticky 2xl:top-20 mt-5 rounded-xl bg-muted/60 h-fit w-full flex"
           title="Contact Us"
           description={
             "Have questions or feedback? We’d love to hear from you!"
