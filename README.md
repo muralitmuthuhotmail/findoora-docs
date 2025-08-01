@@ -327,6 +327,7 @@ NEXT_PUBLIC_BASE_URL=http://localhost:3000
 # Google Analytics (optional)
 NEXT_PUBLIC_GA_ID=your-ga-id
 ```
+
 ## 📝 Content Management
 
 ### **Creating Content**
@@ -362,7 +363,7 @@ Follow these steps to get started:
 // Your code examples with syntax highlighting
 const config = {
   title: "My Documentation",
-  description: "A comprehensive guide"
+  description: "A comprehensive guide",
 };
 ```
 
@@ -374,18 +375,19 @@ const config = {
 
 ### **Supported Content Types**
 
-| Type             | Category     | Use Case                        | Example                                   |
-|------------------|-------------|----------------------------------|-------------------------------------------|
-| **Blog Posts**   | `blog`      | Articles, thoughts, announcements| Company updates, technical insights       |
-| **Documentation**| `docs`      | Technical guides, API references | Installation guides, API documentation    |
-| **Tutorials**    | `tutorial`  | Step-by-step learning            | How-to guides, code walkthroughs          |
-| **Guides**       | `guide`     | Best practices, methodologies    | Style guides, workflow documentation      |
-| **Reference**    | `reference` | Quick lookups, specifications    | Command references, configuration options |
-| **Custom**       | `any-name`  | Your unique content types        | Press releases, case studies, etc.        |
+| Type              | Category    | Use Case                          | Example                                   |
+| ----------------- | ----------- | --------------------------------- | ----------------------------------------- |
+| **Blog Posts**    | `blog`      | Articles, thoughts, announcements | Company updates, technical insights       |
+| **Documentation** | `docs`      | Technical guides, API references  | Installation guides, API documentation    |
+| **Tutorials**     | `tutorial`  | Step-by-step learning             | How-to guides, code walkthroughs          |
+| **Guides**        | `guide`     | Best practices, methodologies     | Style guides, workflow documentation      |
+| **Reference**     | `reference` | Quick lookups, specifications     | Command references, configuration options |
+| **Custom**        | `any-name`  | Your unique content types         | Press releases, case studies, etc.        |
 
 ### **Rich Content Features**
 
 #### **Code Blocks with Syntax Highlighting**
+
 ````mdx
 ```typescript
 interface User {
@@ -395,7 +397,8 @@ interface User {
 }
 
 const users: User[] = await fetchUsers();
-`````
+```
+````
 
 `````
 
