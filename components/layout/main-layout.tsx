@@ -38,7 +38,7 @@ export function MainLayout({ children, navigationData = [] }: MainLayoutProps) {
             >
               {/* Desktop Sidebar - Server Component */}
               <aside
-                className="min-w-xs h-fit sticky top-20 hidden lg:block mr-8"
+                className="min-w-xs h-fit sticky top-20 hidden lg:block mr-16"
                 aria-label="Navigation sidebar"
               >
                 <NavigationSidebar

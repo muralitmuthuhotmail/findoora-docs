@@ -1,6 +1,6 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
-import { ExternalLink } from "lucide-react";
+import { ArrowUpRight, ExternalLink } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { Card } from "@/components/ui/card";
@@ -8,7 +8,6 @@ import { Card } from "@/components/ui/card";
 interface CTAAction {
   label: string;
   href: string;
-  variant?: "gradient" | "secondary" | "outline" | "default";
   external?: boolean;
 }
 
@@ -25,44 +24,25 @@ export function CTACard({
   description,
   actions,
   className = "",
-  variant = "default",
 }: CTACardProps) {
-  const variantStyles = {
-    default: "border bg-background",
-    feedback: "border border-border bg-muted/60",
-    support: "border border-border bg-muted/50",
-  };
-
   return (
-    <Card
-      className={cn(
-        `rounded-lg p-6 gap-3 shadow-xl bg-card ${variantStyles[variant]}`,
-        className,
-      )}
-    >
+    <Card className={cn(`rounded-xl p-6 gap-3 shadow-none`, className)}>
       <h3 className="text-lg font-semibold text-foreground">{title}</h3>
       <p className="text-muted-foreground">{description}</p>
-      <div className="flex flex-wrap gap-3 justify-between">
+      <div className="flex flex-col gap-2 justify-start items-start">
         {actions.map((action, index) => (
-          <Button
+          <Link
             key={index}
-            asChild
-            variant={
-              action.variant == "default"
-                ? "gradient"
-                : action.variant || "gradient"
-            }
-            className="flex items-center"
+            className="inline-flex items-center justify-center text-sm underline-offset-3 no-underline hover:underline transition-all duration-200"
+            href={action.href}
+            target={action.external ? "_blank" : undefined}
+            rel={action.external ? "noopener noreferrer" : undefined}
           >
-            <Link
-              href={action.href}
-              target={action.external ? "_blank" : undefined}
-              rel={action.external ? "noopener noreferrer" : undefined}
-            >
-              {action.label}
-              {action.external && <ExternalLink className="ml-2 h-4 w-4" />}
-            </Link>
-          </Button>
+            {action.label}
+            {action.external && (
+              <ArrowUpRight className="w-4 h-4 mb-0 pt-1 items-center" />
+            )}
+          </Link>
         ))}
       </div>
     </Card>

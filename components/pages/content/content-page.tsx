@@ -36,7 +36,7 @@ export function ContentPage({ post, baseUrl }: BlogPostPageProps) {
               title={post.metadata.menuTitle}
               summary={post.metadata.summary}
             />
-            <div className="relative w-full shadow-lg rounded-xl dark:border dark:border-border-1">
+            <div className="relative w-full rounded-lg dark:border dark:border-border-1">
               <LazyImage
                 src={
                   post.metadata.banner ||
@@ -49,9 +49,9 @@ export function ContentPage({ post, baseUrl }: BlogPostPageProps) {
                 priority
                 quality={100}
                 loading="eager"
-                className="w-full h-68 object-cover rounded-xl"
+                className="w-full h-68 object-cover rounded-lg"
               />
-              <div className="absolute bottom-0 left-0 w-full p-4 backdrop-blur-3xl bg-card/90 rounded-b-xl">
+              <div className="absolute bottom-0 left-0 w-full p-4 backdrop-blur-3xl bg-card/80 rounded-b-lg">
                 <div className="flex justify-between items-center">
                   <div className="flex flex-col items-start justify-start space-x-2">
                     {post.metadata.author && (
@@ -78,7 +78,7 @@ export function ContentPage({ post, baseUrl }: BlogPostPageProps) {
                 </div>
               </div>
             </div>
-            <h1 className="title font-semibold text-2xl md:text-3xl tracking-tighter mt-6">
+            <h1 className="title font-semibold text-2xl md:text-3xl tracking-tighter mt-8">
               {post.metadata.title}
             </h1>
           </header>
@@ -88,7 +88,7 @@ export function ContentPage({ post, baseUrl }: BlogPostPageProps) {
           <BackToTop />
         </div>
         <TableOfContents
-          className="col-span-3 2xl:sticky 2xl:top-20 rounded-xl bg-muted/60 h-fit w-full hidden 2xl:block p-6"
+          className="col-span-3 2xl:sticky 2xl:top-20 rounded-xl bg-muted/60 h-fit w-full hidden 2xl:block p-6 ml-8"
           content={sanitizedContent}
           title={post.metadata.menuTitle}
           summary={post.metadata.summary}

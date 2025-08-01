@@ -20,7 +20,7 @@ export function ContentListPage({
           : "All Posts"}
       </h1>
       <article
-        className={cn("grid grid-cols-1 2xl:grid-cols-10 gap-2", className)}
+        className={cn("grid grid-cols-1 2xl:grid-cols-10 gap-8", className)}
         role="article"
       >
         <div className="col-span-1 2xl:col-span-7 pr-0 2xl:pr-6 w-full flex justify-center items-center flex-col">
@@ -30,8 +30,7 @@ export function ContentListPage({
           <BackToTop />
         </div>
         <CTACard
-          variant="feedback"
-          className="col-span-1 2xl:col-span-3 shadow-xl 2xl:mt-0 2xl:sticky 2xl:top-20 mt-5 rounded-xl bg-muted/60 h-fit w-full flex"
+          className="col-span-1 2xl:col-span-3 2xl:mt-0 2xl:sticky 2xl:top-20 h-fit"
           title="Contact Us"
           description={
             "Have questions or feedback? We’d love to hear from you!"
@@ -41,13 +40,11 @@ export function ContentListPage({
               label: "Get in Touch",
               href: GITHUB_ISSUES_URL,
               external: true,
-              variant: "outline",
             },
             {
               label: "Support Us",
               href: SUPPORT_PROJECT_URL,
               external: true,
-              variant: "default",
             },
           ]}
         />
