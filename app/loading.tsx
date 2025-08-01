@@ -1,6 +1,6 @@
 import { Skeleton } from "@/components/ui/skeleton";
 
-export default function CategoryLoading() {
+export default function HomeLoading() {
   return (
     <section>
       <h2 id="content-posts-heading" className="sr-only">
