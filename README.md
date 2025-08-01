@@ -320,13 +320,13 @@ pnpm build:analyze    # Build and analyze bundle
 
 Create a `.env.local` file in the root directory:
 
-````env
+```env
 # Base URL for the application
 NEXT_PUBLIC_BASE_URL=http://localhost:3000
 
 # Google Analytics (optional)
 NEXT_PUBLIC_GA_ID=your-ga-id
-
+```
 ## 📝 Content Management
 
 ### **Creating Content**
@@ -344,6 +344,7 @@ author: "Your Name"
 tags: ["setup", "configuration", "getting-started"]
 thumbnail: "/images/getting-started.jpg"
 ---
+```
 
 # Getting Started
 
@@ -363,7 +364,7 @@ const config = {
   title: "My Documentation",
   description: "A comprehensive guide"
 };
-````
+```
 
 ## Next Steps
 
@@ -371,18 +372,16 @@ const config = {
 - [ ] Add your first content
 - [ ] Deploy to production
 
-`````
-
 ### **Supported Content Types**
 
-| Type | Category | Use Case | Example |
-|------|----------|----------|---------|
-| **Blog Posts** | `blog` | Articles, thoughts, announcements | Company updates, technical insights |
-| **Documentation** | `docs` | Technical guides, API references | Installation guides, API documentation |
-| **Tutorials** | `tutorial` | Step-by-step learning | How-to guides, code walkthroughs |
-| **Guides** | `guide` | Best practices, methodologies | Style guides, workflow documentation |
-| **Reference** | `reference` | Quick lookups, specifications | Command references, configuration options |
-| **Custom** | `any-name` | Your unique content types | Press releases, case studies, etc. |
+| Type             | Category     | Use Case                        | Example                                   |
+|------------------|-------------|----------------------------------|-------------------------------------------|
+| **Blog Posts**   | `blog`      | Articles, thoughts, announcements| Company updates, technical insights       |
+| **Documentation**| `docs`      | Technical guides, API references | Installation guides, API documentation    |
+| **Tutorials**    | `tutorial`  | Step-by-step learning            | How-to guides, code walkthroughs          |
+| **Guides**       | `guide`     | Best practices, methodologies    | Style guides, workflow documentation      |
+| **Reference**    | `reference` | Quick lookups, specifications    | Command references, configuration options |
+| **Custom**       | `any-name`  | Your unique content types        | Press releases, case studies, etc.        |
 
 ### **Rich Content Features**
 
@@ -550,7 +549,8 @@ docker run -p 3000:3000 findoora-docs
 
 ### **Vercel Deployment**
 
-1. **One-click deploy**:
+1. **One-click deploy**
+
    [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/muralitmuthuhotmail/findoora-docs)
 
 2. **Manual deployment**:
