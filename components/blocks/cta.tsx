@@ -8,7 +8,7 @@ import { Card } from "@/components/ui/card";
 interface CTAAction {
   label: string;
   href: string;
-  variant?: "default" | "secondary" | "outline";
+  variant?: "gradient" | "secondary" | "outline" | "default";
   external?: boolean;
 }
 
@@ -35,8 +35,10 @@ export function CTACard({
 
   return (
     <Card
-      className={cn(`rounded-lg p-6 gap-3 shadow-xl bg-card ${variantStyles[variant]}`,className)}
-    >
+      className={cn(
+        `rounded-lg p-6 gap-3 shadow-xl bg-card ${variantStyles[variant]}`,
+        className
+      )}>
       <h3 className="text-lg font-semibold text-foreground">{title}</h3>
       <p className="text-muted-foreground">{description}</p>
       <div className="flex flex-wrap gap-3 justify-between">
@@ -44,14 +46,16 @@ export function CTACard({
           <Button
             key={index}
             asChild
-            variant={action.variant}
-            className="flex items-center"
-          >
+            variant={
+              action.variant == "default"
+                ? "gradient"
+                : action.variant || "gradient"
+            }
+            className="flex items-center">
             <Link
               href={action.href}
               target={action.external ? "_blank" : undefined}
-              rel={action.external ? "noopener noreferrer" : undefined}
-            >
+              rel={action.external ? "noopener noreferrer" : undefined}>
               {action.label}
               {action.external && <ExternalLink className="ml-2 h-4 w-4" />}
             </Link>

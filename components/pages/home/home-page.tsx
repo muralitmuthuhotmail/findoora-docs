@@ -62,7 +62,6 @@ export function HomePage() {
               label: "Support Us",
               href: SUPPORT_PROJECT_URL,
               external: true,
-              variant: "default",
             },
           ]}
         />
