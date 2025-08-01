@@ -701,3 +701,34 @@ Instances of abusive behavior may be reported to the project team. All complaint
 Thank you for contributing to Findoora Docs! Your efforts help make documentation better for everyone. 🙏
 
 Questions? Join our [Discord community](https://discord.gg/findoora) or start a [discussion](https://github.com/muralitmuthuhotmail/findoora-docs/discussions).
+
+## Open Source Standards: Git Hooks
+
+To ensure code quality and consistency, Findoora Docs uses **git hooks** powered by [Husky](https://typicode.github.io/husky/) and [lint-staged](https://github.com/okonet/lint-staged):
+
+- **Pre-commit hook**: Runs ESLint and Prettier on staged files, preventing commits with lint or formatting errors.
+- **Pre-push hook**: Runs type checking and tests, blocking pushes if there are type errors or failing tests.
+
+**Example configuration (`package.json`):**
+
+```json
+{
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": ["eslint --fix", "prettier --write"],
+    "*.{md,mdx}": ["prettier --write"]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "pre-push": "pnpm typecheck && pnpm test"
+    }
+  }
+}
+```
+
+**How to enable:**
+
+1. After cloning, run `pnpm dlx husky install` to set up hooks (if not already present).
+2. Hooks will run automatically on commit and push.
+
+> This ensures every contribution meets open source standards for code quality, formatting, and reliability.

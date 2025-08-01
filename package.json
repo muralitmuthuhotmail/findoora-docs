@@ -74,12 +74,28 @@
     "typescript": "^5.8.3"
   },
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=20.0.0",
+    "pnpm": ">=10.0.0"
   },
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": ""
   },
-  "packageManager": "pnpm@10.13.1"
+  "packageManager": "pnpm@10.13.1",
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{md,mdx}": [
+      "prettier --write"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "pre-push": "pnpm typecheck && pnpm test"
+    }
+  }
 }

@@ -667,225 +667,6 @@ Use in MDX content:
 </CustomComponent>
 ```
 
-````
-
-## 📝 Content Management
-
-### Content System Overview
-
-The docs app uses a flexible content system that supports multiple content types:
-
-- **Content Posts**: Generic content with category-based organization
-- **Blogs**: Articles, tutorials, and thoughts (category: "blog")
-- **Documentation**: Technical guides and references (category: "documents")
-- **Tutorials**: Step-by-step learning materials (category: "tutorial")
-- **Custom Types**: Any content category you define
-
-### Adding Content
-
-1. Create a new `.mdx` file in the `posts/` directory
-2. Add frontmatter with metadata:
-
-```mdx
----
-menuTitle: "Short Title"
-title: "Full Content Title"
-publishedAt: "2024-01-15"
-summary: "A brief description of the content."
-image: "/images/content/featured-image.jpg"
-category: "blog"
----
-
-Your content here...
-````
-
-### Content API Usage
-
-The generic content system provides flexible APIs:
-
-```typescript
-// Get all content
-import { getContentPosts } from "@/lib/content";
-const allContent = getContentPosts();
-
-// Get content by category
-const blogPosts = getContentPosts("blog");
-const documentation = getContentPosts("docs");
-const tutorials = getContentPosts("tutorial");
-
-// Get specific content
-import { getContentPost } from "@/lib/content";
-const post = getContentPost("my-slug");
-```
-
-### Creating New Content Types
-
-1. Add content with appropriate `category` in frontmatter
-2. Create route handlers for the new content type (optional)
-3. Create specific components for the content type (optional)
-
-Example for documentation:
-
-```typescript
-// lib/docs.ts
-export const getDocumentation = () => getContentPosts("docs");
-
-// app/docs/page.tsx
-export default function DocsPage() {
-  const docs = getContentPosts("docs");
-  // Render documentation list
-}
-```
-
-### MDX Features
-
-- **Syntax Highlighting**: Code blocks with syntax highlighting
-- **Responsive Images**: Automatic image optimization
-- **Custom Components**: Use React components in markdown
-- **Table of Contents**: Automatic generation from headings
-- **Anchor Links**: Click-to-copy heading links
-
-## 🎨 UI Components
-
-### App Bar
-
-The application includes a responsive app bar with the following features:
-
-- **Logo and Branding**: Clickable logo that navigates to home
-- **Mobile Navigation**: Collapsible sidebar for mobile devices
-- **Search Interface**: Integrated search functionality (expandable)
-- **Theme Toggle**: System-aware dark/light mode switching
-- **GitHub Link**: Direct link to project repository
-- **Responsive Design**: Adapts to different screen sizes
-
-#### App Bar Customization
-
-```tsx
-// Customize app bar appearance
-import { AppBar } from "@/components/layout/app-bar";
-
-// Usage with custom props
-<AppBar
-  hasBlur={true} // Enable backdrop blur effect
-  isSticky={true} // Stick to top on scroll
-  className="custom-class" // Additional styling
-/>;
-```
-
-### Navigation System
-
-The docs app uses a dual navigation approach:
-
-- **Desktop**: Persistent sidebar with hierarchical navigation
-- **Mobile**: Collapsible sheet-based navigation accessible via hamburger menu
-- **Content-Aware**: Automatically generates navigation from content posts
-
-## 🎨 Customization
-
-### App Bar Styling
-
-The app bar supports extensive customization through:
-
-- **Backdrop Effects**: Blur and transparency controls
-- **Positioning**: Sticky or static positioning options
-- **Responsive Breakpoints**: Mobile-first responsive design
-- **Theme Integration**: Automatic theme switching support
-
-### Navigation Behavior
-
-- **Mobile-First**: Touch-friendly interactions on mobile devices
-- **Keyboard Navigation**: Full keyboard accessibility support
-- **Screen Reader Support**: Proper ARIA labels and roles
-- **Focus Management**: Logical focus order and indicators
-
-## 🚀 Performance
-
-### Optimization Features
-
-- **Content Filtering**: Efficient category-based filtering
-- **Image Optimization**: Next.js Image component with WebP/AVIF
-- **Bundle Analysis**: Webpack Bundle Analyzer integration
-- **Code Splitting**: Dynamic imports and lazy loading
-- **Caching**: Static generation and proper cache headers
-- **Compression**: Gzip compression enabled
-
-## 🚀 Future Improvements & Possibilities
-
-### **Phase 1: Enhanced Content Management**
-
-- **Multi-language Support**: i18n integration with automatic language detection
-- **Content Versioning**: Git-based content history and rollback functionality
-- **Advanced Search**: Full-text search with filters, sorting, and search analytics
-- **Content Templates**: Pre-built templates for different content types
-- **Collaborative Editing**: Real-time collaborative editing with conflict resolution
-- **Content Scheduling**: Publish content at scheduled times with draft previews
-
-### **Phase 2: Advanced Features**
-
-- **Interactive Playground**: Embedded code execution and live examples
-- **API Documentation Generator**: Auto-generate docs from OpenAPI/GraphQL schemas
-- **Comment System**: Built-in commenting with moderation and notifications
-- **Analytics Dashboard**: Content performance metrics and user engagement insights
-- **Progressive Web App**: Offline reading with service worker caching
-- **Voice Navigation**: Accessibility enhancement with voice commands
-
-### **Phase 3: Enterprise & Integration**
-
-- **User Authentication**: Role-based access control with SSO integration
-- **Content Management UI**: Admin interface for non-technical content creators
-- **Webhook Integration**: Auto-sync with external content sources (Notion, Confluence)
-- **Custom Domains**: Multi-tenant architecture with custom branding
-- **API-First Approach**: RESTful and GraphQL APIs for headless CMS usage
-- **Performance Monitoring**: Real-time performance metrics and optimization suggestions
-
-### **Phase 4: AI & Automation**
-
-- **AI-Powered Content Generation**: Automated documentation from code comments
-- **Smart Content Recommendations**: ML-driven content suggestions for users
-- **Automated Testing**: Content quality checks and broken link detection
-- **SEO Optimization**: AI-driven meta descriptions and keyword suggestions
-- **Translation Automation**: AI-powered content translation with human review
-- **Accessibility Auditing**: Automated accessibility compliance checking
-
-### **Integration Possibilities**
-
-#### **CMS & Content Sources**
-
-- **Headless CMS**: Contentful, Strapi, Sanity integration
-- **Git-based**: GitHub, GitLab, Bitbucket content synchronization
-- **Note-taking Apps**: Notion, Obsidian, Roam Research imports
-- **Documentation Tools**: GitBook, Confluence, Wiki migration tools
-
-#### **Development Tools**
-
-- **Code Documentation**: JSDoc, TypeDoc, Rust Doc integration
-- **API Tools**: Postman, Insomnia collection imports
-- **Testing Frameworks**: Jest, Cypress test result documentation
-- **Monitoring**: Integration with Sentry, DataDog, New Relic
-
-#### **Productivity & Workflow**
-
-- **Project Management**: Jira, Trello, Asana integration for requirement docs
-- **Communication**: Slack, Discord, Teams for collaborative documentation
-- **Design Tools**: Figma, Sketch integration for design documentation
-- **Analytics**: Google Analytics, Mixpanel, Amplitude integration
-
-### **Community & Ecosystem**
-
-#### **Plugin Architecture**
-
-- **Plugin Marketplace**: Community-driven extensions and themes
-- **Theme System**: Easy customization with pre-built design systems
-- **Component Library**: Shareable MDX components across installations
-- **Template Gallery**: Industry-specific documentation templates
-
-#### **Open Source Contributions**
-
-- **Documentation Standards**: Best practices and style guides
-- **Accessibility Tools**: Screen reader testing and compliance tools
-- **Performance Optimizations**: Core web vitals improvements
-- **Security Enhancements**: Content sanitization and XSS protection
-
 ## 🤝 Contributing
 
 We welcome contributions from the community! Here's how you can help:
@@ -930,6 +711,40 @@ git checkout -b feature/your-feature-name
 - ✅ Update documentation for any API changes
 - ✅ Ensure all tests pass and there are no linting errors
 - ✅ Keep commits focused and write clear commit messages
+
+### **Open Source Standards: Git Hooks**
+
+To maintain high code quality and consistency, Findoora Docs uses [Husky](https://typicode.github.io/husky/) and [lint-staged](https://github.com/okonet/lint-staged) for Git hooks:
+
+- **Pre-commit**: Runs ESLint and Prettier on staged files to catch lint and formatting issues before committing.
+- **Pre-push**: Runs type checking and tests to ensure code correctness before pushing to the repository.
+
+**Configuration Example:**
+
+```json
+// package.json
+{
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": ["eslint --fix", "prettier --write"],
+    "*.{md,mdx}": ["prettier --write"]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "pre-push": "pnpm typecheck && pnpm test"
+    }
+  }
+}
+```
+
+**How it works:**
+
+- On `git commit`, only properly formatted and linted code is committed.
+- On `git push`, code must pass type checks and tests, preventing broken code from entering the repository.
+
+> 💡 **Tip:** Install Husky after cloning with `pnpm dlx husky install` if not already set up.
+
+For more details, see the [Contributing Guide](./md-content/contributing.mdx).
 
 ### **Code of Conduct**
 
