@@ -1,3 +1,4 @@
 pnpm run lint:fix
 pnpm run format
 pnpm run prepare
+git add .

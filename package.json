@@ -85,19 +85,9 @@
     "url": ""
   },
   "packageManager": "pnpm@10.14.0",
-  "lint-staged": {
-    "*.{js,jsx,ts,tsx}": [
-      "eslint --fix",
-      "prettier --write"
-    ],
-    "*.{md,mdx}": [
-      "prettier --write"
-    ]
-  },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged",
-      "pre-push": "pnpm typecheck && pnpm test"
+      "pre-commit": "pnpm run lint:fix && pnpm run format"
     }
   }
 }
