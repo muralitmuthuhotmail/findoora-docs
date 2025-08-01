@@ -253,7 +253,7 @@ export function TableOfContents({
                   <SidebarMenuSubButton
                     asChild
                     className={cn(
-                      "transition-colors duration-200",
+                      "transition-colors duration-200 text-nowrap",
                       activeId === child.id &&
                         "bg-primary/10 text-primary font-base text-sm px-2 py-1",
                     )}
