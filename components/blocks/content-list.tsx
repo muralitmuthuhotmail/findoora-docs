@@ -46,7 +46,7 @@ function ContentPostCard({ post }: ContentPostCardProps) {
   return (
     <Link
       href={`/${post.metadata.category}/${post.slug}`}
-      className={`group col-span-1 bg-card/70 rounded-xl shadow-sm border border-border flex flex-row h-32 transition-all hover:shadow-lg hover:border-primary focus:outline-none focus:ring-primary items-stretch`}
+      className={`group col-span-1 bg-card/70 rounded-xl border border-border flex flex-row h-32 transition-all hover:border-primary/30 hover:bg-accent/50 focus:outline-none focus:ring-primary items-stretch`}
       role="listitem"
       aria-describedby={`post-summary-${post.slug}`}
       tabIndex={0}
