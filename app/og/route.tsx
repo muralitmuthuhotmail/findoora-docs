@@ -2,7 +2,7 @@ import { ImageResponse } from "next/og";
 
 export function GET(request: Request) {
   const url = new URL(request.url);
-  const title = url.searchParams.get("title") || "Next.js Portfolio Starter";
+  const title = url.searchParams.get("title");
 
   return new ImageResponse(
     (
@@ -14,26 +14,29 @@ export function GET(request: Request) {
           height: "100%",
           alignItems: "center",
           justifyContent: "center",
-          backgroundColor: "white",
+          background: `linear-gradient(to top, #bdc3c7, #2c3e50)`,
         }}
       >
         <div
           style={{
             display: "flex",
             flexDirection: "column",
-            width: "100%",
-            padding: "32px",
+            width: "90%",
+            padding: "48px",
             alignItems: "center",
-            justifyContent: "space-between",
+            justifyContent: "center",
           }}
         >
           <h2
             style={{
-              display: "flex",
-              flexDirection: "column",
-              fontSize: "48px",
+              fontSize: "64px",
               fontWeight: "bold",
-              textAlign: "left",
+              textAlign: "center",
+              color: "#fff",
+              margin: 0,
+              letterSpacing: "-2px",
+              lineHeight: 1.1,
+              textShadow: "0 2px 8px rgba(255,126,95,0.15)",
             }}
           >
             {title}

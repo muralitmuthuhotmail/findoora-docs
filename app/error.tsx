@@ -2,7 +2,7 @@
 
 import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
-import { Terminal, TrafficCone } from "lucide-react";
+import { TrafficCone } from "lucide-react";
 import Link from "next/link";
 import { useEffect } from "react";
 
@@ -29,12 +29,14 @@ export default function Error({ error, reset }: ErrorProps) {
             support if the problem persists.
           </p>
           {process.env.NEXT_PUBLIC_NODE_ENV !== "production" && (
-            <Alert variant={"destructive"} className="mt-4">
+            <Alert variant={"destructive"} className="mt-4 max-w-sm mx-auto">
               <TrafficCone />
               <AlertTitle className="text-left">
                 Error Details (Development Only)
               </AlertTitle>
-              <AlertDescription>{error.message}</AlertDescription>
+              <AlertDescription className="text-left">
+                {error.message}
+              </AlertDescription>
             </Alert>
           )}
         </div>

@@ -76,6 +76,19 @@ const nextConfig = {
         protocol: "https" as const,
         hostname: "**",
       },
+      // Allow localhost in development
+      ...(process.env.NODE_ENV === "development"
+        ? [
+            {
+              protocol: "http" as const,
+              hostname: "localhost",
+            },
+            {
+              protocol: "http" as const,
+              hostname: "127.0.0.1",
+            },
+          ]
+        : []),
     ],
   },
 };

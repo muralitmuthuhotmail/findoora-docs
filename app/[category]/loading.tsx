@@ -14,7 +14,8 @@ export default function CategoryLoading() {
               key={i}
               className="group col-span-1 bg-card/70 rounded-xl shadow-sm border border-border flex flex-row h-32 items-stretch mb-3"
               role="listitem"
-              tabIndex={-1}>
+              tabIndex={-1}
+            >
               <div className="relative h-full w-28 flex-shrink-0 rounded-l-xl overflow-hidden flex justify-center items-center p-2 bg-gradient-to-br from-accent/20 to-primary/10">
                 {/* <Skeleton className="h-24 w-24 rounded-lg" /> */}
               </div>

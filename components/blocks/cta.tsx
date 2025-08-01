@@ -37,8 +37,9 @@ export function CTACard({
     <Card
       className={cn(
         `rounded-lg p-6 gap-3 shadow-xl bg-card ${variantStyles[variant]}`,
-        className
-      )}>
+        className,
+      )}
+    >
       <h3 className="text-lg font-semibold text-foreground">{title}</h3>
       <p className="text-muted-foreground">{description}</p>
       <div className="flex flex-wrap gap-3 justify-between">
@@ -51,11 +52,13 @@ export function CTACard({
                 ? "gradient"
                 : action.variant || "gradient"
             }
-            className="flex items-center">
+            className="flex items-center"
+          >
             <Link
               href={action.href}
               target={action.external ? "_blank" : undefined}
-              rel={action.external ? "noopener noreferrer" : undefined}>
+              rel={action.external ? "noopener noreferrer" : undefined}
+            >
               {action.label}
               {action.external && <ExternalLink className="ml-2 h-4 w-4" />}
             </Link>
